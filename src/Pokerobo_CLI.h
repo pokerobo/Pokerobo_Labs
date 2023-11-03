@@ -5,9 +5,11 @@
 
 class CommandHandler {
   public:
-    int begin();
+    CommandHandler();
+    int begin(HardwareSerial* serial=&Serial);
     int check();
   private:
+    HardwareSerial* _serial = NULL;
     uint8_t _cmdLength = 64;
 };
 

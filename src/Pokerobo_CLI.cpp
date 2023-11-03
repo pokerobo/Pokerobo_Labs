@@ -1,19 +1,23 @@
 #include "Pokerobo_CLI.h"
 
-int CommandHandler::begin() {
+CommandHandler::CommandHandler() {
+}
+
+int CommandHandler::begin(HardwareSerial* serial) {
+	_serial = serial;
 }
 
 int CommandHandler::check() {
-  if(!Serial.available()) {
+  if(!_serial->available()) {
     return -1;
   }
 	char line[_cmdLength];
-	String cmdStr = Serial.readStringUntil("\n");
-	Serial.print("> "), Serial.print(cmdStr);
+	String cmdStr = _serial->readStringUntil("\n");
+	_serial->print("> "), _serial->print(cmdStr);
   if (cmdStr.length() < _cmdLength) {
     cmdStr.toCharArray(line, _cmdLength);
-    Serial.print("Your command: "), Serial.println(line);
+    _serial->print("Your command: "), _serial->println(line);
   } else {
-    Serial.println("Too long string command");
+    _serial->println("Too long string command");
   }
 }

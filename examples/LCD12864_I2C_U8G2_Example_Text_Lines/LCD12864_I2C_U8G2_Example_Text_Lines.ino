@@ -10,20 +10,10 @@ void setup() {
 }
 
 void loop() {
-  writeText(20, 32, "Hello world!");
-  delay(2000);
-  clearScreen();
-  delay(1000);
-}
-
-void writeText(byte x, byte y, char* text) {
-  u8g2.firstPage();
   do {
-    u8g2.setCursor(x, y); 
-    u8g2.print(text);
+    u8g2.drawLine(10, 10, 50, 50); // line #1
+    u8g2.drawLine(10, 50, 100, 4); // line #2
+    u8g2.drawLine(5, 32, 120, 32); // line #3
+    u8g2.drawLine(64, 10, 64, 50); // line #4
   } while (u8g2.nextPage());
-}
-
-void clearScreen() {
-  u8g2.clear();
 }

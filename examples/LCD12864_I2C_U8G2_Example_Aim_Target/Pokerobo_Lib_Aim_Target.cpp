@@ -71,6 +71,9 @@ int8_t AimTarget::speedOfX(uint16_t x, uint16_t y) {
       rX = map(jX, -512, 512, -10, 10);
       break;
     case LCD_LAYOUT_R1:
+      Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
+      rX = map(jY, -512, 512, -10, 10);
+      break;
     case LCD_LAYOUT_R3:
       Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
       rX = map(jY, -512, 512, 10, -10);
@@ -100,6 +103,9 @@ int8_t AimTarget::speedOfY(uint16_t x, uint16_t y) {
       rY = map(jY, -512, 512, 10, -10);
       break;
     case LCD_LAYOUT_R1:
+      Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
+      rY = map(jX, -512, 512, -10, 10);
+      break;
     case LCD_LAYOUT_R3:
       Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
       rY = map(jX, -512, 512, 10, -10);

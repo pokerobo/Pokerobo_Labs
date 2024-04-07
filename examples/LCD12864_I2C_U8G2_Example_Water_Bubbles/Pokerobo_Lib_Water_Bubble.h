@@ -1,7 +1,7 @@
 #ifndef __POKEROBO_LIB_WATER_BUBBLE_H__
 #define __POKEROBO_LIB_WATER_BUBBLE_H__
 
-#include <Arduino.h>
+#include "Pokerobo_Lib_Display_Layout.h"
 
 #ifndef WATER_BUBBLES_TOTAL
 #define WATER_BUBBLES_TOTAL  10
@@ -10,9 +10,8 @@
 class Bubble {
   public:
     Bubble();
-    Bubble(int8_t _x, int8_t _y, int8_t _r);
-    int8_t x;
-    int8_t y;
+    int16_t x;
+    int16_t y;
     int8_t r;
     bool isDisappeared();
     int8_t getSpeed();
@@ -20,7 +19,7 @@ class Bubble {
 
 class Aquarium {
   public:
-    Aquarium(void* u8g2Ref, uint8_t total);
+    Aquarium(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0, uint8_t total=WATER_BUBBLES_TOTAL);
     void begin();
     void change();
     void render();
@@ -28,6 +27,9 @@ class Aquarium {
     uint8_t _total = 0;
     Bubble _bubbles[WATER_BUBBLES_TOTAL];
     void* _u8g2Ref;
+    lcd_layout_t _layout;
+    int8_t _maxX;
+    int8_t _maxY;
 };
 
 #endif

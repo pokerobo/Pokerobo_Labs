@@ -7,12 +7,6 @@ Bubble::Bubble() {
   r = 10;
 }
 
-Bubble::Bubble(int8_t _x, int8_t _y = 64+10, int8_t _r = 10) {
-  x = _x;
-  y = _y;
-  r = _r;
-}
-
 bool Bubble::isDisappeared() {
   return this->y < -this->r;
 }
@@ -23,9 +17,22 @@ int8_t Bubble::getSpeed() {
   return 2;
 }
 
-Aquarium::Aquarium(void* u8g2Ref, uint8_t total) {
+Aquarium::Aquarium(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
   _total = (total <= WATER_BUBBLES_TOTAL) ? total : WATER_BUBBLES_TOTAL;
   _u8g2Ref = u8g2Ref;
+  _layout = layout;
+  switch (_layout) {
+    case LCD_LAYOUT_R0:
+    case LCD_LAYOUT_R2:
+      _maxX = 127;
+      _maxY = 63;
+      break;
+    case LCD_LAYOUT_R1:
+    case LCD_LAYOUT_R3:
+      _maxX = 63;
+      _maxY = 127;
+      break;
+  }
 }
 
 void Aquarium::begin() {
@@ -33,8 +40,8 @@ void Aquarium::begin() {
   for (uint8_t i=0; i<_total; i++) {
     Bubble *b = &_bubbles[i];
     b->r = random(5, 10 + 1);
-    b->x = random(127);
-    b->y = random(b->r + 63 + 1);
+    b->x = random(_maxX);
+    b->y = random(b->r + _maxY + 1);
   }
 }
 
@@ -45,8 +52,8 @@ void Aquarium::change() {
       b->y -= b->getSpeed();
     } else {
       b->r = random(5, 10 + 1);
-      b->x = random(127);
-      b->y = b->r + 63 + 1;
+      b->x = random(_maxX);
+      b->y = b->r + _maxY + 1;
     }
   }
 }

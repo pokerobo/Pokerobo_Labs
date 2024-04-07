@@ -2,6 +2,10 @@
 
 U8G2_ST7567_ENH_DG128064I_1_HW_I2C u8g2(U8G2_R0, SCL, SDA, U8X8_PIN_NONE);
 
+#ifndef WATER_BUBBLES_TOTAL
+#define WATER_BUBBLES_TOTAL  10
+#endif//WATER_BUBBLES_TOTAL
+
 class Bubble {
   public:
     Bubble();
@@ -37,22 +41,25 @@ int8_t Bubble::getSpeed() {
 
 class Aquarium {
   public:
-    Aquarium(uint8_t _total);
-    uint8_t total = 0;
-    Bubble bubbles[10];
+    Aquarium(void* u8g2Ref, uint8_t total);
     void begin();
     void change();
     void render();
+  private:
+    uint8_t _total = 0;
+    Bubble _bubbles[WATER_BUBBLES_TOTAL];
+    void* _u8g2Ref;
 };
 
-Aquarium::Aquarium(uint8_t _total) {
-  total = _total;
+Aquarium::Aquarium(void* u8g2Ref, uint8_t total) {
+  _total = (total <= WATER_BUBBLES_TOTAL) ? total : WATER_BUBBLES_TOTAL;
+  _u8g2Ref = u8g2Ref;
 }
 
 void Aquarium::begin() {
   randomSeed(analogRead(A3));
-  for (uint8_t i=0; i<total; i++) {
-    Bubble *b = &bubbles[i];
+  for (uint8_t i=0; i<_total; i++) {
+    Bubble *b = &_bubbles[i];
     b->r = random(5, 10 + 1);
     b->x = random(127);
     b->y = random(b->r + 63 + 1);
@@ -60,8 +67,8 @@ void Aquarium::begin() {
 }
 
 void Aquarium::change() {
-  for (uint8_t i=0; i<total; i++) {
-    Bubble *b = &bubbles[i];
+  for (uint8_t i=0; i<_total; i++) {
+    Bubble *b = &_bubbles[i];
     if (!b->isDisappeared()) {
       b->y -= b->getSpeed();
     } else {
@@ -73,13 +80,14 @@ void Aquarium::change() {
 }
 
 void Aquarium::render() {
-  for (uint8_t i=0; i<total; i++) {
-    Bubble *b = &bubbles[i];
-    u8g2.drawCircle(b->x, b->y, b->r, U8G2_DRAW_ALL);
+  U8G2* u8g2 = (U8G2*)_u8g2Ref;
+  for (uint8_t i=0; i<_total; i++) {
+    Bubble *b = &_bubbles[i];
+    u8g2->drawCircle(b->x, b->y, b->r, U8G2_DRAW_ALL);
   }
 }
 
-Aquarium aquarium(5);
+Aquarium aquarium(&u8g2, 5);
 
 void setup() {
   u8g2.setI2CAddress(0x3F * 2); 
@@ -91,13 +99,11 @@ void setup() {
 
 void loop() {
   aquarium.change();
-  drawBubbles();
-  delay(50);
-}
 
-void drawBubbles() {
   u8g2.firstPage();
   do {
     aquarium.render();
   } while (u8g2.nextPage());
+
+  delay(50);
 }

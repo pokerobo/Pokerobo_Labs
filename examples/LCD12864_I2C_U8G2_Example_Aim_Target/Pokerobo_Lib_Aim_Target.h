@@ -1,14 +1,7 @@
 #ifndef __POKEROBO_LIB_AIM_TARGET_H__
 #define __POKEROBO_LIB_AIM_TARGET_H__
 
-#include <Arduino.h>
-
-typedef enum {
-  LCD_LAYOUT_R0 = 0,
-  LCD_LAYOUT_R1,
-  LCD_LAYOUT_R2,
-  LCD_LAYOUT_R3
-} lcd_layout_t;
+#include "Pokerobo_Lib_Display_Layout.h"
 
 class AimTarget {
   public:

@@ -3,12 +3,19 @@
 
 #include <Arduino.h>
 
+typedef enum {
+  LCD_LAYOUT_R0 = 0,
+  LCD_LAYOUT_R1,
+  LCD_LAYOUT_R2,
+  LCD_LAYOUT_R3
+} lcd_layout_t;
+
 class AimTarget {
   public:
-    AimTarget(void* u8g2Ref, byte type=0xFF);
+    AimTarget(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0, byte type=0xFF);
     void render();
-    int8_t speedOfX(uint16_t x);
-    int8_t speedOfY(uint16_t y);
+    int8_t speedOfX(uint16_t x, uint16_t y);
+    int8_t speedOfY(uint16_t x, uint16_t y);
     int8_t moveX(int8_t joyX);
     int8_t moveY(int8_t joyY);
   private:
@@ -16,7 +23,10 @@ class AimTarget {
     byte _type;
     int8_t x;
     int8_t y;
+    int8_t _maxX;
+    int8_t _maxY;
     void* _u8g2Ref;
+    lcd_layout_t _layout;
 };
 
 #endif

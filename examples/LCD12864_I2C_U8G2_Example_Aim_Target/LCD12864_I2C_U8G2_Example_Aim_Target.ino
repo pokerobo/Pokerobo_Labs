@@ -5,7 +5,7 @@ U8G2_ST7567_ENH_DG128064I_1_HW_I2C u8g2(U8G2_R0, SCL, SDA, U8X8_PIN_NONE);
 
 class AimTarget {
   public:
-    AimTarget(byte type);
+    AimTarget(void* u8g2Ref, byte type);
     void render();
     int8_t speedOfX(uint16_t x);
     int8_t speedOfY(uint16_t y);
@@ -16,26 +16,29 @@ class AimTarget {
     byte _type;
     int8_t x;
     int8_t y;
+    void* _u8g2Ref;
 };
 
-AimTarget::AimTarget(byte type=2) {
+AimTarget::AimTarget(void* u8g2Ref, byte type=2) {
+  _u8g2Ref = u8g2Ref;
   _type = type;
   x = 63;
   y = 31;
 }
 
 void AimTarget::render() {
+  U8G2* u8g2 = (U8G2*)_u8g2Ref;
   switch(_type) {
     case 0:
-      u8g2.drawPixel(x, y);
+      u8g2->drawPixel(x, y);
       break;
     case 1:
       drawPlus(x, y, 4);
-      u8g2.drawFrame(x-3, y-3, 7, 7);
+      u8g2->drawFrame(x-3, y-3, 7, 7);
       break;
     case 2:
       drawPlus(x, y, 5);
-      u8g2.drawCircle(x, y, 4);
+      u8g2->drawCircle(x, y, 4);
       break;
     default:
       drawPlus(x, y, 3);
@@ -47,8 +50,9 @@ void AimTarget::drawPlus(int8_t x, int8_t y, int8_t d) {
   int8_t x2 = (x+d <= 127) ? x+d : 127;
   int8_t y1 = (y-d >= 0) ? y-d : 0;
   int8_t y2 = (y+d <= 63) ? y+d : 63;
-  u8g2.drawLine(x1, y, x2, y);
-  u8g2.drawLine(x, y1, x, y2);
+  U8G2* u8g2 = (U8G2*)_u8g2Ref;
+  u8g2->drawLine(x1, y, x2, y);
+  u8g2->drawLine(x, y1, x, y2);
 }
 
 int8_t AimTarget::speedOfX(uint16_t x) {
@@ -112,7 +116,7 @@ int8_t AimTarget::moveY(int8_t dY) {
 }
 
 JoystickHandler joystickHandler;
-AimTarget target(1);
+AimTarget target(&u8g2, 1);
 
 void setup() {
   u8g2.setI2CAddress(0x3F * 2); 

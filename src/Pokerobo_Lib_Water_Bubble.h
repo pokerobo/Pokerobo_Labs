@@ -8,7 +8,7 @@
 #endif//WATER_BUBBLES_TOTAL
 
 class Bubble {
-  friend class Aquarium;
+  friend class PlaySpace;
   public:
     Bubble();
     bool isDisappeared();
@@ -21,9 +21,9 @@ class Bubble {
     int16_t y;
 };
 
-class Aquarium {
+class PlaySpace {
   public:
-    Aquarium(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0, uint8_t total=WATER_BUBBLES_TOTAL);
+    PlaySpace(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0, uint8_t total=WATER_BUBBLES_TOTAL);
     void begin();
     void change();
     void render();

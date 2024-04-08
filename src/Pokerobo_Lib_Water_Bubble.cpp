@@ -36,7 +36,7 @@ void Bubble::explode() {
   this->y = -1 - this->r;
 }
 
-Aquarium::Aquarium(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
+PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
   _total = (total <= WATER_BUBBLES_TOTAL) ? total : WATER_BUBBLES_TOTAL;
   _u8g2Ref = u8g2Ref;
   _layout = layout;
@@ -44,7 +44,7 @@ Aquarium::Aquarium(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
   _maxY = (_layout == LCD_LAYOUT_R0 || _layout == LCD_LAYOUT_R2) ? 63 : 127;
 }
 
-void Aquarium::begin() {
+void PlaySpace::begin() {
   randomSeed(analogRead(A3));
   for (uint8_t i=0; i<_total; i++) {
     Bubble *b = &_bubbles[i];
@@ -54,7 +54,7 @@ void Aquarium::begin() {
   }
 }
 
-void Aquarium::change() {
+void PlaySpace::change() {
   for (uint8_t i=0; i<_total; i++) {
     Bubble *b = &_bubbles[i];
     if (!b->isDisappeared()) {
@@ -67,7 +67,7 @@ void Aquarium::change() {
   }
 }
 
-void Aquarium::render() {
+void PlaySpace::render() {
   U8G2* u8g2 = (U8G2*)_u8g2Ref;
   for (uint8_t i=0; i<_total; i++) {
     Bubble *b = &_bubbles[i];
@@ -75,7 +75,7 @@ void Aquarium::render() {
   }
 }
 
-int8_t Aquarium::shoot(int8_t aimX, int8_t aimY) {
+int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
   int8_t count = 0;
   for (uint8_t i=0; i<_total; i++) {
     Bubble *b = &_bubbles[i];

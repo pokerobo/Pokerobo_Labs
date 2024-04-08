@@ -62,6 +62,6 @@ void Aquarium::render() {
   U8G2* u8g2 = (U8G2*)_u8g2Ref;
   for (uint8_t i=0; i<_total; i++) {
     Bubble *b = &_bubbles[i];
-    u8g2->drawCircle(b->x, b->y, b->r, U8G2_DRAW_ALL);
+    u8g2->drawCircle(b->x, b->y, b->r);
   }
 }

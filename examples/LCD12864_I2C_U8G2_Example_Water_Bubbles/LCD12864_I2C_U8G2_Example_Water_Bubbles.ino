@@ -1,9 +1,13 @@
 #include <U8g2lib.h>
+#include "Pokerobo_Lib_Display_Helper.h"
 #include "Pokerobo_Lib_Water_Bubble.h"
 
-U8G2_ST7567_ENH_DG128064I_1_HW_I2C u8g2(U8G2_R0, SCL, SDA, U8X8_PIN_NONE);
+const u8g2_cb_t* u8g2_rotation = U8G2_R0;
+const lcd_layout_t lcd_layout = convertRotationToLayout(u8g2_rotation);
 
-Aquarium aquarium(&u8g2, 5);
+U8G2_ST7567_ENH_DG128064I_1_HW_I2C u8g2(u8g2_rotation, SCL, SDA, U8X8_PIN_NONE);
+
+Aquarium aquarium(&u8g2, lcd_layout, 5);
 
 void setup() {
   u8g2.setI2CAddress(0x3F * 2);

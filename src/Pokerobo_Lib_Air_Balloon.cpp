@@ -1,5 +1,5 @@
 #include <U8g2lib.h>
-#include "Pokerobo_Lib_Water_Bubble.h"
+#include "Pokerobo_Lib_Air_Balloon.h"
 
 Balloon::Balloon() {
   x = 0;
@@ -49,7 +49,7 @@ void Balloon::explode() {
 }
 
 PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
-  _total = (total <= WATER_BUBBLES_TOTAL) ? total : WATER_BUBBLES_TOTAL;
+  _total = (total <= AIR_BALLOONS_TOTAL) ? total : AIR_BALLOONS_TOTAL;
   _u8g2Ref = u8g2Ref;
   _layout = layout;
   _maxX = (_layout == LCD_LAYOUT_R0 || _layout == LCD_LAYOUT_R2) ? 127 : 63;

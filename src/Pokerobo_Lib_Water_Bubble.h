@@ -7,12 +7,15 @@
 #define WATER_BUBBLES_TOTAL  10
 #endif//WATER_BUBBLES_TOTAL
 
-class Bubble {
+class Balloon {
   friend class PlaySpace;
   public:
-    Bubble();
-    bool isDisappeared();
+    Balloon();
+    int16_t getX();
+    int16_t getY();
+    int8_t getR();
     int8_t getSpeed();
+    bool isDisappeared();
     boolean isHit(int8_t aimX, int8_t aimY);
     void explode();
   private:
@@ -30,7 +33,7 @@ class PlaySpace {
     int8_t shoot(int8_t x, int8_t y);
   private:
     uint8_t _total = 0;
-    Bubble _bubbles[WATER_BUBBLES_TOTAL];
+    Balloon _balloons[WATER_BUBBLES_TOTAL];
     void* _u8g2Ref;
     lcd_layout_t _layout;
     int8_t _maxX;

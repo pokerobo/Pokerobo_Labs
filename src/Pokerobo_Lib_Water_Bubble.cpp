@@ -1,23 +1,35 @@
 #include <U8g2lib.h>
 #include "Pokerobo_Lib_Water_Bubble.h"
 
-Bubble::Bubble() {
+Balloon::Balloon() {
   x = 0;
   y = 0;
   r = 10;
 }
 
-bool Bubble::isDisappeared() {
-  return this->y < -this->r;
+int16_t Balloon::getX() {
+  return this->x;
 }
 
-int8_t Bubble::getSpeed() {
+int16_t Balloon::getY() {
+  return this->y;
+}
+
+int8_t Balloon::getR() {
+  return this->r;
+}
+
+int8_t Balloon::getSpeed() {
   if (this->r > 8) return 4;
   if (this->r > 5) return 3;
   return 2;
 }
 
-boolean Bubble::isHit(int8_t aimX, int8_t aimY) {
+bool Balloon::isDisappeared() {
+  return this->y < -this->r;
+}
+
+boolean Balloon::isHit(int8_t aimX, int8_t aimY) {
   int16_t dx = abs(x-aimX);
   int16_t dy = abs(y-aimY);
   if (dx > r || dy > r) {
@@ -32,7 +44,7 @@ boolean Bubble::isHit(int8_t aimX, int8_t aimY) {
   return false;
 }
 
-void Bubble::explode() {
+void Balloon::explode() {
   this->y = -1 - this->r;
 }
 
@@ -47,7 +59,7 @@ PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
 void PlaySpace::begin() {
   randomSeed(analogRead(A3));
   for (uint8_t i=0; i<_total; i++) {
-    Bubble *b = &_bubbles[i];
+    Balloon *b = &_balloons[i];
     b->r = random(5, 10 + 1);
     b->x = random(_maxX);
     b->y = random(b->r + _maxY + 1);
@@ -56,7 +68,7 @@ void PlaySpace::begin() {
 
 void PlaySpace::change() {
   for (uint8_t i=0; i<_total; i++) {
-    Bubble *b = &_bubbles[i];
+    Balloon *b = &_balloons[i];
     if (!b->isDisappeared()) {
       b->y -= b->getSpeed();
     } else {
@@ -70,7 +82,7 @@ void PlaySpace::change() {
 void PlaySpace::render() {
   U8G2* u8g2 = (U8G2*)_u8g2Ref;
   for (uint8_t i=0; i<_total; i++) {
-    Bubble *b = &_bubbles[i];
+    Balloon *b = &_balloons[i];
     u8g2->drawCircle(b->x, b->y, b->r);
   }
 }
@@ -78,7 +90,7 @@ void PlaySpace::render() {
 int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
   int8_t count = 0;
   for (uint8_t i=0; i<_total; i++) {
-    Bubble *b = &_bubbles[i];
+    Balloon *b = &_balloons[i];
     if (b->isHit(aimX, aimY)) {
       b->explode();
       count++;

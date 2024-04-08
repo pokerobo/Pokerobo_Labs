@@ -125,7 +125,7 @@ int8_t AimTarget::moveX(int8_t dX) {
   } else {
     x = x + dX;
   }
-  return x - oX;
+  return x;
 }
 
 int8_t AimTarget::moveY(int8_t dY) {
@@ -137,5 +137,13 @@ int8_t AimTarget::moveY(int8_t dY) {
   } else {
     y = y + dY;
   }
-  return y - oY;
+  return y;
+}
+
+int8_t AimTarget::getX() {
+  return x;
+}
+
+int8_t AimTarget::getY() {
+  return y;
 }

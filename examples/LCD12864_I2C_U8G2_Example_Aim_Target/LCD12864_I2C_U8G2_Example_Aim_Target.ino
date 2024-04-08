@@ -3,11 +3,12 @@
 #include "Pokerobo_Lib_Display_Helper.h"
 
 const u8g2_cb_t* u8g2_rotation = U8G2_R3;
+const lcd_layout_t lcd_layout = convertRotationToLayout(u8g2_rotation);
 
 U8G2_ST7567_ENH_DG128064I_1_HW_I2C u8g2(u8g2_rotation, SCL, SDA, U8X8_PIN_NONE);
 
 JoystickHandler joystickHandler;
-AimTarget target(&u8g2, convertRotationToLayout(u8g2_rotation));
+AimTarget target(&u8g2, lcd_layout);
 
 void setup() {
   u8g2.setI2CAddress(0x3F * 2); 

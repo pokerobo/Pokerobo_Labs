@@ -11,6 +11,8 @@ class AimTarget {
     int8_t speedOfY(uint16_t x, uint16_t y);
     int8_t moveX(int8_t joyX);
     int8_t moveY(int8_t joyY);
+    int8_t getX();
+    int8_t getY();
   private:
     void drawPlus(int8_t x, int8_t y, int8_t d);
     byte _type;

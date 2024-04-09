@@ -45,6 +45,8 @@ class PlaySpace {
     lcd_layout_t _layout;
     int8_t _maxX;
     int8_t _maxY;
+    uint8_t _maxCharHeight = 8;
+    uint8_t _maxCharWidth = 5;
 };
 
 #endif

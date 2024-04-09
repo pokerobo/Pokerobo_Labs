@@ -52,8 +52,14 @@ PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
   _total = (total <= AIR_BALLOONS_TOTAL) ? total : AIR_BALLOONS_TOTAL;
   _u8g2Ref = u8g2Ref;
   _layout = layout;
+
   _maxX = (_layout == LCD_LAYOUT_R0 || _layout == LCD_LAYOUT_R2) ? 127 : 63;
   _maxY = (_layout == LCD_LAYOUT_R0 || _layout == LCD_LAYOUT_R2) ? 63 : 127;
+
+  U8G2* u8g2 = (U8G2*)_u8g2Ref;
+  u8g2->setFont(u8g2_font_5x8_tf);
+  _maxCharHeight = u8g2->getMaxCharHeight();
+  _maxCharWidth = u8g2->getMaxCharWidth();
 }
 
 void PlaySpace::begin() {
@@ -94,12 +100,22 @@ void PlaySpace::change() {
       b->r = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
       b->x = random(_maxX);
       b->y = b->r + _maxY + 1;
+      b->_delay = 0;
     }
   }
 }
 
 void PlaySpace::render() {
   U8G2* u8g2 = (U8G2*)_u8g2Ref;
+
+  char line[15] = {};
+  sprintf(line, "% 4d:% 4d% 4d",
+      this->_arisingCount,
+      this->_missingCount,
+      this->_destroyCount);
+  u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
+  u8g2->drawHLine(0, _maxY - _maxCharHeight + 1, _maxX + 1);
+
   for (uint8_t i=0; i<_total; i++) {
     Balloon *b = &_balloons[i];
     u8g2->drawCircle(b->x, b->y, b->r);

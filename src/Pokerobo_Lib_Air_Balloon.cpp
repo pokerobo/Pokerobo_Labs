@@ -58,21 +58,40 @@ PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
 
 void PlaySpace::begin() {
   randomSeed(analogRead(A3));
+
+  int8_t minDelay = _maxY;
   for (uint8_t i=0; i<_total; i++) {
     Balloon *b = &_balloons[i];
-    b->r = random(5, 10 + 1);
+    b->r = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
     b->x = random(_maxX);
-    b->y = random(b->r + _maxY + 1);
+    b->y = b->r + _maxY + 1;
+    b->_delay = random(0, _maxY);
+    if (b->_delay < minDelay) {
+      minDelay = b->_delay;
+    }
+  }
+
+  for (uint8_t i=0; i<_total; i++) {
+    Balloon *b = &_balloons[i];
+    b->_delay -= minDelay;
   }
 }
 
 void PlaySpace::change() {
   for (uint8_t i=0; i<_total; i++) {
     Balloon *b = &_balloons[i];
+    if (b->_delay == 0) {
+      b->_delay--;
+      this->_arisingCount++;
+    } else if (b->_delay > 0) {
+      b->_delay--;
+      continue;
+    }
     if (!b->isDisappeared()) {
       b->y -= b->getSpeed();
     } else {
-      b->r = random(5, 10 + 1);
+      this->_missingCount++;
+      b->r = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
       b->x = random(_maxX);
       b->y = b->r + _maxY + 1;
     }
@@ -93,6 +112,7 @@ int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
     Balloon *b = &_balloons[i];
     if (b->isHit(aimX, aimY)) {
       b->explode();
+      this->_destroyCount++;
       count++;
     }
   }

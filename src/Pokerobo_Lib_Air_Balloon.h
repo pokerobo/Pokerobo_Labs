@@ -3,6 +3,9 @@
 
 #include "Pokerobo_Lib_Display_Layout.h"
 
+#define AIR_BALLOON_MIN_RADIUS  5
+#define AIR_BALLOON_MAX_RADIUS  10
+
 #ifndef AIR_BALLOONS_TOTAL
 #define AIR_BALLOONS_TOTAL  20
 #endif//AIR_BALLOONS_TOTAL
@@ -22,6 +25,7 @@ class Balloon {
     int8_t r;
     int16_t x;
     int16_t y;
+    int8_t _delay;
 };
 
 class PlaySpace {
@@ -32,6 +36,9 @@ class PlaySpace {
     void render();
     int8_t shoot(int8_t x, int8_t y);
   private:
+    uint16_t _arisingCount = 0;
+    uint16_t _destroyCount = 0;
+    uint16_t _missingCount = 0;
     uint8_t _total = 0;
     Balloon _balloons[AIR_BALLOONS_TOTAL];
     void* _u8g2Ref;

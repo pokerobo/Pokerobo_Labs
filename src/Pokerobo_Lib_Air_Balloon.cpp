@@ -2,50 +2,50 @@
 #include "Pokerobo_Lib_Air_Balloon.h"
 
 Balloon::Balloon() {
-  x = 0;
-  y = 0;
-  r = 10;
+  _x = 0;
+  _y = 0;
+  _radius = 10;
 }
 
 int16_t Balloon::getX() {
-  return this->x;
+  return this->_x;
 }
 
 int16_t Balloon::getY() {
-  return this->y;
+  return this->_y;
 }
 
-int8_t Balloon::getR() {
-  return this->r;
+int8_t Balloon::getRadius() {
+  return this->_radius;
 }
 
 int8_t Balloon::getSpeed() {
-  if (this->r > 8) return 4;
-  if (this->r > 5) return 3;
+  if (this->_radius > 8) return 4;
+  if (this->_radius > 5) return 3;
   return 2;
 }
 
 bool Balloon::isDisappeared() {
-  return this->y < -this->r;
+  return this->_y < -this->_radius;
 }
 
 boolean Balloon::isHit(int8_t aimX, int8_t aimY) {
-  int16_t dx = abs(x-aimX);
-  int16_t dy = abs(y-aimY);
-  if (dx > r || dy > r) {
+  int16_t dx = abs(this->_x-aimX);
+  int16_t dy = abs(this->_y-aimY);
+  if (dx > this->_radius || dy > this->_radius) {
     return false;
   }
-  if (dx + dy <= r) {
+  if (dx + dy <= this->_radius) {
     return true;
   }
-  if (sqrt(dx*dx + dy*dy)<= r) {
+  if (sqrt(dx*dx + dy*dy)<= this->_radius) {
     return true;
   }
   return false;
 }
 
 void Balloon::explode() {
-  this->y = -1 - this->r;
+  this->_state = BALLOON_STATE::EXPLODED;
 }
 
 PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
@@ -68,9 +68,10 @@ void PlaySpace::begin() {
   int8_t minDelay = _maxY;
   for (uint8_t i=0; i<_total; i++) {
     Balloon *b = &_balloons[i];
-    b->r = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
-    b->x = random(_maxX);
-    b->y = b->r + _maxY + 1;
+    b->_state = BALLOON_STATE::NEW;
+    b->_radius = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
+    b->_x = random(_maxX);
+    b->_y = b->_radius + _maxY + 1;
     b->_delay = random(0, _maxY);
     if (b->_delay < minDelay) {
       minDelay = b->_delay;
@@ -83,24 +84,42 @@ void PlaySpace::begin() {
   }
 }
 
+void PlaySpace::initBalloon(Balloon* b) {
+  b->_radius = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
+  b->_x = random(_maxX);
+  b->_y = b->_radius + _maxY + 1;
+  b->_delay = 0;
+}
+
 void PlaySpace::change() {
   for (uint8_t i=0; i<_total; i++) {
     Balloon *b = &_balloons[i];
-    if (b->_delay == 0) {
-      b->_delay--;
-      this->_arisingCount++;
-    } else if (b->_delay > 0) {
-      b->_delay--;
-      continue;
-    }
-    if (!b->isDisappeared()) {
-      b->y -= b->getSpeed();
-    } else {
-      this->_missingCount++;
-      b->r = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
-      b->x = random(_maxX);
-      b->y = b->r + _maxY + 1;
-      b->_delay = 0;
+    switch (b->_state) {
+      case BALLOON_STATE::NEW:
+        b->_state = BALLOON_STATE::FLYING;
+      case BALLOON_STATE::FLYING:
+        if (b->_delay == 0) {
+          b->_delay--;
+          this->_arisingCount++;
+        } else if (b->_delay > 0) {
+          b->_delay--;
+        } else {
+          b->_y -= b->getSpeed();
+          if (b->isDisappeared()) {
+            b->_state = BALLOON_STATE::ESCAPED;
+          }
+        }
+        break;
+      case BALLOON_STATE::EXPLODED:
+        this->_destroyCount++;
+        this->initBalloon(b);
+        b->_state = BALLOON_STATE::NEW;
+        break;
+      case BALLOON_STATE::ESCAPED:
+        this->_missingCount++;
+        this->initBalloon(b);
+        b->_state = BALLOON_STATE::NEW;
+        break;
     }
   }
 }
@@ -109,7 +128,7 @@ void PlaySpace::render() {
   U8G2* u8g2 = (U8G2*)_u8g2Ref;
 
   char line[15] = {};
-  sprintf(line, "% 4d:% 4d% 4d",
+  sprintf(line, "% 4d|% 4d% 4d",
       this->_arisingCount,
       this->_missingCount,
       this->_destroyCount);
@@ -118,7 +137,7 @@ void PlaySpace::render() {
 
   for (uint8_t i=0; i<_total; i++) {
     Balloon *b = &_balloons[i];
-    u8g2->drawCircle(b->x, b->y, b->r);
+    u8g2->drawCircle(b->_x, b->_y, b->_radius);
   }
 }
 
@@ -128,7 +147,6 @@ int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
     Balloon *b = &_balloons[i];
     if (b->isHit(aimX, aimY)) {
       b->explode();
-      this->_destroyCount++;
       count++;
     }
   }

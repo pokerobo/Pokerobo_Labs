@@ -6,9 +6,13 @@
 #define AIR_BALLOON_MIN_RADIUS  5
 #define AIR_BALLOON_MAX_RADIUS  10
 
-#ifndef AIR_BALLOONS_TOTAL
-#define AIR_BALLOONS_TOTAL  20
-#endif//AIR_BALLOONS_TOTAL
+#ifndef CONCURRENT_BALLOONS_TOTAL
+#define CONCURRENT_BALLOONS_TOTAL  20
+#endif//CONCURRENT_BALLOONS_TOTAL
+
+#ifndef APPEARANCE_BALLOONS_TOTAL
+#define APPEARANCE_BALLOONS_TOTAL  1000
+#endif//APPEARANCE_BALLOONS_TOTAL
 
 typedef enum BALLOON_STATE {
   NEW = 0,
@@ -38,7 +42,8 @@ class Balloon {
 
 class PlaySpace {
   public:
-    PlaySpace(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0, uint8_t total=AIR_BALLOONS_TOTAL);
+    PlaySpace(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0,
+        uint8_t total=CONCURRENT_BALLOONS_TOTAL);
     void begin();
     void change();
     void render();
@@ -50,7 +55,7 @@ class PlaySpace {
     uint16_t _destroyCount = 0;
     uint16_t _missingCount = 0;
     uint8_t _total = 0;
-    Balloon _balloons[AIR_BALLOONS_TOTAL];
+    Balloon _balloons[CONCURRENT_BALLOONS_TOTAL];
     void* _u8g2Ref;
     lcd_layout_t _layout;
     int8_t _maxX;

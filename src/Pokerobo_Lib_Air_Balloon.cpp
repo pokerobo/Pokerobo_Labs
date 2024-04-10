@@ -49,7 +49,7 @@ void Balloon::explode() {
 }
 
 PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
-  _total = (total <= AIR_BALLOONS_TOTAL) ? total : AIR_BALLOONS_TOTAL;
+  _total = (total <= CONCURRENT_BALLOONS_TOTAL) ? total : CONCURRENT_BALLOONS_TOTAL;
   _u8g2Ref = u8g2Ref;
   _layout = layout;
 
@@ -77,11 +77,14 @@ void PlaySpace::begin() {
       minDelay = b->_delay;
     }
   }
-
   for (uint8_t i=0; i<_total; i++) {
     Balloon *b = &_balloons[i];
     b->_delay -= minDelay;
   }
+
+  this->_arisingCount = APPEARANCE_BALLOONS_TOTAL;
+  this->_missingCount = 0;
+  this->_destroyCount = 0;
 }
 
 void PlaySpace::initBalloon(Balloon* b) {
@@ -100,7 +103,7 @@ void PlaySpace::change() {
       case BALLOON_STATE::FLYING:
         if (b->_delay == 0) {
           b->_delay--;
-          this->_arisingCount++;
+          this->_arisingCount--;
         } else if (b->_delay > 0) {
           b->_delay--;
         } else {

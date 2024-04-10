@@ -29,7 +29,7 @@ bool Balloon::isDisappeared() {
   return this->_y < -this->_radius;
 }
 
-boolean Balloon::isHit(int8_t aimX, int8_t aimY) {
+bool Balloon::isHit(int8_t aimX, int8_t aimY) {
   int16_t dx = abs(this->_x-aimX);
   int16_t dy = abs(this->_y-aimY);
   if (dx > this->_radius || dy > this->_radius) {
@@ -38,7 +38,7 @@ boolean Balloon::isHit(int8_t aimX, int8_t aimY) {
   if (dx + dy <= this->_radius) {
     return true;
   }
-  if (sqrt(dx*dx + dy*dy)<= this->_radius) {
+  if (sqrt(dx*dx + dy*dy) <= this->_radius) {
     return true;
   }
   return false;

@@ -15,16 +15,15 @@ typedef enum GAME_STATE {
 class GameBoard {
   public:
     GameBoard(AimTarget* aimTarget, PlaySpace* playSpace,
-      void* u8g2Ref, lcd_layout_t layout);
+      CoordinateAxes* axes);
     void begin();
     void play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystickY);
     void render();
   private:
     AimTarget* _aimTarget;
     PlaySpace* _playSpace;
+    CoordinateAxes* _axes;
     game_state_t _state = GAME_STATE::GAME_NEW;
-    void* _u8g2Ref;
-    lcd_layout_t _layout;
 };
 
 #endif

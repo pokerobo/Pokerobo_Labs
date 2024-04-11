@@ -2,11 +2,10 @@
 #include "Pokerobo_Lib_Game_Board.h"
 
 GameBoard::GameBoard(AimTarget* aimTarget, PlaySpace* playSpace,
-    void* u8g2Ref, lcd_layout_t layout) {
+    CoordinateAxes* axes) {
   _aimTarget = aimTarget;
   _playSpace = playSpace;
-  _u8g2Ref = u8g2Ref;
-  _layout = layout;
+  _axes = axes;
 }
 
 void GameBoard::begin() {
@@ -22,7 +21,7 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
 }
 
 void GameBoard::render() {
-  U8G2* u8g2 = (U8G2*)_u8g2Ref;
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
   u8g2->firstPage();
   do {
     _playSpace->render();

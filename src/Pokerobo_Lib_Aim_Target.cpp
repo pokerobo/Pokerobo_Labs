@@ -1,30 +1,25 @@
 #include "Pokerobo_Lib_Aim_Target.h"
 #include "Pokerobo_Lib_Display_Helper.h"
 
-AimTarget::AimTarget(void* u8g2Ref, lcd_layout_t layout, byte type) {
-  _u8g2Ref = u8g2Ref;
-  _layout = layout;
+AimTarget::AimTarget(CoordinateAxes* axes, byte type) {
   _type = type;
-  switch (_layout) {
+  _axes = axes;
+  switch (_axes->getLcdLayout()) {
     case LCD_LAYOUT_R0:
     case LCD_LAYOUT_R2:
       x = 63;
       y = 31;
-      _maxX = 127;
-      _maxY = 63;
       break;
     case LCD_LAYOUT_R1:
     case LCD_LAYOUT_R3:
       x = 31;
       y = 63;
-      _maxX = 63;
-      _maxY = 127;
       break;
   }
 }
 
 void AimTarget::render() {
-  U8G2* u8g2 = (U8G2*)_u8g2Ref;
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
   switch(_type) {
     case 0:
       u8g2->drawPixel(x, y);
@@ -43,11 +38,15 @@ void AimTarget::render() {
 }
 
 void AimTarget::drawPlus(int8_t x, int8_t y, int8_t d) {
+  int8_t _maxX = _axes->getMaxX();
+  int8_t _maxY = _axes->getMaxY();
+
   int8_t x1 = (x-d >= 0) ? x-d : 0;
   int8_t x2 = (x+d <= _maxX) ? x+d : _maxX;
   int8_t y1 = (y-d >= 0) ? y-d : 0;
   int8_t y2 = (y+d <= _maxY) ? y+d : _maxY;
-  U8G2* u8g2 = (U8G2*)_u8g2Ref;
+
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
   u8g2->drawLine(x1, y, x2, y);
   u8g2->drawLine(x, y1, x, y2);
 }
@@ -64,7 +63,7 @@ int8_t AimTarget::speedOfX(uint16_t x, uint16_t y) {
   }
 
   int rX = 0;
-  switch (_layout) {
+  switch (_axes->getLcdLayout()) {
     case LCD_LAYOUT_R0:
     case LCD_LAYOUT_R2:
       Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
@@ -96,7 +95,7 @@ int8_t AimTarget::speedOfY(uint16_t x, uint16_t y) {
   }
 
   int rY = 0;
-  switch (_layout) {
+  switch (_axes->getLcdLayout()) {
     case LCD_LAYOUT_R0:
     case LCD_LAYOUT_R2:
       Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
@@ -117,6 +116,7 @@ int8_t AimTarget::speedOfY(uint16_t x, uint16_t y) {
 }
 
 int8_t AimTarget::moveX(int8_t dX) {
+  int8_t _maxX = _axes->getMaxX();
   int8_t oX = x;
   if (dX < 0 && x < -dX) {
     x = 0;
@@ -129,6 +129,7 @@ int8_t AimTarget::moveX(int8_t dX) {
 }
 
 int8_t AimTarget::moveY(int8_t dY) {
+  int8_t _maxY = _axes->getMaxY();
   int8_t oY = y;
   if (y < -dY) {
     y = 0;

@@ -42,8 +42,7 @@ class Balloon {
 
 class PlaySpace {
   public:
-    PlaySpace(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0,
-        uint8_t total=CONCURRENT_BALLOONS_TOTAL);
+    PlaySpace(CoordinateAxes* axes, uint8_t total=CONCURRENT_BALLOONS_TOTAL);
     void begin();
     void change();
     void render();
@@ -56,10 +55,7 @@ class PlaySpace {
     uint16_t _missingCount = 0;
     uint8_t _total = 0;
     Balloon _balloons[CONCURRENT_BALLOONS_TOTAL];
-    void* _u8g2Ref;
-    lcd_layout_t _layout;
-    int8_t _maxX;
-    int8_t _maxY;
+    CoordinateAxes* _axes;
     uint8_t _maxCharHeight = 8;
     uint8_t _maxCharWidth = 5;
 };

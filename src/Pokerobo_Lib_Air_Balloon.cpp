@@ -48,15 +48,11 @@ void Balloon::explode() {
   this->_state = BALLOON_STATE::EXPLODED;
 }
 
-PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
+PlaySpace::PlaySpace(CoordinateAxes* axes, uint8_t total) {
   _total = (total <= CONCURRENT_BALLOONS_TOTAL) ? total : CONCURRENT_BALLOONS_TOTAL;
-  _u8g2Ref = u8g2Ref;
-  _layout = layout;
+  _axes = axes;
 
-  _maxX = (_layout == LCD_LAYOUT_R0 || _layout == LCD_LAYOUT_R2) ? 127 : 63;
-  _maxY = (_layout == LCD_LAYOUT_R0 || _layout == LCD_LAYOUT_R2) ? 63 : 127;
-
-  U8G2* u8g2 = (U8G2*)_u8g2Ref;
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
   u8g2->setFont(u8g2_font_5x8_tf);
   _maxCharHeight = u8g2->getMaxCharHeight();
   _maxCharWidth = u8g2->getMaxCharWidth();
@@ -65,13 +61,12 @@ PlaySpace::PlaySpace(void* u8g2Ref, lcd_layout_t layout, uint8_t total) {
 void PlaySpace::begin() {
   randomSeed(analogRead(A3));
 
+  int8_t _maxY = _axes->getMaxY();
   int8_t minDelay = _maxY;
   for (uint8_t i=0; i<_total; i++) {
     Balloon *b = &_balloons[i];
     b->_state = BALLOON_STATE::NEW;
-    b->_radius = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
-    b->_x = random(_maxX);
-    b->_y = b->_radius + _maxY + 1;
+    this->initBalloon(b);
     b->_delay = random(0, _maxY);
     if (b->_delay < minDelay) {
       minDelay = b->_delay;
@@ -88,6 +83,8 @@ void PlaySpace::begin() {
 }
 
 void PlaySpace::initBalloon(Balloon* b) {
+  int8_t _maxX = _axes->getMaxX();
+  int8_t _maxY = _axes->getMaxY();
   b->_radius = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
   b->_x = random(_maxX);
   b->_y = b->_radius + _maxY + 1;
@@ -128,7 +125,10 @@ void PlaySpace::change() {
 }
 
 void PlaySpace::render() {
-  U8G2* u8g2 = (U8G2*)_u8g2Ref;
+  int8_t _maxX = _axes->getMaxX();
+  int8_t _maxY = _axes->getMaxY();
+
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
 
   char line[15] = {};
   sprintf(line, "% 4d|% 4d% 4d",

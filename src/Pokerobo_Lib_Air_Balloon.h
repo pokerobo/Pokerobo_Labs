@@ -42,18 +42,24 @@ class Balloon {
 
 class PlaySpace {
   public:
-    PlaySpace(CoordinateAxes* axes, uint8_t total=CONCURRENT_BALLOONS_TOTAL);
+    PlaySpace(CoordinateAxes* axes,
+        uint8_t concurrentTotal=CONCURRENT_BALLOONS_TOTAL,
+        uint16_t appearanceTotal=APPEARANCE_BALLOONS_TOTAL);
     void begin();
     void change();
     void render();
     int8_t shoot(int8_t x, int8_t y);
+    bool isFailed();
+    bool isFinished();
+    void reset();
   protected:
-    void initBalloon(Balloon* balloon);
+    void resetBalloon(Balloon* balloon);
   private:
     uint16_t _arisingCount = 0;
     uint16_t _destroyCount = 0;
     uint16_t _missingCount = 0;
-    uint8_t _total = 0;
+    uint16_t _appearanceTotal = 0;
+    uint8_t _concurrentTotal = 0;
     Balloon _balloons[CONCURRENT_BALLOONS_TOTAL];
     CoordinateAxes* _axes;
     uint8_t _maxCharHeight = 8;

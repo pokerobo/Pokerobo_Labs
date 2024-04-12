@@ -1,6 +1,8 @@
 #include <U8g2lib.h>
 #include "Pokerobo_Lib_Air_Balloon.h"
 
+const uint8_t* gameInfoFont = u8g2_font_5x8_tf;
+
 Balloon::Balloon() {
   _x = 0;
   _y = 0;
@@ -48,12 +50,13 @@ void Balloon::explode() {
   this->_state = BALLOON_STATE::EXPLODED;
 }
 
-PlaySpace::PlaySpace(CoordinateAxes* axes, uint8_t total) {
-  _total = (total <= CONCURRENT_BALLOONS_TOTAL) ? total : CONCURRENT_BALLOONS_TOTAL;
+PlaySpace::PlaySpace(CoordinateAxes* axes, uint8_t total, uint16_t appearanceTotal) {
+  _appearanceTotal = appearanceTotal;
+  _concurrentTotal = (total <= CONCURRENT_BALLOONS_TOTAL) ? total : CONCURRENT_BALLOONS_TOTAL;
   _axes = axes;
 
   U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-  u8g2->setFont(u8g2_font_5x8_tf);
+  u8g2->setFont(gameInfoFont);
   _maxCharHeight = u8g2->getMaxCharHeight();
   _maxCharWidth = u8g2->getMaxCharWidth();
 }
@@ -63,26 +66,26 @@ void PlaySpace::begin() {
 
   int8_t _maxY = _axes->getMaxY();
   int8_t minDelay = _maxY;
-  for (uint8_t i=0; i<_total; i++) {
+  for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
     b->_state = BALLOON_STATE::NEW;
-    this->initBalloon(b);
+    this->resetBalloon(b);
     b->_delay = random(0, _maxY);
     if (b->_delay < minDelay) {
       minDelay = b->_delay;
     }
   }
-  for (uint8_t i=0; i<_total; i++) {
+  for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
     b->_delay -= minDelay;
   }
 
-  this->_arisingCount = APPEARANCE_BALLOONS_TOTAL;
+  this->_arisingCount = _appearanceTotal;
   this->_missingCount = 0;
   this->_destroyCount = 0;
 }
 
-void PlaySpace::initBalloon(Balloon* b) {
+void PlaySpace::resetBalloon(Balloon* b) {
   int8_t _maxX = _axes->getMaxX();
   int8_t _maxY = _axes->getMaxY();
   b->_radius = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
@@ -92,16 +95,16 @@ void PlaySpace::initBalloon(Balloon* b) {
 }
 
 void PlaySpace::change() {
-  for (uint8_t i=0; i<_total; i++) {
+  for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
     switch (b->_state) {
       case BALLOON_STATE::NEW:
-        b->_state = BALLOON_STATE::FLYING;
-      case BALLOON_STATE::FLYING:
-        if (b->_delay == 0) {
-          b->_delay--;
+        if (this->_arisingCount > 0) {
           this->_arisingCount--;
-        } else if (b->_delay > 0) {
+          b->_state = BALLOON_STATE::FLYING;
+        }
+      case BALLOON_STATE::FLYING:
+        if (b->_delay > 0) {
           b->_delay--;
         } else {
           b->_y -= b->getSpeed();
@@ -112,12 +115,12 @@ void PlaySpace::change() {
         break;
       case BALLOON_STATE::EXPLODED:
         this->_destroyCount++;
-        this->initBalloon(b);
+        this->resetBalloon(b);
         b->_state = BALLOON_STATE::NEW;
         break;
       case BALLOON_STATE::ESCAPED:
         this->_missingCount++;
-        this->initBalloon(b);
+        this->resetBalloon(b);
         b->_state = BALLOON_STATE::NEW;
         break;
     }
@@ -130,6 +133,7 @@ void PlaySpace::render() {
 
   U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
 
+  u8g2->setFont(gameInfoFont);
   char line[15] = {};
   sprintf(line, "% 4d|% 4d% 4d",
       this->_arisingCount,
@@ -138,15 +142,17 @@ void PlaySpace::render() {
   u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
   u8g2->drawHLine(0, _maxY - _maxCharHeight + 1, _maxX + 1);
 
-  for (uint8_t i=0; i<_total; i++) {
+  for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
-    u8g2->drawCircle(b->_x, b->_y, b->_radius);
+    if (b->_state == BALLOON_STATE::FLYING) {
+      u8g2->drawCircle(b->_x, b->_y, b->_radius);
+    }
   }
 }
 
 int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
   int8_t count = 0;
-  for (uint8_t i=0; i<_total; i++) {
+  for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
     if (b->isHit(aimX, aimY)) {
       b->explode();
@@ -154,4 +160,16 @@ int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
     }
   }
   return count;
+}
+
+bool PlaySpace::isFailed() {
+  return _missingCount > 0 && _missingCount > _destroyCount;
+}
+
+bool PlaySpace::isFinished() {
+  return (_missingCount + _destroyCount) == _appearanceTotal;
+}
+
+void PlaySpace::reset() {
+  begin();
 }

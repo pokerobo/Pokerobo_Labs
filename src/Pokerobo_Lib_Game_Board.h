@@ -14,16 +14,19 @@ typedef enum GAME_STATE {
 
 class GameBoard {
   public:
-    GameBoard(AimTarget* aimTarget, PlaySpace* playSpace,
-      CoordinateAxes* axes);
+    GameBoard(CoordinateAxes* axes, AimTarget* aimTarget, PlaySpace* playSpace);
     void begin();
     void play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystickY);
     void render();
+    void reset();
+  protected:
+    bool isJoystickClicked(uint16_t flags);
   private:
     AimTarget* _aimTarget;
     PlaySpace* _playSpace;
     CoordinateAxes* _axes;
     game_state_t _state = GAME_STATE::GAME_NEW;
+    bool _suspending = false;
 };
 
 #endif

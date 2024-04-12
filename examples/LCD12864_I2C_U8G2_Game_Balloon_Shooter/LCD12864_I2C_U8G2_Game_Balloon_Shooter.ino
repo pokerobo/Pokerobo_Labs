@@ -1,7 +1,7 @@
 #include <U8g2lib.h>
 #include <Pokerobo_RCB_master.h>
-#include "Pokerobo_Lib_Aim_Target.h"
 #include "Pokerobo_Lib_Display_Helper.h"
+#include "Pokerobo_Lib_Aim_Target.h"
 #include "Pokerobo_Lib_Air_Balloon.h"
 #include "Pokerobo_Lib_Game_Board.h"
 
@@ -16,8 +16,8 @@ JoystickAction action;
 CoordinateAxes axes(&u8g2, lcd_layout);
 
 AimTarget aimTarget(&axes);
-PlaySpace playSpace(&axes, 5);
-GameBoard gameBoard(&aimTarget, &playSpace, &axes);
+PlaySpace playSpace(&axes, 5, 100);
+GameBoard gameBoard(&axes, &aimTarget, &playSpace);
 
 void setup() {
   u8g2.setI2CAddress(0x3F * 2);

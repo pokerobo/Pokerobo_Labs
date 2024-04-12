@@ -16,7 +16,7 @@ JoystickAction action;
 CoordinateAxes axes(&u8g2, lcd_layout);
 
 AimTarget aimTarget(&axes);
-PlaySpace playSpace(&axes, 5, 100);
+PlaySpace playSpace(&axes, 5, 100, PLAY_SPACE_OPTION_STATUS_BAR);
 GameBoard gameBoard(&axes, &aimTarget, &playSpace);
 
 void setup() {

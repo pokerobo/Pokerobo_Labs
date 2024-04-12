@@ -50,9 +50,14 @@ void Balloon::explode() {
   this->_state = BALLOON_STATE::EXPLODED;
 }
 
-PlaySpace::PlaySpace(CoordinateAxes* axes, uint8_t total, uint16_t appearanceTotal) {
+PlaySpace::PlaySpace(CoordinateAxes* axes,
+    uint8_t concurrentTotal,
+    uint16_t appearanceTotal,
+    uint8_t options) {
+  _options = options;
   _appearanceTotal = appearanceTotal;
-  _concurrentTotal = (total <= CONCURRENT_BALLOONS_TOTAL) ? total : CONCURRENT_BALLOONS_TOTAL;
+  _concurrentTotal = (concurrentTotal <= CONCURRENT_BALLOONS_TOTAL) ?
+      concurrentTotal : CONCURRENT_BALLOONS_TOTAL;
   _axes = axes;
 
   U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
@@ -80,7 +85,7 @@ void PlaySpace::begin() {
     b->_delay -= minDelay;
   }
 
-  this->_arisingCount = _appearanceTotal;
+  this->_arisingCount = this->_appearanceTotal;
   this->_missingCount = 0;
   this->_destroyCount = 0;
 }
@@ -133,14 +138,16 @@ void PlaySpace::render() {
 
   U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
 
-  u8g2->setFont(gameInfoFont);
-  char line[15] = {};
-  sprintf(line, "% 4d|% 4d% 4d",
-      this->_arisingCount,
-      this->_missingCount,
-      this->_destroyCount);
-  u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
-  u8g2->drawHLine(0, _maxY - _maxCharHeight + 1, _maxX + 1);
+  if (this->_options & PLAY_SPACE_OPTION_STATUS_BAR) {
+    u8g2->setFont(gameInfoFont);
+    char line[15] = {};
+    sprintf(line, "% 4d|% 4d% 4d",
+        this->_arisingCount,
+        this->_missingCount,
+        this->_destroyCount);
+    u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
+    u8g2->drawHLine(0, _maxY - _maxCharHeight + 1, _maxX + 1);
+  }
 
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];

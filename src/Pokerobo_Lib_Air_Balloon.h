@@ -3,16 +3,18 @@
 
 #include "Pokerobo_Lib_Display_Layout.h"
 
-#define AIR_BALLOON_MIN_RADIUS  5
-#define AIR_BALLOON_MAX_RADIUS  10
+#define AIR_BALLOON_MIN_RADIUS        5
+#define AIR_BALLOON_MAX_RADIUS        10
 
 #ifndef CONCURRENT_BALLOONS_TOTAL
-#define CONCURRENT_BALLOONS_TOTAL  20
+#define CONCURRENT_BALLOONS_TOTAL     20
 #endif//CONCURRENT_BALLOONS_TOTAL
 
 #ifndef APPEARANCE_BALLOONS_TOTAL
-#define APPEARANCE_BALLOONS_TOTAL  1000
+#define APPEARANCE_BALLOONS_TOTAL     1000
 #endif//APPEARANCE_BALLOONS_TOTAL
+
+#define PLAY_SPACE_OPTION_STATUS_BAR  0b00000001
 
 typedef enum BALLOON_STATE {
   NEW = 0,
@@ -44,7 +46,8 @@ class PlaySpace {
   public:
     PlaySpace(CoordinateAxes* axes,
         uint8_t concurrentTotal=CONCURRENT_BALLOONS_TOTAL,
-        uint16_t appearanceTotal=APPEARANCE_BALLOONS_TOTAL);
+        uint16_t appearanceTotal=APPEARANCE_BALLOONS_TOTAL,
+        uint8_t options = 0);
     void begin();
     void change();
     void render();
@@ -64,6 +67,7 @@ class PlaySpace {
     CoordinateAxes* _axes;
     uint8_t _maxCharHeight = 8;
     uint8_t _maxCharWidth = 5;
+    uint8_t _options = 0;
 };
 
 #endif

@@ -108,6 +108,7 @@ void PlaySpace::change() {
           this->_arisingCount--;
           b->_state = BALLOON_STATE::FLYING;
         }
+        break;
       case BALLOON_STATE::FLYING:
         if (b->_delay > 0) {
           b->_delay--;

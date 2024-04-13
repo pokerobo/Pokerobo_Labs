@@ -18,7 +18,15 @@ AimTarget::AimTarget(CoordinateAxes* axes, byte type) {
   }
 }
 
+CoordinateAxes* AimTarget::getCoordinateAxes() {
+  return this->_axes;
+}
+
 void AimTarget::render() {
+  draw();
+}
+
+void AimTarget::draw() {
   U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
   switch(_type) {
     case 0:

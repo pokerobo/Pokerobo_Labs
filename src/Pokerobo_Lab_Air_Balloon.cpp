@@ -86,6 +86,10 @@ void PlaySpace::begin() {
   this->_destroyCount = 0;
 }
 
+CoordinateAxes* PlaySpace::getCoordinateAxes() {
+  return this->_axes;
+}
+
 void PlaySpace::resetBalloon(Balloon* b) {
   int8_t _maxX = _axes->getMaxX();
   int8_t _maxY = _axes->getMaxY();
@@ -151,6 +155,9 @@ void PlaySpace::render() {
     if (b->_state == BALLOON_STATE::FLYING) {
       u8g2->drawCircle(b->_x, b->_y, b->_radius);
     }
+    if (b->_state == BALLOON_STATE::EXPLODED) {
+      drawExplodingBalloon(b);
+    }
   }
 }
 
@@ -176,4 +183,7 @@ bool PlaySpace::isFinished() {
 
 void PlaySpace::reset() {
   begin();
+}
+
+void PlaySpace::drawExplodingBalloon(Balloon* balloon) {
 }

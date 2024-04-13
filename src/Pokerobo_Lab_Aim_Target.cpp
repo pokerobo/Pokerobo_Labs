@@ -1,5 +1,5 @@
-#include "Pokerobo_Lib_Aim_Target.h"
-#include "Pokerobo_Lib_Display_Helper.h"
+#include "Pokerobo_Lab_Aim_Target.h"
+#include "Pokerobo_Lab_Display_Helper.h"
 
 AimTarget::AimTarget(CoordinateAxes* axes, byte type) {
   _type = type;

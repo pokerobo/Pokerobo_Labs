@@ -1,7 +1,7 @@
 #ifndef __POKEROBO_LIB_AIR_BALLOON_H__
 #define __POKEROBO_LIB_AIR_BALLOON_H__
 
-#include "Pokerobo_Lib_Display_Layout.h"
+#include "Pokerobo_Lab_Display_Layout.h"
 
 #define AIR_BALLOON_MIN_RADIUS        5
 #define AIR_BALLOON_MAX_RADIUS        10

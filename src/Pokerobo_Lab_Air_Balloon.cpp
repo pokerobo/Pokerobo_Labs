@@ -152,11 +152,13 @@ void PlaySpace::render() {
 
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
-    if (b->_state == BALLOON_STATE::FLYING) {
-      u8g2->drawCircle(b->_x, b->_y, b->_radius);
-    }
-    if (b->_state == BALLOON_STATE::EXPLODED) {
-      drawExplodingBalloon(b);
+    switch(b->_state) {
+      case BALLOON_STATE::FLYING:
+        drawFlyingBalloon(b);
+        break;
+      case BALLOON_STATE::EXPLODED:
+        drawExplodingBalloon(b);
+        break;
     }
   }
 }
@@ -186,4 +188,9 @@ void PlaySpace::reset() {
 }
 
 void PlaySpace::drawExplodingBalloon(Balloon* balloon) {
+}
+
+void PlaySpace::drawFlyingBalloon(Balloon* balloon) {
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
+  u8g2->drawCircle(balloon->_x, balloon->_y, balloon->_radius);
 }

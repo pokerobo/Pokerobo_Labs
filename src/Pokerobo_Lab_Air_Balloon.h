@@ -57,6 +57,7 @@ class PlaySpace {
   protected:
     void resetBalloon(Balloon* balloon);
     virtual void drawExplodingBalloon(Balloon* balloon);
+    virtual void drawFlyingBalloon(Balloon* balloon);
     CoordinateAxes* getCoordinateAxes();
   private:
     uint16_t _arisingCount = 0;

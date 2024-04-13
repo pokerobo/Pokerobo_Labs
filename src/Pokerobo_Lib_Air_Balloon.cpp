@@ -27,7 +27,7 @@ int8_t Balloon::getSpeed() {
   return 2;
 }
 
-bool Balloon::isDisappeared() {
+bool Balloon::isEscaped() {
   return this->_y < -this->_radius;
 }
 
@@ -44,10 +44,6 @@ bool Balloon::isHit(int8_t aimX, int8_t aimY) {
     return true;
   }
   return false;
-}
-
-void Balloon::explode() {
-  this->_state = BALLOON_STATE::EXPLODED;
 }
 
 PlaySpace::PlaySpace(CoordinateAxes* axes,
@@ -114,7 +110,7 @@ void PlaySpace::change() {
           b->_delay--;
         } else {
           b->_y -= b->getSpeed();
-          if (b->isDisappeared()) {
+          if (b->isEscaped()) {
             b->_state = BALLOON_STATE::ESCAPED;
           }
         }
@@ -163,7 +159,7 @@ int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
     if (b->isHit(aimX, aimY)) {
-      b->explode();
+      b->_state = BALLOON_STATE::EXPLODED;
       count++;
     }
   }

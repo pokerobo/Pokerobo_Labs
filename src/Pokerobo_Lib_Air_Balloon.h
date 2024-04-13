@@ -31,9 +31,8 @@ class Balloon {
     int16_t getY();
     int8_t getRadius();
     int8_t getSpeed();
-    bool isDisappeared();
+    bool isEscaped();
     bool isHit(int8_t aimX, int8_t aimY);
-    void explode();
   private:
     balloon_state_t _state = BALLOON_STATE::NEW;
     int16_t _x;

@@ -3,7 +3,7 @@
 #include "Pokerobo_Lib_Display_Helper.h"
 #include "Pokerobo_Lib_Aim_Target.h"
 #include "Pokerobo_Lib_Air_Balloon.h"
-#include "Pokerobo_Lib_Game_Board.h"
+#include "Pokerobo_Lib_Game_Balloon_Shooter.h"
 
 const u8g2_cb_t* u8g2_rotation = U8G2_R1;
 const lcd_layout_t lcd_layout = convertRotationToLayout(u8g2_rotation);

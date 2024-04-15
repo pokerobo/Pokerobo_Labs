@@ -134,20 +134,8 @@ void PlaySpace::change() {
 }
 
 void PlaySpace::render() {
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
-
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-
   if (this->_options & PLAY_SPACE_OPTION_STATUS_BAR) {
-    u8g2->setFont(gameInfoFont);
-    char line[15] = {};
-    sprintf(line, "% 4d|% 4d% 4d",
-        this->_arisingCount,
-        this->_missingCount,
-        this->_destroyCount);
-    u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
-    u8g2->drawHLine(0, _maxY - _maxCharHeight + 1, _maxX + 1);
+    drawGameInfoBar();
   }
 
   for (uint8_t i=0; i<_concurrentTotal; i++) {
@@ -193,4 +181,20 @@ void PlaySpace::drawExplodingBalloon(Balloon* balloon) {
 void PlaySpace::drawFlyingBalloon(Balloon* balloon) {
   U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
   u8g2->drawCircle(balloon->_x, balloon->_y, balloon->_radius);
+}
+
+void PlaySpace::drawGameInfoBar() {
+  int8_t _maxX = _axes->getMaxX();
+  int8_t _maxY = _axes->getMaxY();
+
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
+
+  u8g2->setFont(gameInfoFont);
+  char line[15] = {};
+  sprintf(line, "% 4d|% 4d% 4d",
+      this->_arisingCount,
+      this->_missingCount,
+      this->_destroyCount);
+  u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
+  u8g2->drawHLine(0, _maxY - _maxCharHeight + 1, _maxX + 1);
 }

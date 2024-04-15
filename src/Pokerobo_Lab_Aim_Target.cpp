@@ -4,18 +4,8 @@
 AimTarget::AimTarget(CoordinateAxes* axes, byte type) {
   _type = type;
   _axes = axes;
-  switch (_axes->getLcdLayout()) {
-    case LCD_LAYOUT_R0:
-    case LCD_LAYOUT_R2:
-      x = 63;
-      y = 31;
-      break;
-    case LCD_LAYOUT_R1:
-    case LCD_LAYOUT_R3:
-      x = 31;
-      y = 63;
-      break;
-  }
+  x = _axes->getMaxX() >> 1;
+  y = _axes->getMaxY() >> 1;
 }
 
 CoordinateAxes* AimTarget::getCoordinateAxes() {
@@ -33,19 +23,19 @@ void AimTarget::draw() {
       u8g2->drawPixel(x, y);
       break;
     case 1:
-      drawPlus(x, y, 4);
+      drawCross(x, y, 4);
       u8g2->drawFrame(x-3, y-3, 7, 7);
       break;
     case 2:
-      drawPlus(x, y, 5);
+      drawCross(x, y, 5);
       u8g2->drawCircle(x, y, 4);
       break;
     default:
-      drawPlus(x, y, 3);
+      drawCross(x, y, 3);
   }
 }
 
-void AimTarget::drawPlus(int8_t x, int8_t y, int8_t d) {
+void AimTarget::drawCross(int8_t x, int8_t y, int8_t d, bool straight) {
   int8_t _maxX = _axes->getMaxX();
   int8_t _maxY = _axes->getMaxY();
 
@@ -55,8 +45,18 @@ void AimTarget::drawPlus(int8_t x, int8_t y, int8_t d) {
   int8_t y2 = (y+d <= _maxY) ? y+d : _maxY;
 
   U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-  u8g2->drawLine(x1, y, x2, y);
-  u8g2->drawLine(x, y1, x, y2);
+  if (straight) {
+    u8g2->drawLine(x1, y, x2, y);
+    u8g2->drawLine(x, y1, x, y2);
+  } else {
+    u8g2->drawLine(x1, y1, x2, y2);
+    u8g2->drawLine(x1, y2, x2, y1);
+  }
+}
+
+void AimTarget::moveByJoystick(uint16_t joystickX, uint16_t joystickY) {
+  this->moveX(this->speedOfX(joystickX, joystickY));
+  this->moveY(this->speedOfY(joystickX, joystickY));
 }
 
 int8_t AimTarget::speedOfX(uint16_t x, uint16_t y) {

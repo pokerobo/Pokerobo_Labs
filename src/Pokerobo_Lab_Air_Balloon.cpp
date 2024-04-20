@@ -121,11 +121,13 @@ void PlaySpace::change() {
         break;
       case BALLOON_STATE::BALLOON_EXPLODED:
         this->_destroyCount++;
+        this->onBalloonExploded(b);
         this->resetBalloon(b);
         b->_state = BALLOON_STATE::BALLOON_NEW;
         break;
       case BALLOON_STATE::BALLOON_ESCAPED:
         this->_missingCount++;
+        this->onBalloonEscaped(b);
         this->resetBalloon(b);
         b->_state = BALLOON_STATE::BALLOON_NEW;
         break;
@@ -175,6 +177,12 @@ void PlaySpace::reset() {
   begin();
 }
 
+void PlaySpace::onBalloonExploded(Balloon* balloon) {
+}
+
+void PlaySpace::onBalloonEscaped(Balloon* balloon) {
+}
+
 void PlaySpace::drawExplodingBalloon(Balloon* balloon) {
 }
 
@@ -184,19 +192,25 @@ void PlaySpace::drawFlyingBalloon(Balloon* balloon) {
 }
 
 void PlaySpace::drawGameInfoBar() {
+  CoordinateAxes* _axes = this->getCoordinateAxes();
   int8_t _maxX = _axes->getMaxX();
   int8_t _maxY = _axes->getMaxY();
 
   U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
 
-  u8g2->setFont(gameInfoFont);
+  this->prepareToDrawGameInfoBar();
   char line[15] = {};
   sprintf(line, "% 4d|% 4d% 4d",
-      this->_appearanceTotal - this->_missingCount - this->_destroyCount,
-      this->_missingCount,
-      this->_destroyCount);
+      this->getRemainingBalloonTotal(),
+      this->getEscapedBalloonTotal(),
+      this->getExplodedBalloonTotal());
   u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
-  u8g2->drawHLine(0, _maxY - _maxCharHeight + 1, _maxX + 1);
+  u8g2->drawHLine(0, _maxY - this->getCharHeight() + 1, _maxX + 1);
+}
+
+void PlaySpace::prepareToDrawGameInfoBar() {
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
+  u8g2->setFont(gameInfoFont);
 }
 
 uint8_t PlaySpace::getCharHeight() {
@@ -205,4 +219,16 @@ uint8_t PlaySpace::getCharHeight() {
 
 uint8_t PlaySpace::getCharWidth() {
   return _maxCharWidth;
+}
+
+uint16_t PlaySpace::getRemainingBalloonTotal() {
+  return this->_appearanceTotal - this->_missingCount - this->_destroyCount;
+}
+
+uint16_t PlaySpace::getExplodedBalloonTotal() {
+  return this->_destroyCount;
+}
+
+uint16_t PlaySpace::getEscapedBalloonTotal() {
+  return this->_missingCount;
 }

@@ -56,12 +56,18 @@ class PlaySpace {
     void reset();
   protected:
     void resetBalloon(Balloon* balloon);
+    virtual void onBalloonExploded(Balloon* balloon);
+    virtual void onBalloonEscaped(Balloon* balloon);
     virtual void drawExplodingBalloon(Balloon* balloon);
     virtual void drawFlyingBalloon(Balloon* balloon);
     virtual void drawGameInfoBar();
+    void prepareToDrawGameInfoBar();
     CoordinateAxes* getCoordinateAxes();
     uint8_t getCharHeight();
     uint8_t getCharWidth();
+    uint16_t getRemainingBalloonTotal();
+    uint16_t getExplodedBalloonTotal();
+    uint16_t getEscapedBalloonTotal();
   private:
     uint16_t _arisingCount = 0;
     uint16_t _destroyCount = 0;

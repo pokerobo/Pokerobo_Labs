@@ -4,24 +4,7 @@
 #include "Pokerobo_Lab_Aim_Target.h"
 #include "Pokerobo_Lab_Air_Balloon.h"
 #include "Pokerobo_Lab_Game_Balloon_Shooter.h"
-
-void stringifyRadius(uint8_t radius, char* text);
-void drawExplodingBall(U8G2* u8g2, int cX, int cY, int8_t _maxX, int8_t _maxY);
-
-class ExtendedPlaySpace: public PlaySpace {
-  public:
-    using PlaySpace::PlaySpace;
-  protected:
-    void drawExplodingBalloon(Balloon* b);
-};
-
-void ExtendedPlaySpace::drawExplodingBalloon(Balloon* b) {
-  CoordinateAxes* _axes = this->getCoordinateAxes();
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-  drawExplodingBall(u8g2, b->getX(), b->getY(), _maxX, _maxY);
-}
+#include "Extended_Play_Space.h"
 
 const u8g2_cb_t* u8g2_rotation = U8G2_R1;
 const lcd_layout_t lcd_layout = convertRotationToLayout(u8g2_rotation);

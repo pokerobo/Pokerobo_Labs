@@ -1,4 +1,15 @@
+#include "Extended_Play_Space.h"
 #include <U8g2lib.h>
+
+void drawExplodingBall(U8G2* u8g2, int cX, int cY, int8_t _maxX, int8_t _maxY);
+
+void ExtendedPlaySpace::drawExplodingBalloon(Balloon* b) {
+  CoordinateAxes* _axes = this->getCoordinateAxes();
+  int8_t _maxX = _axes->getMaxX();
+  int8_t _maxY = _axes->getMaxY();
+  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
+  drawExplodingBall(u8g2, b->getX(), b->getY(), _maxX, _maxY);
+}
 
 int ge0(int v) {
   if (v < 0) return 0;

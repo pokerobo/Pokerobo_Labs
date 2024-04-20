@@ -69,7 +69,7 @@ void PlaySpace::begin() {
   int8_t minDelay = _maxY;
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
-    b->_state = BALLOON_STATE::NEW;
+    b->_state = BALLOON_STATE::BALLOON_NEW;
     this->resetBalloon(b);
     b->_delay = random(0, _maxY);
     if (b->_delay < minDelay) {
@@ -103,31 +103,31 @@ void PlaySpace::change() {
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
     switch (b->_state) {
-      case BALLOON_STATE::NEW:
+      case BALLOON_STATE::BALLOON_NEW:
         if (this->_arisingCount > 0) {
           this->_arisingCount--;
-          b->_state = BALLOON_STATE::FLYING;
+          b->_state = BALLOON_STATE::BALLOON_FLYING;
         }
         break;
-      case BALLOON_STATE::FLYING:
+      case BALLOON_STATE::BALLOON_FLYING:
         if (b->_delay > 0) {
           b->_delay--;
         } else {
           b->_y -= b->getSpeed();
           if (b->isEscaped()) {
-            b->_state = BALLOON_STATE::ESCAPED;
+            b->_state = BALLOON_STATE::BALLOON_ESCAPED;
           }
         }
         break;
-      case BALLOON_STATE::EXPLODED:
+      case BALLOON_STATE::BALLOON_EXPLODED:
         this->_destroyCount++;
         this->resetBalloon(b);
-        b->_state = BALLOON_STATE::NEW;
+        b->_state = BALLOON_STATE::BALLOON_NEW;
         break;
-      case BALLOON_STATE::ESCAPED:
+      case BALLOON_STATE::BALLOON_ESCAPED:
         this->_missingCount++;
         this->resetBalloon(b);
-        b->_state = BALLOON_STATE::NEW;
+        b->_state = BALLOON_STATE::BALLOON_NEW;
         break;
     }
   }
@@ -141,10 +141,10 @@ void PlaySpace::render() {
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
     switch(b->_state) {
-      case BALLOON_STATE::FLYING:
+      case BALLOON_STATE::BALLOON_FLYING:
         drawFlyingBalloon(b);
         break;
-      case BALLOON_STATE::EXPLODED:
+      case BALLOON_STATE::BALLOON_EXPLODED:
         drawExplodingBalloon(b);
         break;
     }
@@ -156,7 +156,7 @@ int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
     if (b->isHit(aimX, aimY)) {
-      b->_state = BALLOON_STATE::EXPLODED;
+      b->_state = BALLOON_STATE::BALLOON_EXPLODED;
       count++;
     }
   }
@@ -192,9 +192,17 @@ void PlaySpace::drawGameInfoBar() {
   u8g2->setFont(gameInfoFont);
   char line[15] = {};
   sprintf(line, "% 4d|% 4d% 4d",
-      this->_arisingCount,
+      this->_appearanceTotal - this->_missingCount - this->_destroyCount,
       this->_missingCount,
       this->_destroyCount);
   u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
   u8g2->drawHLine(0, _maxY - _maxCharHeight + 1, _maxX + 1);
+}
+
+uint8_t PlaySpace::getCharHeight() {
+  return _maxCharHeight;
+}
+
+uint8_t PlaySpace::getCharWidth() {
+  return _maxCharWidth;
 }

@@ -17,10 +17,10 @@
 #define PLAY_SPACE_OPTION_STATUS_BAR  0b00000001
 
 typedef enum BALLOON_STATE {
-  NEW = 0,
-  FLYING,
-  EXPLODED,
-  ESCAPED,
+  BALLOON_NEW = 0,
+  BALLOON_FLYING,
+  BALLOON_EXPLODED,
+  BALLOON_ESCAPED,
 } balloon_state_t;
 
 class Balloon {
@@ -34,7 +34,7 @@ class Balloon {
     bool isEscaped();
     bool isHit(int8_t aimX, int8_t aimY);
   private:
-    balloon_state_t _state = BALLOON_STATE::NEW;
+    balloon_state_t _state = BALLOON_STATE::BALLOON_NEW;
     int16_t _x;
     int16_t _y;
     int8_t _radius;
@@ -60,6 +60,8 @@ class PlaySpace {
     virtual void drawFlyingBalloon(Balloon* balloon);
     virtual void drawGameInfoBar();
     CoordinateAxes* getCoordinateAxes();
+    uint8_t getCharHeight();
+    uint8_t getCharWidth();
   private:
     uint16_t _arisingCount = 0;
     uint16_t _destroyCount = 0;

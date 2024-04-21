@@ -165,7 +165,7 @@ int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
   return count;
 }
 
-bool PlaySpace::isFailed() {
+bool PlaySpace::hasLost() {
   return _missingCount > 0 && _missingCount > _destroyCount;
 }
 

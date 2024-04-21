@@ -31,7 +31,7 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
         return;
       }
 
-      if (_playSpace->isFailed()) {
+      if (_playSpace->hasLost()) {
         _state = GAME_STATE::GAME_LOSE;
         break;
       }

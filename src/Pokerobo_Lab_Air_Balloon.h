@@ -51,9 +51,9 @@ class PlaySpace {
     void change();
     void render();
     int8_t shoot(int8_t x, int8_t y);
-    bool isFailed();
     bool isFinished();
-    void reset();
+    virtual bool hasLost();
+    virtual void reset();
   protected:
     void resetBalloon(Balloon* balloon);
     virtual void onBalloonExploded(Balloon* balloon);

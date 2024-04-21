@@ -6,6 +6,8 @@
 class ExtendedPlaySpace: public PlaySpace {
   public:
     using PlaySpace::PlaySpace;
+    bool hasLost();
+    void reset();
   protected:
     void onBalloonExploded(Balloon* balloon);
     void onBalloonEscaped(Balloon* balloon);
@@ -13,7 +15,7 @@ class ExtendedPlaySpace: public PlaySpace {
     void drawFlyingBalloon(Balloon* b);
     void drawGameInfoBar();
   private:
-    uint16_t _rewardPointAmount = 0;
+    int16_t _rewardPointAmount = 0;
     uint16_t _rewardPointTotal = 0;
 };
 

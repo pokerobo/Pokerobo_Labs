@@ -4,6 +4,16 @@
 void drawExplodingBall(U8G2* u8g2, int cX, int cY, int8_t _maxX, int8_t _maxY);
 void stringifyRadius(uint8_t radius, char* text);
 
+void ExtendedPlaySpace::reset() {
+  PlaySpace::reset();
+  this->_rewardPointAmount = 0;
+  this->_rewardPointTotal = 0;
+}
+
+bool ExtendedPlaySpace::hasLost() {
+  return this->_rewardPointAmount < 0;
+}
+
 void ExtendedPlaySpace::onBalloonExploded(Balloon* balloon) {
   this->_rewardPointTotal += balloon->getRadius();
   this->_rewardPointAmount += balloon->getRadius();
@@ -45,8 +55,8 @@ void ExtendedPlaySpace::drawGameInfoBar() {
   char line[15] = {};
   sprintf(line, "% 4d|% 4d% 4d",
       this->getRemainingBalloonTotal(),
-      this->_rewardPointAmount,
-      this->_rewardPointTotal);
+      this->getExplodedBalloonTotal(),
+      this->_rewardPointAmount);
   u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
   u8g2->drawHLine(0, _maxY - this->getCharHeight() + 1, _maxX + 1);
 }

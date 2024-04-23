@@ -1,0 +1,42 @@
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
+#include <Pokerobo_RCB_master.h>
+#include <U8g2lib.h>
+
+class SimpleDisplayHandler: public DisplayHandler {
+  public:
+    void renderMessage(char *text) {
+      U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+      this->firstPage();
+      do {
+        _u8g2->drawStr(0, 32, text);
+      } while (this->nextPage());
+    }
+};
+
+const uint64_t address = 0x123456789ABCDEF0LL;
+const uint8_t pin_ce = 9;
+const uint8_t pin_csn = 10;
+
+RF24 rf24(pin_ce, pin_csn);
+SimpleDisplayHandler displayHandler;
+
+void setup() {
+  Serial.begin(57600);
+
+  rf24.begin();
+  rf24.openReadingPipe(0, address);
+  rf24.startListening();
+
+  displayHandler.begin();
+}
+
+void loop() {
+  if (rf24.available()) {
+    char text[20] = {0};
+    rf24.read(&text, sizeof(text));
+    displayHandler.renderMessage(text);
+    delay(100);
+  }
+}

@@ -5,7 +5,6 @@ U8G2_ST7567_ENH_DG128064I_1_HW_I2C u8g2(U8G2_R2, SCL, SDA, U8X8_PIN_NONE);
 void setup() {
   u8g2.setI2CAddress(0x3F * 2);
   u8g2.begin();
-  u8g2.setFont(u8g2_font_t0_12b_te);
 }
 
 byte cx=64; //x center

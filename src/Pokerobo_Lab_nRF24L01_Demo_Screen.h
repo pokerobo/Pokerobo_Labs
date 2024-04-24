@@ -4,6 +4,13 @@
 #include <Pokerobo_RCB_master.h>
 #include <U8g2lib.h>
 
+class MessageGenerator {
+  public:
+    void createMessage(char *text);
+  private:
+    int _count = 0;
+};
+
 class SimpleDisplayHandler: public DisplayHandler {
   public:
     using DisplayHandler::DisplayHandler;

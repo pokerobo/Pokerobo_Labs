@@ -1,5 +1,10 @@
 #include "Pokerobo_Lab_nRF24L01_Demo_Screen.h"
 
+void MessageGenerator::createMessage(char *text) {
+  _count = _count + 1;
+  sprintf(text, "Counter: %d", _count);
+}
+
 SimpleDisplayHandler::SimpleDisplayHandler(char *title): DisplayHandler() {
   _title = title;
 }

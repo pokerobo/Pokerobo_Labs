@@ -8,7 +8,7 @@ const uint8_t pin_ce = 9;
 const uint8_t pin_csn = 10;
 
 RF24 rf24(pin_ce, pin_csn);
-SimpleDisplayHandler displayHandler("Transmitter");
+CaroDisplayHandler displayHandler("Transmitter");
 MessageGenerator messageGenerator;
 
 void setup() {

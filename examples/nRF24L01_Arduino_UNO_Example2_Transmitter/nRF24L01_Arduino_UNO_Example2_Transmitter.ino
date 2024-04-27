@@ -6,7 +6,7 @@
 
 const char *title = "Transmitter";
 
-class SimpleDisplayHandler: public DisplayHandler {
+class CaroDisplayHandler: public DisplayHandler {
   public:
     void renderMessage(char *text) {
       U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
@@ -25,7 +25,7 @@ const uint8_t pin_ce = 9;
 const uint8_t pin_csn = 10;
 
 RF24 rf24(pin_ce, pin_csn);
-SimpleDisplayHandler displayHandler;
+CaroDisplayHandler displayHandler;
 
 void setup() {
   Serial.begin(57600);

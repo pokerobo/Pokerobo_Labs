@@ -8,7 +8,10 @@ const uint8_t pin_ce = 9;
 const uint8_t pin_csn = 10;
 
 RF24 rf24(pin_ce, pin_csn);
-CaroDisplayHandler displayHandler("Transmitter");
+CounterMessagePacket messagePacket;
+CounterMessageGenerator messageGenerator;
+CounterMessageSerializer messageSerializer;
+CounterDisplayHandler displayHandler("Transmitter");
 
 void setup() {
   Serial.begin(57600);
@@ -20,20 +23,12 @@ void setup() {
   displayHandler.begin();
 }
 
-void createMessage(char *text);
-
 void loop() {
   const char text[20];
-  createMessage(text);
-  displayHandler.renderMessage(text);
+  messageGenerator.createMessage(&messagePacket);
+  displayHandler.renderMessage(&messagePacket);
+  messageSerializer.encode(text, &messagePacket);
   rf24.write(&text, sizeof(text));
 
   delay(1000);
-}
-
-int count = 0;
-
-void createMessage(char *text) {
-  count = count + 1;
-  sprintf(text, "Counter: %d", count);
 }

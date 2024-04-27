@@ -65,4 +65,19 @@ class CounterDisplayHandler: public CaroDisplayHandler {
     void renderMessageInternal(CaroMessagePacket *packet);
 };
 
+//-------------------------------------------------------------------------------------------------
+
+class JoystickEvent: public CaroMessagePacket {
+  public:
+    uint32_t getCounter();
+    uint16_t getX();
+    uint16_t getY();
+    uint16_t getPressFlags();
+  private:
+    uint32_t _counter = 0;
+    uint16_t _x = 0;
+    uint16_t _y = 0;
+    uint16_t _pressFlags = 0;
+};
+
 #endif//__POKEROBO_LAB_NRF24L01_DEMO_SCREEN_H__

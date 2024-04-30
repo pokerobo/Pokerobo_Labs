@@ -67,7 +67,9 @@ class CounterDisplayHandler: public CaroDisplayHandler {
 
 //-------------------------------------------------------------------------------------------------
 
-class JoystickEvent: public CaroMessagePacket {
+class JoystickEventPacket: public CaroMessagePacket {
+  friend class JoystickEventGenerator;
+  friend class JoystickEventSerializer;
   public:
     uint32_t getCounter();
     uint16_t getX();
@@ -78,6 +80,29 @@ class JoystickEvent: public CaroMessagePacket {
     uint16_t _x = 0;
     uint16_t _y = 0;
     uint16_t _pressFlags = 0;
+};
+
+class JoystickEventGenerator: public CaroMessageGenerator {
+  public:
+    JoystickEventGenerator(JoystickHandler* joystickHandler);
+    CaroMessagePacket* createMessage(CaroMessagePacket *packet);
+  private:
+    JoystickHandler* _joystickHandler;
+};
+
+class JoystickEventSerializer: public CaroMessageSerializer {
+  public:
+    char* encode(char *payload, CaroMessagePacket *packet);
+    CaroMessagePacket* decode(CaroMessagePacket *packet, char *payload);
+};
+
+class JoystickEventDisplayHandler: public CaroDisplayHandler {
+  public:
+    using CaroDisplayHandler::CaroDisplayHandler;
+  protected:
+    void renderMessageInternal(CaroMessagePacket *packet);
+  private:
+    char _lines[4][20] = { {0}, {0}, {0}, {0} };
 };
 
 #endif//__POKEROBO_LAB_NRF24L01_DEMO_SCREEN_H__

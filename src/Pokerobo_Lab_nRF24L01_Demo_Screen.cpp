@@ -1,3 +1,4 @@
+#include <Pokerobo_RCB_master.h>
 #include "Pokerobo_Lab_nRF24L01_Demo_Screen.h"
 
 void CaroMessageGenerator::createMessage(char *text) {
@@ -94,4 +95,87 @@ void CounterDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
     char *text = _packet->getContent();
     _u8g2->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
   }
+}
+
+//-------------------------------------------------------------------------------------------------
+
+uint32_t JoystickEventPacket::getCounter() {
+  return _counter;
+}
+
+uint16_t JoystickEventPacket::getX() {
+  return _x;
+}
+
+uint16_t JoystickEventPacket::getY() {
+  return _y;
+}
+
+uint16_t JoystickEventPacket::getPressFlags() {
+  return _pressFlags;
+}
+
+JoystickEventGenerator::JoystickEventGenerator(JoystickHandler* joystickHandler) {
+  _joystickHandler = joystickHandler;
+}
+
+CaroMessagePacket* JoystickEventGenerator::createMessage(CaroMessagePacket *packet) {
+  if (packet == NULL) {
+    return packet;
+  }
+
+  JoystickEventPacket* _packet = (JoystickEventPacket*) packet;
+
+  JoystickAction action;
+  _joystickHandler->input(&action);
+
+  _packet->_counter++;
+  _packet->_x = action.getX();
+  _packet->_y = action.getY();
+  _packet->_pressFlags = action.getPressingFlags();
+
+  return packet;
+}
+
+char* JoystickEventSerializer::encode(char *payload, CaroMessagePacket *packet) {
+  if (payload == NULL || packet == NULL) {
+    return payload;
+  }
+  JoystickEventPacket* _packet = (JoystickEventPacket*) packet;
+  sprintf(payload, "J,%ld,%d,%d,%d", _packet->_counter, _packet->_x, _packet->_y,
+      _packet->_pressFlags);
+
+  return payload;
+}
+
+CaroMessagePacket* JoystickEventSerializer::decode(CaroMessagePacket *packet, char *payload) {
+  if (payload == NULL || packet == NULL) {
+    return packet;
+  }
+
+  JoystickEventPacket* _packet = (JoystickEventPacket*) packet;
+  sscanf(payload, "J,%ld,%d,%d,%d", &(_packet->_counter), &(_packet->_x), &(_packet->_y),
+      &(_packet->_pressFlags));
+
+  return packet;
+}
+
+void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
+  U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+  int8_t _charHeight = _u8g2->getMaxCharHeight();
+  int8_t _charWidth = _u8g2->getMaxCharWidth();
+  if (packet == NULL) {
+    return packet;
+  }
+
+  JoystickEventPacket* _packet = (JoystickEventPacket*) packet;
+  sprintf(_lines[0], "Counter: %d", _packet->getCounter());
+  sprintf(_lines[1], "      X: %d", _packet->getX());
+  sprintf(_lines[2], "      Y: %d", _packet->getY());
+  sprintf(_lines[3], "  Flags: %d", _packet->getPressFlags());
+
+  _u8g2->drawStr(64 - 10*_charWidth, 32 - 1*_charHeight, _lines[0]);
+  _u8g2->drawStr(64 - 10*_charWidth, 32 - 0*_charHeight, _lines[1]);
+  _u8g2->drawStr(64 - 10*_charWidth, 32 + 1*_charHeight, _lines[2]);
+  _u8g2->drawStr(64 - 10*_charWidth, 32 + 2*_charHeight, _lines[3]);
 }

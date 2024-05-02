@@ -28,16 +28,30 @@ void CaroDisplayHandler::renderMessageOrString(CaroMessagePacket *packet, char *
   int8_t _charWidth = _u8g2->getMaxCharWidth();
   this->firstPage();
   do {
-    _u8g2->drawFrame(1, _charHeight + 1, 128 - 2, 64 - _charHeight - 2);
-    if (_title != NULL) {
-      _u8g2->drawStr(64 - _charWidth * strlen(_title) / 2, _charHeight, _title);
-    }
+    this->renderFrame();
+    this->renderTitle();
     if (text != NULL) {
       _u8g2->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
     } else if (packet != NULL) {
       this->renderMessageInternal(packet);
     }
   } while (this->nextPage());
+}
+
+void CaroDisplayHandler::renderFrame() {
+  U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+  int8_t _charHeight = _u8g2->getMaxCharHeight();
+  int8_t _charWidth = _u8g2->getMaxCharWidth();
+  _u8g2->drawFrame(1, _charHeight + 1, 128 - 2, 64 - _charHeight - 2);
+}
+
+void CaroDisplayHandler::renderTitle() {
+  if (_title != NULL) {
+    U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+    int8_t _charHeight = _u8g2->getMaxCharHeight();
+    int8_t _charWidth = _u8g2->getMaxCharWidth();
+    _u8g2->drawStr(64 - _charWidth * strlen(_title) / 2, _charHeight, _title);
+  }
 }
 
 void CaroDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
@@ -129,12 +143,16 @@ CaroMessagePacket* JoystickEventGenerator::createMessage(CaroMessagePacket *pack
   JoystickAction action;
   _joystickHandler->input(&action);
 
-  _packet->_counter++;
+  _packet->_counter = ++this->_count;
   _packet->_x = action.getX();
   _packet->_y = action.getY();
   _packet->_pressFlags = action.getPressingFlags();
 
   return packet;
+}
+
+void JoystickEventGenerator::reset() {
+  this->_count = 0;
 }
 
 char* JoystickEventSerializer::encode(char *payload, CaroMessagePacket *packet) {
@@ -160,6 +178,12 @@ CaroMessagePacket* JoystickEventSerializer::decode(CaroMessagePacket *packet, ch
   return packet;
 }
 
+void JoystickEventDisplayHandler::renderFrame() {
+}
+
+void JoystickEventDisplayHandler::renderTitle() {
+}
+
 void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
   U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
   int8_t _charHeight = _u8g2->getMaxCharHeight();
@@ -178,4 +202,29 @@ void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packe
   _u8g2->drawStr(64 - 10*_charWidth, 32 - 0*_charHeight, _lines[1]);
   _u8g2->drawStr(64 - 10*_charWidth, 32 + 1*_charHeight, _lines[2]);
   _u8g2->drawStr(64 - 10*_charWidth, 32 + 2*_charHeight, _lines[3]);
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void JoystickPadDisplayHandler::renderFrame() {
+}
+
+void JoystickPadDisplayHandler::renderTitle() {
+}
+
+void JoystickPadDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
+  U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+  int8_t _charHeight = _u8g2->getMaxCharHeight();
+  int8_t _charWidth = _u8g2->getMaxCharWidth();
+  if (packet == NULL) {
+    return packet;
+  }
+
+  JoystickEventPacket* _packet = (JoystickEventPacket*) packet;
+  JoystickAction joystickAction;
+
+  joystickAction.update(_packet->getX(), _packet->getY(),
+      _packet->getPressFlags(), 0, _packet->getCounter());
+
+  this->renderJoystickAction_(0, 0, &joystickAction);
 }

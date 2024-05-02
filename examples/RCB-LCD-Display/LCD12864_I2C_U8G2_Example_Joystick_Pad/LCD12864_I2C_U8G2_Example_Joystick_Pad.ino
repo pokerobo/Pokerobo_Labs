@@ -16,6 +16,7 @@ class SimpleDisplayHandler: public DisplayHandler {
 
 SimpleDisplayHandler displayHandler;
 JoystickHandler joystickHandler;
+JoystickAction joystickAction;
 
 void setup() {
   Serial.begin(57600);
@@ -24,7 +25,6 @@ void setup() {
 }
 
 void loop() {
-  JoystickAction joystickAction;
   displayHandler.render(joystickHandler.input(&joystickAction));
   delay(50);
 }

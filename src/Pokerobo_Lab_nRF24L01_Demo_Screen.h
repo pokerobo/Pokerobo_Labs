@@ -124,8 +124,6 @@ class JoystickEventDisplayHandler: public CaroDisplayHandler {
   public:
     using CaroDisplayHandler::CaroDisplayHandler;
   protected:
-    virtual void renderFrame();
-    virtual void renderTitle();
     virtual void renderMessageInternal(CaroMessagePacket *packet);
   private:
     char _lines[4][20] = { {0}, {0}, {0}, {0} };

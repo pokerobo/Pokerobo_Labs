@@ -226,14 +226,6 @@ CaroMessagePacket* JoystickEventSerializer::decode(CaroMessagePacket *packet, ch
   return packet;
 }
 
-void JoystickEventDisplayHandler::renderFrame() {
-  CaroDisplayHandler::renderFrame();
-}
-
-void JoystickEventDisplayHandler::renderTitle() {
-  CaroDisplayHandler::renderTitle();
-}
-
 void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
   U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
   int8_t _charHeight = _u8g2->getMaxCharHeight();

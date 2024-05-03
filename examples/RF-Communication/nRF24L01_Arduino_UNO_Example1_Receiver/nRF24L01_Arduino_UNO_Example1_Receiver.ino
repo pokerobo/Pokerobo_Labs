@@ -6,14 +6,14 @@ const uint64_t address = 0x123456789ABCDEF0LL;
 const uint8_t pin_ce = 9;
 const uint8_t pin_csn = 10;
 
-RF24 radio(pin_ce, pin_csn);
+RF24 rf24(pin_ce, pin_csn);
 
 void setup() {
   Serial.begin(57600);
 
-  radio.begin();
-  radio.openReadingPipe(0, address);
-  radio.startListening();
+  rf24.begin();
+  rf24.openReadingPipe(0, address);
+  rf24.startListening();
 }
 
 void renderMessage(char *text) {
@@ -22,9 +22,9 @@ void renderMessage(char *text) {
 }
 
 void loop() {
-  if (radio.available()) {
+  if (rf24.available()) {
     char text[20] = {0};
-    radio.read(&text, sizeof(text));
+    rf24.read(&text, sizeof(text));
     renderMessage(text);
     delay(100);
   }

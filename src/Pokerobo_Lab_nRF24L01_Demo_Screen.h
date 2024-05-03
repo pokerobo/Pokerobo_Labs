@@ -2,7 +2,6 @@
 #define __POKEROBO_LAB_NRF24L01_DEMO_SCREEN_H__
 
 #include <Pokerobo_RCB_master.h>
-#include <U8g2lib.h>
 
 class CaroMessagePacket {};
 
@@ -33,6 +32,27 @@ class CaroDisplayHandler: public DisplayHandler {
   private:
     void renderMessageOrString(CaroMessagePacket *packet, char *text);
     char *_title = NULL;
+};
+
+class CaroRF24Transmitter {
+  public:
+    CaroRF24Transmitter(void* radio);
+    CaroRF24Transmitter(uint8_t pin_ce = 9, uint8_t pin_csn = 10);
+    void begin(uint64_t address);
+    void write(const char* message, uint8_t size);
+  private:
+    void* _radio = NULL;
+};
+
+class CaroRF24Receiver {
+  public:
+    CaroRF24Receiver(void* radio);
+    CaroRF24Receiver(uint8_t pin_ce = 9, uint8_t pin_csn = 10);
+    void begin(uint64_t address);
+    bool available();
+    void read(char* buffer, uint8_t size);
+  private:
+    void* _radio = NULL;
 };
 
 //-------------------------------------------------------------------------------------------------

@@ -1,4 +1,7 @@
-#include <Pokerobo_RCB_master.h>
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
+#include <U8g2lib.h>
 #include "Pokerobo_Lab_nRF24L01_Demo_Screen.h"
 
 void CaroMessageGenerator::createMessage(char *text) {
@@ -56,6 +59,51 @@ void CaroDisplayHandler::renderTitle() {
 
 void CaroDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
   // implementing here
+}
+
+CaroRF24Transmitter::CaroRF24Transmitter(void* radio) {
+  _radio = radio;
+}
+
+CaroRF24Transmitter::CaroRF24Transmitter(uint8_t pin_ce, uint8_t pin_csn) {
+  _radio = new RF24(pin_ce, pin_csn);
+}
+
+void CaroRF24Transmitter::begin(uint64_t address) {
+  RF24* _rf24 = (RF24*)_radio;
+  _rf24->begin();
+  _rf24->openWritingPipe(address);
+  _rf24->stopListening();
+}
+
+void CaroRF24Transmitter::write(const char* message, uint8_t size) {
+  RF24* _rf24 = (RF24*)_radio;
+  _rf24->write(message, size);
+}
+
+CaroRF24Receiver::CaroRF24Receiver(void* radio) {
+  _radio = radio;
+}
+
+CaroRF24Receiver::CaroRF24Receiver(uint8_t pin_ce, uint8_t pin_csn) {
+  _radio = new RF24(pin_ce, pin_csn);
+}
+
+void CaroRF24Receiver::begin(uint64_t address) {
+  RF24* _rf24 = (RF24*)_radio;
+  _rf24->begin();
+  _rf24->openReadingPipe(0, address);
+  _rf24->startListening();
+}
+
+bool CaroRF24Receiver::available() {
+  RF24* _rf24 = (RF24*)_radio;
+  return _rf24->available();
+}
+
+void CaroRF24Receiver::read(char* buffer, uint8_t size) {
+  RF24* _rf24 = (RF24*)_radio;
+  _rf24->read(buffer, size);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -179,9 +227,11 @@ CaroMessagePacket* JoystickEventSerializer::decode(CaroMessagePacket *packet, ch
 }
 
 void JoystickEventDisplayHandler::renderFrame() {
+  CaroDisplayHandler::renderFrame();
 }
 
 void JoystickEventDisplayHandler::renderTitle() {
+  CaroDisplayHandler::renderTitle();
 }
 
 void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {

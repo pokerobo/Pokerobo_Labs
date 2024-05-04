@@ -7,12 +7,9 @@ JoystickAction action;
 PedestalHandler pedestalHandler1(4, 5);
 PedestalHandler pedestalHandler3(8, 9);
 
-PedestalHandler* pedestalHandlers[PEDESTALS_MAX] = {
-  &pedestalHandler1,
-  &pedestalHandler3,
-};
+PedestalGroup pedestalGroup(&pedestalHandler1,
+    &pedestalHandler3);
 
-PedestalGroup pedestalGroup(pedestalHandlers);
 PedestalController pedestalController(&pedestalGroup);
 
 void setup() {

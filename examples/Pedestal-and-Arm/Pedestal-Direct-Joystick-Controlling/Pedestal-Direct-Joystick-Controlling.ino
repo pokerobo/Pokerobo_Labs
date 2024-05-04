@@ -28,5 +28,5 @@ void loop() {
   joystickHandler.input(&action);
   pedestalController.play(action.getPressingFlags(), action.getX(), action.getY());
 
-  delay(50);
+  delay(20);
 }

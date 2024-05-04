@@ -7,6 +7,9 @@
 #define RF24_JOYSTICK_RANGE_X     255
 #define RF24_JOYSTICK_RANGE_Y     255
 
+#define RF24_JOYSTICK_DEADZONE_X  32
+#define RF24_JOYSTICK_DEADZONE_Y  32
+
 PedestalController::PedestalController(PedestalGroup* pedestalGroup) {
   _pedestalGroup = pedestalGroup;
 }
@@ -118,6 +121,10 @@ int PedestalController::processJoystickChange(int nJoyX, int nJoyY, char label) 
   }
   #endif
 
+  if (isJoystickInDeadzone(nJoyX, nJoyY)) {
+    return 0;
+  }
+
   if (label == 'L') {
     processLeftJoystickChangeEvent(nJoyX, nJoyY);
     return 1;
@@ -136,6 +143,11 @@ int PedestalController::processJoystickChange(int nJoyX, int nJoyY, char label) 
   #endif
 
   return -1;
+}
+
+bool PedestalController::isJoystickInDeadzone(int nJoyX, int nJoyY) {
+  return nJoyX <= RF24_JOYSTICK_DEADZONE_X && nJoyX >= -RF24_JOYSTICK_DEADZONE_X &&
+      nJoyY <= RF24_JOYSTICK_DEADZONE_Y && nJoyY >= -RF24_JOYSTICK_DEADZONE_Y;
 }
 
 //-------------------------------------------------------------------------------------------------

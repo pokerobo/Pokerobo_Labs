@@ -22,6 +22,7 @@ class PedestalController {
     void processLeftJoystickChangeEvent(int nJoyX, int nJoyY);
     void processRightJoystickChangeEvent(int nJoyX, int nJoyY);
     bool checkButtonPress(uint16_t pressed, uint16_t mask);
+    bool isJoystickInDeadzone(int nJoyX, int nJoyY);
     PedestalGroup* _pedestalGroup = NULL;
 };
 

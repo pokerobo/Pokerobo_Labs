@@ -11,18 +11,6 @@
 #define __DISPATCHER_RUNNING_LOG__      0
 #define __PEDESTAL_RUNNING_LOG__        0
 
-#ifndef int_abs
-#define int_abs(x) ((x)>0?(x):-(x))
-#endif
-
-#ifndef int_min
-#define int_min(a,b) ((a)<(b)?(a):(b))
-#endif
-
-#ifndef int_max
-#define int_max(a,b) ((a)>(b)?(a):(b))
-#endif
-
 class WaitingCounter {
   public:
     WaitingCounter(uint16_t limit = 100); // 100ms

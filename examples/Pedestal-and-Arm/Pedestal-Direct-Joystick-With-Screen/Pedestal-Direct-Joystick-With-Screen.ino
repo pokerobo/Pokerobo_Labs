@@ -5,8 +5,6 @@
 JoystickHandler joystickHandler;
 JoystickAction action;
 
-PedestalDisplayHandler displayHandler;
-
 PedestalHandler pedestalHandler1(4, 5);
 PedestalHandler pedestalHandler3(8, 9);
 
@@ -15,14 +13,17 @@ PedestalGroup pedestalGroup(&pedestalHandler1,
 
 PedestalController pedestalController(&pedestalGroup);
 
+PedestalDisplayHandler displayHandler;
+
 void setup() {
   Serial.begin(57600);
 
-  displayHandler.begin();
   joystickHandler.begin();
 
   pedestalGroup.begin();
   pedestalController.begin();
+
+  displayHandler.begin();
 }
 
 void loop() {

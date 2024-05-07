@@ -8,16 +8,7 @@ PedestalGroup pedestalGroup(&pedestalHandler1,
 
 void setup() {
   Serial.begin(57600);
-
-  #if __LOADING_LOG_ENABLED__
-  debugLog("main", "()", " - ", "Starting");
-  #endif
-
   pedestalGroup.begin();
-
-  #if __LOADING_LOG_ENABLED__
-  debugLog("main", "()", " - ", "Done!");
-  #endif
 }
 
 void loop() {

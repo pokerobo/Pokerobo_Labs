@@ -1,4 +1,4 @@
-#include "Pokerobo_Lab_Pedestal_Controller.h"
+#include <Pokerobo_Arm.h>
 
 PedestalHandler pedestalHandler1(4, 5);
 PedestalHandler pedestalHandler3(8, 9);

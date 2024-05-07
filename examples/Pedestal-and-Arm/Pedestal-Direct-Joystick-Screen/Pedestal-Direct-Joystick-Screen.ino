@@ -1,5 +1,5 @@
+#include <Pokerobo_Arm.h>
 #include <Pokerobo_RCB_master.h>
-#include "Pokerobo_Lab_Pedestal_Controller.h"
 #include "Pokerobo_Lab_Pedestal_Screen.h"
 
 JoystickHandler joystickHandler;

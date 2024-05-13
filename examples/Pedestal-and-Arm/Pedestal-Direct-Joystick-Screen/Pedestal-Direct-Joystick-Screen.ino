@@ -5,10 +5,14 @@
 JoystickHandler joystickHandler;
 JoystickAction action;
 
-PedestalHandler pedestalHandler1(4, 5);
-PedestalHandler pedestalHandler3(8, 9);
+PedestalHandler pedestalHandler0( 0,  1);
+PedestalHandler pedestalHandler1( 4,  5);
+PedestalHandler pedestalHandler2( 8,  9);
+PedestalHandler pedestalHandler3(14, 15);
 
-PedestalGroup pedestalGroup(&pedestalHandler1,
+PedestalGroup pedestalGroup(&pedestalHandler0,
+    &pedestalHandler1,
+    &pedestalHandler2,
     &pedestalHandler3);
 
 PedestalController pedestalController(&pedestalGroup);

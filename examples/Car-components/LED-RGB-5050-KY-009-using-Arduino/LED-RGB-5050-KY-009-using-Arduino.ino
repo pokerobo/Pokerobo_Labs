@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 int R_PIN =  9; // select the pin for the red LED
 int G_PIN = 10; // select the pin for the green LED
 int B_PIN = 11; // select the pin for the  blue LED

@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 int R_LED = 13; //Red light
 int Y_LED = 12; //Yellow light
 int G_LED = 11; //Green light

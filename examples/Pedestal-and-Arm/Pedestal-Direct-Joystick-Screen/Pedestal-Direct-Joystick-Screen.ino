@@ -33,7 +33,7 @@ void setup() {
 void loop() {
   joystickHandler.input(&action);
   pedestalController.play(action.getPressingFlags(), action.getX(), action.getY());
-  displayHandler.render(&action);
+  displayHandler.render(&action, pedestalController.getState());
 
   delay(20);
 }

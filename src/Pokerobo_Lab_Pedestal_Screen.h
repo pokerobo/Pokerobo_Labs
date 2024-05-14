@@ -9,6 +9,7 @@ class PedestalDisplayHandler: public DisplayHandler {
     using DisplayHandler::DisplayHandler;
     void render(JoystickAction *action, PedestalState *state);
   protected:
+    virtual void prepareDisplay(JoystickAction *action, PedestalState *state);
     virtual void renderInternal(JoystickAction *action, PedestalState *state);
   private:
     char _title[16] = "Pedestals";

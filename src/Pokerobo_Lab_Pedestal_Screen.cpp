@@ -123,6 +123,13 @@ void Pedestal3DisplayHandler::renderInternal(JoystickAction *action, PedestalSta
 
       CoordinatePoint norP = getNormalPointOf_(i, &hc, state);
       _u8g2->drawCircle(norP.x , norP.y, 2);
+
+      char line[6] = {0};
+      sprintf(line, "H:%3d", state->getHorizontalPositionOf(i));
+      _u8g2->drawStr(hc.x - _radius + 2, hc.y + 1*(_charHeight + 2), line);
+
+      sprintf(line, "V:%3d", state->getVerticalPositionOf(i));
+      _u8g2->drawStr(hc.x - _radius + 2, hc.y + 2*(_charHeight + 2), line);
     }
   }
 }

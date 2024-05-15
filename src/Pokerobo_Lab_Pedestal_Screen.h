@@ -21,6 +21,8 @@ struct CoordinatePoint {
   int y;
 };
 
+//-------------------------------------------------------------------------------------------------
+
 class AdvancedDisplayHandler: public PedestalDisplayHandler {
   public:
     using PedestalDisplayHandler::PedestalDisplayHandler;
@@ -39,6 +41,29 @@ class AdvancedDisplayHandler: public PedestalDisplayHandler {
     uint8_t _horizontalPad = 5;
     uint8_t _verticalPad = 4;
     uint8_t _topPad = 5;
+};
+
+//-------------------------------------------------------------------------------------------------
+
+class Pedestal3DisplayHandler: public PedestalDisplayHandler {
+  public:
+    using PedestalDisplayHandler::PedestalDisplayHandler;
+  protected:
+    virtual void prepareDisplay(JoystickAction *action, PedestalState *state);
+    virtual void renderInternal(JoystickAction *action, PedestalState *state);
+  private:
+    CoordinatePoint getHorizontalCenterOf_(uint8_t i);
+    CoordinatePoint getMinPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *center);
+    CoordinatePoint getNormalPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *center);
+    CoordinatePoint getMaxPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *center);
+    CoordinatePoint calculatePointWithDistance_(CoordinatePoint *c, int angle, uint8_t distance);
+    uint8_t _top = 0;
+    uint8_t _topPad = 32;
+    uint8_t _left = 0;
+    uint8_t _leftPad = 3;
+    uint8_t _radius = 14;
+    uint8_t _horizontalPad = 3;
+    uint8_t _verticalPad = 0;
 };
 
 #endif

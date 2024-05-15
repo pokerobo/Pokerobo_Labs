@@ -17,7 +17,7 @@ PedestalGroup pedestalGroup(&pedestalHandler0,
 
 PedestalController pedestalController(&pedestalGroup);
 
-AdvancedDisplayHandler displayHandler;
+Pedestal2DisplayHandler displayHandler;
 
 void setup() {
   Serial.begin(57600);

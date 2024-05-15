@@ -36,12 +36,12 @@ void PedestalDisplayHandler::renderInternal(JoystickAction *action, PedestalStat
 
 //-------------------------------------------------------------------------------------------------
 
-void AdvancedDisplayHandler::prepareDisplay(JoystickAction *action, PedestalState *state) {
+void Pedestal2DisplayHandler::prepareDisplay(JoystickAction *action, PedestalState *state) {
   if (state != NULL) {
   }
 }
 
-void AdvancedDisplayHandler::renderInternal(JoystickAction *action, PedestalState *state) {
+void Pedestal2DisplayHandler::renderInternal(JoystickAction *action, PedestalState *state) {
   if (action != NULL) {
     this->renderJoystickAction_(0, 0, action);
   }
@@ -67,14 +67,14 @@ void AdvancedDisplayHandler::renderInternal(JoystickAction *action, PedestalStat
   }
 }
 
-CoordinatePoint AdvancedDisplayHandler::getHorizontalCenterOf_(uint8_t i) {
+CoordinatePoint Pedestal2DisplayHandler::getHorizontalCenterOf_(uint8_t i) {
   CoordinatePoint center;
   center.x = _left + _leftPad + _radius;
   center.y = _top + _topPad + _radius*(i + 1) + i*_verticalPad;
   return center;
 }
 
-CoordinatePoint AdvancedDisplayHandler::getHorizontalPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *c, bool isBound) {
+CoordinatePoint Pedestal2DisplayHandler::getHorizontalPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *c, bool isBound) {
   CoordinatePoint point;
   float val = state->getHorizontalPositionOf(i);
   val = val*3.14159/180;
@@ -83,14 +83,14 @@ CoordinatePoint AdvancedDisplayHandler::getHorizontalPointOf_(uint8_t i, Pedesta
   return point;
 }
 
-CoordinatePoint AdvancedDisplayHandler::getVerticalCenterOf_(uint8_t i) {
+CoordinatePoint Pedestal2DisplayHandler::getVerticalCenterOf_(uint8_t i) {
   CoordinatePoint center;
   center.x = _left + _leftPad + 2*_radius + _horizontalPad + _radius;
   center.y = _top + _topPad + _radius*(i + 1) + i*_verticalPad;
   return center;
 }
 
-CoordinatePoint AdvancedDisplayHandler::getVerticalPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *c, bool isBound) {
+CoordinatePoint Pedestal2DisplayHandler::getVerticalPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *c, bool isBound) {
   CoordinatePoint point;
   float val = state->getVerticalPositionOf(i);
   val = val*3.14159/180;

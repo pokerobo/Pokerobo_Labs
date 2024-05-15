@@ -26,6 +26,13 @@ struct CoordinatePoint {
 class AdvancedDisplayHandler: public PedestalDisplayHandler {
   public:
     using PedestalDisplayHandler::PedestalDisplayHandler;
+};
+
+//-------------------------------------------------------------------------------------------------
+
+class Pedestal2DisplayHandler: public AdvancedDisplayHandler {
+  public:
+    using AdvancedDisplayHandler::AdvancedDisplayHandler;
   protected:
     virtual void prepareDisplay(JoystickAction *action, PedestalState *state);
     virtual void renderInternal(JoystickAction *action, PedestalState *state);
@@ -45,9 +52,9 @@ class AdvancedDisplayHandler: public PedestalDisplayHandler {
 
 //-------------------------------------------------------------------------------------------------
 
-class Pedestal3DisplayHandler: public PedestalDisplayHandler {
+class Pedestal3DisplayHandler: public AdvancedDisplayHandler {
   public:
-    using PedestalDisplayHandler::PedestalDisplayHandler;
+    using AdvancedDisplayHandler::AdvancedDisplayHandler;
   protected:
     virtual void prepareDisplay(JoystickAction *action, PedestalState *state);
     virtual void renderInternal(JoystickAction *action, PedestalState *state);

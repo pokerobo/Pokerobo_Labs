@@ -108,6 +108,7 @@ void Pedestal3DisplayHandler::prepareDisplay(JoystickAction *action, PedestalSta
 
 void Pedestal3DisplayHandler::renderInternal(JoystickAction *action, PedestalState *state) {
   if (state != NULL) {
+    char label[3] = { 'P', '-', '\n' };
     U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
     int8_t _charHeight = _u8g2->getMaxCharHeight();
     int8_t _charWidth = _u8g2->getMaxCharWidth();
@@ -130,6 +131,9 @@ void Pedestal3DisplayHandler::renderInternal(JoystickAction *action, PedestalSta
 
       sprintf(line, "V:%3d", state->getVerticalPositionOf(i));
       _u8g2->drawStr(hc.x - _radius + 2, hc.y + 2*(_charHeight + 2), line);
+
+      label[1] = '0' + i;
+      _u8g2->drawStr(hc.x - _charWidth, hc.y + 3*(_charHeight + 2), label);
     }
   }
 }
@@ -137,7 +141,7 @@ void Pedestal3DisplayHandler::renderInternal(JoystickAction *action, PedestalSta
 CoordinatePoint Pedestal3DisplayHandler::getHorizontalCenterOf_(uint8_t i) {
   CoordinatePoint center;
   center.x = _left + _leftPad + _radius + (2*_radius + _horizontalPad)*i;
-  center.y = _top + _topPad;
+  center.y = _top + _topPad + _radius;
   return center;
 }
 

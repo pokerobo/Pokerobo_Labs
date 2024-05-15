@@ -65,7 +65,7 @@ class Pedestal3DisplayHandler: public AdvancedDisplayHandler {
     CoordinatePoint getMaxPointOf_(uint8_t i, CoordinatePoint *center, PedestalState *state);
     CoordinatePoint calculatePointWithDistance_(CoordinatePoint *c, int angle, uint8_t distance);
     uint8_t _top = 0;
-    uint8_t _topPad = 32;
+    uint8_t _topPad = 16;
     uint8_t _left = 0;
     uint8_t _leftPad = 3;
     uint8_t _radius = 14;

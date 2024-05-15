@@ -117,11 +117,11 @@ void Pedestal3DisplayHandler::renderInternal(JoystickAction *action, PedestalSta
       _u8g2->drawLine(hc.x, hc.y - 1, hc.x, hc.y + 1);
       _u8g2->drawCircle(hc.x, hc.y, _radius, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
 
-      CoordinatePoint maxP = getMaxPointOf_(i, state, &hc);
-      CoordinatePoint minP = getMinPointOf_(i, state, &hc);
+      CoordinatePoint maxP = getMaxPointOf_(i, &hc, state);
+      CoordinatePoint minP = getMinPointOf_(i, &hc, state);
       _u8g2->drawLine(minP.x , minP.y, maxP.x, maxP.y);
 
-      CoordinatePoint norP = getNormalPointOf_(i, state, &hc);
+      CoordinatePoint norP = getNormalPointOf_(i, &hc, state);
       _u8g2->drawCircle(norP.x , norP.y, 2);
     }
   }
@@ -134,18 +134,18 @@ CoordinatePoint Pedestal3DisplayHandler::getHorizontalCenterOf_(uint8_t i) {
   return center;
 }
 
-CoordinatePoint Pedestal3DisplayHandler::getMinPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *c) {
+CoordinatePoint Pedestal3DisplayHandler::getMinPointOf_(uint8_t i, CoordinatePoint *c, PedestalState *state) {
   return calculatePointWithDistance_(c, state->getHorizontalPositionOf(i), _radius/2);
 }
 
-CoordinatePoint Pedestal3DisplayHandler::getNormalPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *c) {
+CoordinatePoint Pedestal3DisplayHandler::getNormalPointOf_(uint8_t i, CoordinatePoint *c, PedestalState *state) {
   int minVal = state->getVerticalMinAngleOf(i);
   int maxVal = state->getVerticalMaxAngleOf(i);
   int distance = map(state->getVerticalPositionOf(i), minVal, maxVal, _radius/2, 3*_radius/2);
   return calculatePointWithDistance_(c, state->getHorizontalPositionOf(i), distance);
 }
 
-CoordinatePoint Pedestal3DisplayHandler::getMaxPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *c) {
+CoordinatePoint Pedestal3DisplayHandler::getMaxPointOf_(uint8_t i, CoordinatePoint *c, PedestalState *state) {
   return calculatePointWithDistance_(c, state->getHorizontalPositionOf(i), 3*_radius/2);
 }
 

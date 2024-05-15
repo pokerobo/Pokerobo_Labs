@@ -60,9 +60,9 @@ class Pedestal3DisplayHandler: public AdvancedDisplayHandler {
     virtual void renderInternal(JoystickAction *action, PedestalState *state);
   private:
     CoordinatePoint getHorizontalCenterOf_(uint8_t i);
-    CoordinatePoint getMinPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *center);
-    CoordinatePoint getNormalPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *center);
-    CoordinatePoint getMaxPointOf_(uint8_t i, PedestalState *state, CoordinatePoint *center);
+    CoordinatePoint getMinPointOf_(uint8_t i, CoordinatePoint *center, PedestalState *state);
+    CoordinatePoint getNormalPointOf_(uint8_t i, CoordinatePoint *center, PedestalState *state);
+    CoordinatePoint getMaxPointOf_(uint8_t i, CoordinatePoint *center, PedestalState *state);
     CoordinatePoint calculatePointWithDistance_(CoordinatePoint *c, int angle, uint8_t distance);
     uint8_t _top = 0;
     uint8_t _topPad = 32;

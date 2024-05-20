@@ -231,7 +231,7 @@ void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packe
   int8_t _charHeight = _u8g2->getMaxCharHeight();
   int8_t _charWidth = _u8g2->getMaxCharWidth();
   if (packet == NULL) {
-    return packet;
+    return;
   }
 
   JoystickEventPacket* _packet = (JoystickEventPacket*) packet;
@@ -259,7 +259,7 @@ void JoystickPadDisplayHandler::renderMessageInternal(CaroMessagePacket *packet)
   int8_t _charHeight = _u8g2->getMaxCharHeight();
   int8_t _charWidth = _u8g2->getMaxCharWidth();
   if (packet == NULL) {
-    return packet;
+    return;
   }
 
   JoystickEventPacket* _packet = (JoystickEventPacket*) packet;

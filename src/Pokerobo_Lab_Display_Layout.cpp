@@ -11,25 +11,19 @@ GeometryDisplayHandler* CoordinateAxes::getPencil() {
 
 lcd_layout_t CoordinateAxes::getLcdLayout() {
   if (_pencil != NULL) {
-    lcd_layout_t layout;
     DisplayOptions* options = _pencil->getOptions();
     if (options != NULL) {
       switch(options->getLcdRotation()) {
         case LCD_PINS_ON_TOP:
-          layout = LCD_LAYOUT_R0;
-          break;
+          return LCD_LAYOUT_R0;
         case LCD_PINS_ON_BOTTOM:
-          layout = LCD_LAYOUT_R2;
-          break;
+          return LCD_LAYOUT_R2;
         case LCD_PINS_ON_RIGHT:
-          layout = LCD_LAYOUT_R1;
-          break;
+          return LCD_LAYOUT_R1;
         case LCD_PINS_ON_LEFT:
-          layout = LCD_LAYOUT_R3;
-          break;
+          return LCD_LAYOUT_R3;
       }
     }
-    return layout;
   }
   return LCD_LAYOUT_R2;
 }

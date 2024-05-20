@@ -1,31 +1,30 @@
-#include <U8g2lib.h>
+#include "Pokerobo_Lab_Display_Handler.h"
 
-U8G2_ST7567_ENH_DG128064I_1_HW_I2C u8g2(U8G2_R2, SCL, SDA, U8X8_PIN_NONE);
+GeometryDisplayHandler displayHandler;
 
 void setup() {
-  u8g2.setI2CAddress(0x3F * 2); 
-  u8g2.begin();
   Serial.begin(57600);
+  displayHandler.begin();
 
   byte x1=5, y1=5, x2=115, y2=25, x3=120, y3=45, x4=85, y4=64, x5=40, y5=50;
 
-  u8g2.firstPage();
+  displayHandler.firstPage();
   do {
     drawPentagonOutline(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5);
-  } while (u8g2.nextPage());
+  } while (displayHandler.nextPage());
   delay(3000);
 
-  u8g2.firstPage();
+  displayHandler.firstPage();
   do {
     drawPentagonOutline(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5);
     drawScanningLines(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5);
-  } while (u8g2.nextPage());
+  } while (displayHandler.nextPage());
   delay(3000);
 
-  u8g2.firstPage();
+  displayHandler.firstPage();
   do {
     drawPentagonConvexShape(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5);
-  } while (u8g2.nextPage());
+  } while (displayHandler.nextPage());
   delay(4000);
 }
 
@@ -39,11 +38,11 @@ void drawPentagonOutline(
       byte x4, byte y4,
       byte x5, byte y5
     ) {
-  u8g2.drawLine(x1, y1, x2, y2);
-  u8g2.drawLine(x2, y2, x3, y3);
-  u8g2.drawLine(x3, y3, x4, y4);
-  u8g2.drawLine(x4, y4, x5, y5);
-  u8g2.drawLine(x5, y5, x1, y1);
+  displayHandler.drawLine(x1, y1, x2, y2);
+  displayHandler.drawLine(x2, y2, x3, y3);
+  displayHandler.drawLine(x3, y3, x4, y4);
+  displayHandler.drawLine(x4, y4, x5, y5);
+  displayHandler.drawLine(x5, y5, x1, y1);
 }
 
 void drawScanningLines(
@@ -53,8 +52,8 @@ void drawScanningLines(
       byte x4, byte y4,
       byte x5, byte y5
     ) {
-  u8g2.drawLine(x1, y1, x3, y3);
-  u8g2.drawLine(x1, y1, x4, y4);
+  displayHandler.drawLine(x1, y1, x3, y3);
+  displayHandler.drawLine(x1, y1, x4, y4);
 }
 
 void drawPentagonConvexShape(
@@ -64,7 +63,7 @@ void drawPentagonConvexShape(
       byte x4, byte y4,
       byte x5, byte y5
     ) {
-  u8g2.drawTriangle(x1, y1, x2, y2, x3, y3);
-  u8g2.drawTriangle(x1, y1, x3, y3, x4, y4);
-  u8g2.drawTriangle(x1, y1, x4, y4, x5, y5);
+  displayHandler.drawTriangle(x1, y1, x2, y2, x3, y3);
+  displayHandler.drawTriangle(x1, y1, x3, y3, x4, y4);
+  displayHandler.drawTriangle(x1, y1, x4, y4, x5, y5);
 }

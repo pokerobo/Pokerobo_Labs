@@ -5,15 +5,8 @@ CoordinateAxes::CoordinateAxes(GeometryDisplayHandler* pencil) {
   _pencil = pencil;
 }
 
-CoordinateAxes::CoordinateAxes(void* u8g2Ref, lcd_layout_t layout) {
-  _u8g2Ref = u8g2Ref;
-  setLcdLayout(layout);
-}
-
-void CoordinateAxes::setLcdLayout(lcd_layout_t layout) {
-  _layout = layout;
-  _maxX = (_layout == LCD_LAYOUT_R0 || _layout == LCD_LAYOUT_R2) ? 127 : 63;
-  _maxY = (_layout == LCD_LAYOUT_R0 || _layout == LCD_LAYOUT_R2) ? 63 : 127;
+GeometryDisplayHandler* CoordinateAxes::getPencil() {
+  return _pencil;
 }
 
 lcd_layout_t CoordinateAxes::getLcdLayout() {
@@ -38,26 +31,17 @@ lcd_layout_t CoordinateAxes::getLcdLayout() {
     }
     return layout;
   }
-  return _layout;
+  return LCD_LAYOUT_R2;
 }
 
 void* CoordinateAxes::getU8g2Ref() {
-  if (_pencil != NULL) {
-    return _pencil->getU8g2Ref();
-  }
-  return _u8g2Ref;
+  return (_pencil != NULL) ? _pencil->getU8g2Ref() : NULL;
 }
 
 int8_t CoordinateAxes::getMaxX() {
-  if (_pencil != NULL) {
-    return _pencil->getDisplayWidth() - 1;
-  }
-  return _maxX;
+  return (_pencil != NULL) ? _pencil->getDisplayWidth() - 1 : 0;
 }
 
 int8_t CoordinateAxes::getMaxY() {
-  if (_pencil != NULL) {
-    return _pencil->getDisplayHeight() - 1;
-  }
-  return _maxY;
+  return (_pencil != NULL) ? _pencil->getDisplayHeight() - 1 : 0;
 }

@@ -14,18 +14,13 @@ typedef enum {
 class CoordinateAxes {
   public:
     CoordinateAxes(GeometryDisplayHandler* pencil);
-    CoordinateAxes(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0);
-    virtual void setLcdLayout(lcd_layout_t layout);
+    virtual GeometryDisplayHandler* getPencil();
     virtual lcd_layout_t getLcdLayout();
     virtual void* getU8g2Ref();
     virtual int8_t getMaxX();
     virtual int8_t getMaxY();
   private:
     GeometryDisplayHandler* _pencil = NULL;
-    void* _u8g2Ref;
-    lcd_layout_t _layout;
-    int8_t _maxX;
-    int8_t _maxY;
 };
 
 #endif

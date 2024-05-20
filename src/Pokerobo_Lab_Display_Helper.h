@@ -1,5 +1,5 @@
-#ifndef __POKEROBO_LIB_DISPLAY_HELPER_H__
-#define __POKEROBO_LIB_DISPLAY_HELPER_H__
+#ifndef __POKEROBO_LAB_DISPLAY_HELPER_H__
+#define __POKEROBO_LAB_DISPLAY_HELPER_H__
 
 #include <U8g2lib.h>
 #include <Arduino.h>

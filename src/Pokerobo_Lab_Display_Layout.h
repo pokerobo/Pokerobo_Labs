@@ -1,5 +1,5 @@
-#ifndef __POKEROBO_LIB_DISPLAY_LAYOUT_H__
-#define __POKEROBO_LIB_DISPLAY_LAYOUT_H__
+#ifndef __POKEROBO_LAB_DISPLAY_LAYOUT_H__
+#define __POKEROBO_LAB_DISPLAY_LAYOUT_H__
 
 #include <Arduino.h>
 #include "Pokerobo_Lab_Display_Handler.h"

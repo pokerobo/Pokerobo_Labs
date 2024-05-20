@@ -16,6 +16,7 @@ typedef uint16_t u8g2_uint_t;
 class GeometryDisplayHandler: public DisplayHandler {
   public:
     using DisplayHandler::DisplayHandler;
+    void* getU8g2Ref();
     void firstPage();
     uint8_t nextPage();
     u8g2_uint_t getDisplayHeight(void);

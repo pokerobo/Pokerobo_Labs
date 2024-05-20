@@ -1,6 +1,10 @@
 #include <U8g2lib.h>
 #include "Pokerobo_Lab_Display_Handler.h"
 
+void* GeometryDisplayHandler::getU8g2Ref() {
+  return _u8g2Ref;
+}
+
 void GeometryDisplayHandler::firstPage() {
   U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
   _u8g2->firstPage();

@@ -1,6 +1,5 @@
 #include <Pokerobo_RCB_master.h>
 #include "Pokerobo_Lab_Aim_Target.h"
-#include "Pokerobo_Lab_Display_Helper.h"
 
 class CirclePartitioning {
   public:
@@ -57,13 +56,9 @@ void CirclePartitioning::draw(int8_t x, int8_t y) {
   }
 }
 
-const u8g2_cb_t* u8g2_rotation = U8G2_R2;
-const lcd_layout_t lcd_layout = convertRotationToLayout(u8g2_rotation);
-
-U8G2_ST7567_ENH_DG128064I_1_HW_I2C u8g2(u8g2_rotation, SCL, SDA, U8X8_PIN_NONE);
-
+GeometryDisplayHandler displayHandler;
 JoystickHandler joystickHandler;
-CoordinateAxes axes(&u8g2, lcd_layout);
+CoordinateAxes axes(&displayHandler);
 CirclePartitioning partitioning(&axes);
 AimTarget target(&axes);
 

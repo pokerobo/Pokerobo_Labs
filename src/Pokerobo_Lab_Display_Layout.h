@@ -2,6 +2,7 @@
 #define __POKEROBO_LIB_DISPLAY_LAYOUT_H__
 
 #include <Arduino.h>
+#include "Pokerobo_Lab_Display_Handler.h"
 
 typedef enum {
   LCD_LAYOUT_R0 = 0,
@@ -12,6 +13,7 @@ typedef enum {
 
 class CoordinateAxes {
   public:
+    CoordinateAxes(GeometryDisplayHandler* pencil);
     CoordinateAxes(void* u8g2Ref, lcd_layout_t layout=LCD_LAYOUT_R0);
     virtual void setLcdLayout(lcd_layout_t layout);
     virtual lcd_layout_t getLcdLayout();
@@ -19,6 +21,7 @@ class CoordinateAxes {
     virtual int8_t getMaxX();
     virtual int8_t getMaxY();
   private:
+    GeometryDisplayHandler* _pencil = NULL;
     void* _u8g2Ref;
     lcd_layout_t _layout;
     int8_t _maxX;

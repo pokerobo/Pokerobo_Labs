@@ -15,23 +15,23 @@ void loop() {
   digitalWrite(R_LED, LOW);
   digitalWrite(Y_LED, LOW);
   digitalWrite(G_LED, HIGH);
-  delay(30000); //wait 30 seocnds
+  delay(5000); //wait 5 seconds
 
   // Yellow light: red light is coming
   digitalWrite(R_LED, LOW);
   digitalWrite(Y_LED, HIGH);
   digitalWrite(G_LED, LOW);
-  delay(2000); //wait 2 seocnds
+  delay(1000); //wait 1 seconds
 
   // Red light: stop
   digitalWrite(R_LED, HIGH);
   digitalWrite(Y_LED, LOW);
   digitalWrite(G_LED, LOW);
-  delay(30000); //wait 30 seocnds
+  delay(5000); //wait 5 seconds
 
   // Green light is coming
   digitalWrite(R_LED, HIGH);
   digitalWrite(Y_LED, HIGH);
   digitalWrite(G_LED, LOW);
-  delay(2000); //wait 2 seocnds
+  delay(1000); //wait 1 seconds
 }

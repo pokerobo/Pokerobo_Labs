@@ -1,7 +1,7 @@
 #ifndef __POKEROBO_LAB_DISPLAY_HANDLER_H__
 #define __POKEROBO_LAB_DISPLAY_HANDLER_H__
 
-#include "Display_Handler.h"
+#include <Pokerobo_RCB.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,8 +19,8 @@ class GeometryDisplayHandler: public DisplayHandler {
     void* getU8g2Ref();
     void firstPage();
     uint8_t nextPage();
-    u8g2_uint_t getDisplayHeight(void);
-    u8g2_uint_t getDisplayWidth(void);
+    u8g2_uint_t getDisplayHeight();
+    u8g2_uint_t getDisplayWidth();
     u8g2_uint_t getMaxCharHeight();
     u8g2_uint_t getMaxCharWidth();
     void setFont(const uint8_t *font);
@@ -41,7 +41,7 @@ class GeometryDisplayHandler: public DisplayHandler {
     void drawTriangleOutline(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
     void drawPixel(u8g2_uint_t x, u8g2_uint_t y);
     uint16_t drawStr(u8g2_uint_t x, u8g2_uint_t y, const char* text);
-    void clear();
+    void rotateScreen(bool clockwise=true);
 };
 
 #endif

@@ -1,7 +1,6 @@
 #ifndef __POKEROBO_LAB_DISPLAY_LAYOUT_H__
 #define __POKEROBO_LAB_DISPLAY_LAYOUT_H__
 
-#include <Arduino.h>
 #include "Pokerobo_Lab_Display_Handler.h"
 
 typedef enum {

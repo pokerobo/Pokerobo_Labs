@@ -26,7 +26,7 @@ void CaroDisplayHandler::renderMessage(CaroMessagePacket *packet) {
 }
 
 void CaroDisplayHandler::renderMessageOrString(CaroMessagePacket *packet, char *text) {
-  U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
   int8_t _charHeight = _u8g2->getMaxCharHeight();
   int8_t _charWidth = _u8g2->getMaxCharWidth();
   this->firstPage();
@@ -42,7 +42,7 @@ void CaroDisplayHandler::renderMessageOrString(CaroMessagePacket *packet, char *
 }
 
 void CaroDisplayHandler::renderFrame() {
-  U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
   int8_t _charHeight = _u8g2->getMaxCharHeight();
   int8_t _charWidth = _u8g2->getMaxCharWidth();
   _u8g2->drawFrame(1, _charHeight + 1, 128 - 2, 64 - _charHeight - 2);
@@ -50,7 +50,7 @@ void CaroDisplayHandler::renderFrame() {
 
 void CaroDisplayHandler::renderTitle() {
   if (_title != NULL) {
-    U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+    U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
     int8_t _charHeight = _u8g2->getMaxCharHeight();
     int8_t _charWidth = _u8g2->getMaxCharWidth();
     _u8g2->drawStr(64 - _charWidth * strlen(_title) / 2, _charHeight, _title);
@@ -149,7 +149,7 @@ CaroMessagePacket* CounterMessageSerializer::decode(CaroMessagePacket *packet, c
 }
 
 void CounterDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
-  U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
   int8_t _charHeight = _u8g2->getMaxCharHeight();
   int8_t _charWidth = _u8g2->getMaxCharWidth();
   if (packet != NULL) {
@@ -227,7 +227,7 @@ CaroMessagePacket* JoystickEventSerializer::decode(CaroMessagePacket *packet, ch
 }
 
 void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
-  U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
   int8_t _charHeight = _u8g2->getMaxCharHeight();
   int8_t _charWidth = _u8g2->getMaxCharWidth();
   if (packet == NULL) {
@@ -255,7 +255,7 @@ void JoystickPadDisplayHandler::renderTitle() {
 }
 
 void JoystickPadDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
-  U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
   int8_t _charHeight = _u8g2->getMaxCharHeight();
   int8_t _charWidth = _u8g2->getMaxCharWidth();
   if (packet == NULL) {

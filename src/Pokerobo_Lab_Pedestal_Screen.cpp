@@ -24,7 +24,7 @@ void PedestalDisplayHandler::renderInternal(JoystickAction *action, PedestalStat
     this->renderJoystickAction_(0, 0, action);
   }
   if (state != NULL) {
-    U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+    U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
     int8_t _charHeight = _u8g2->getMaxCharHeight();
     int8_t _charWidth = _u8g2->getMaxCharWidth();
     _u8g2->drawStr(64 + (32 - _charWidth*strlen(_title)/2), 0 + _charHeight, _title);
@@ -46,7 +46,7 @@ void Pedestal2DisplayHandler::renderInternal(JoystickAction *action, PedestalSta
     this->renderJoystickAction_(0, 0, action);
   }
   if (state != NULL) {
-    U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+    U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
     int8_t _charHeight = _u8g2->getMaxCharHeight();
     int8_t _charWidth = _u8g2->getMaxCharWidth();
     for(uint8_t i=0; i<state->getTotal(); i++) {
@@ -109,7 +109,7 @@ void Pedestal3DisplayHandler::prepareDisplay(JoystickAction *action, PedestalSta
 void Pedestal3DisplayHandler::renderInternal(JoystickAction *action, PedestalState *state) {
   if (state != NULL) {
     char label[3] = { 'P', '-', '\n' };
-    U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
+    U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
     int8_t _charHeight = _u8g2->getMaxCharHeight();
     int8_t _charWidth = _u8g2->getMaxCharWidth();
     for(uint8_t i=0; i<state->getTotal(); i++) {

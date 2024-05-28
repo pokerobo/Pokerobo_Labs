@@ -18,6 +18,18 @@ void loop() {
   delay(5000);
 }
 
+void drawPlus(int x, int y) {
+  displayHandler.drawPixel(x, y);
+  displayHandler.drawPixel(x+1, y);
+  displayHandler.drawPixel(x, y+1);
+  if (x > 0) {
+    displayHandler.drawPixel(x-1, y);
+  }
+  if (y > 0) {
+    displayHandler.drawPixel(x, y-1);
+  }
+}
+
 void drawCorners(uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
   uint16_t charWidth = displayHandler.getMaxCharWidth();
   uint16_t charHeight = displayHandler.getMaxCharHeight();
@@ -40,10 +52,10 @@ void drawCorners(uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
 
   displayHandler.firstPage();
   do {
-    displayHandler.drawPixel(x0, y0);
-    displayHandler.drawPixel(x1, y1);
-    displayHandler.drawPixel(x2, y2);
-    displayHandler.drawPixel(x3, y3);
+    drawPlus(x0, y0);
+    drawPlus(x1, y1);
+    drawPlus(x2, y2);
+    drawPlus(x3, y3);
 
     for(int i=0; i<4; i++) {
       displayHandler.drawStr(textBlockX, textBlockY + i*(charHeight + 1), lines[i]);

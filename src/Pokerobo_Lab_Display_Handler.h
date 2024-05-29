@@ -45,4 +45,12 @@ class GeometryDisplayHandler: public DisplayHandler {
     void showDisplayInfo();
 };
 
+class CornersDisplayHandler: public GeometryDisplayHandler {
+  public:
+    void drawPage(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1);
+    void drawCorners(const char* label, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1);
+  protected:
+    virtual void drawCorner(uint16_t x, uint16_t y);
+};
+
 #endif

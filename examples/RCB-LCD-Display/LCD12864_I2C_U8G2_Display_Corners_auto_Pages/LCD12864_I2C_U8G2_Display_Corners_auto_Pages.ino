@@ -1,27 +1,28 @@
 #include "Pokerobo_Lab_Display_Handler.h"
 
-GeometryDisplayHandler displayHandler;
+class CornersDisplayHandler: public GeometryDisplayHandler {
+  public:
+    void drawPage(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1);
+    void drawCorners(const char* label, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1);
+  protected:
+    virtual void drawCorner(uint16_t x, uint16_t y);
+};
 
-void setup() {
-  Serial.begin(57600);
-  displayHandler.begin();
-}
-
-void drawCross(uint16_t x, uint16_t y) {
-  displayHandler.drawPixel(x, y);
-  displayHandler.drawPixel(x+1, y+1);
+void CornersDisplayHandler::drawCorner(uint16_t x, uint16_t y) {
+  this->drawPixel(x, y);
+  this->drawPixel(x+1, y+1);
   if (y > 0) {
-    displayHandler.drawPixel(x+1, y-1);
+    this->drawPixel(x+1, y-1);
   }
   if (x > 0) {
-    displayHandler.drawPixel(x-1, y+1);
+    this->drawPixel(x-1, y+1);
   }
   if (x > 0 & y > 0) {
-    displayHandler.drawPixel(x-1, y-1);
+    this->drawPixel(x-1, y-1);
   }
 }
 
-void drawPage(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
+void CornersDisplayHandler::drawPage(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
   char label[total + 1] = { 0 };
   for(int i=0; i<total; i++) {
     if (i == number) {
@@ -33,11 +34,11 @@ void drawPage(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16_t 
   drawCorners(label, h0, v0, h1, v1);
 }
 
-void drawCorners(const char* label, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
-  uint16_t charWidth = displayHandler.getMaxCharWidth();
-  uint16_t charHeight = displayHandler.getMaxCharHeight();
-  uint16_t displayWidth = displayHandler.getDisplayWidth();
-  uint16_t displayHeight = displayHandler.getDisplayHeight();
+void CornersDisplayHandler::drawCorners(const char* label, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
+  uint16_t charWidth = this->getMaxCharWidth();
+  uint16_t charHeight = this->getMaxCharHeight();
+  uint16_t displayWidth = this->getDisplayWidth();
+  uint16_t displayHeight = this->getDisplayHeight();
 
   uint16_t x0 = h0, y0 = v0;
   uint16_t x1 = displayWidth - h1, y1 = v0;
@@ -53,34 +54,43 @@ void drawCorners(const char* label, uint16_t h0, uint16_t v0, uint16_t h1, uint1
   uint16_t textBlockX = displayWidth/2 - 3*charWidth;
   uint16_t textBlockY = displayHeight/2 - 1*(charHeight + 1);
 
-  displayHandler.firstPage();
+  this->firstPage();
   do {
-    displayHandler.drawStr(displayWidth/2 - charWidth*strlen(label)/2,
-      charHeight + 1, label);
+    if (label != NULL) {
+      this->drawStr(displayWidth/2 - charWidth*strlen(label)/2,
+        charHeight + 1, label);
+    }
 
-    drawCross(x0, y0);
-    drawCross(x1, y1);
-    drawCross(x2, y2);
-    drawCross(x3, y3);
+    drawCorner(x0, y0);
+    drawCorner(x1, y1);
+    drawCorner(x2, y2);
+    drawCorner(x3, y3);
 
     for(int i=0; i<4; i++) {
-      displayHandler.drawStr(displayWidth/2 - charWidth*strlen(lines[i])/2,
+      this->drawStr(displayWidth/2 - charWidth*strlen(lines[i])/2,
           textBlockY + i*(charHeight + 1), lines[i]);
     }
-  } while (displayHandler.nextPage());
+  } while (this->nextPage());
+}
+
+CornersDisplayHandler displayHandler;
+
+void setup() {
+  Serial.begin(57600);
+  displayHandler.begin();
 }
 
 void loop() {
   for(int i=0; i<3; i++) {
     switch(i) {
       case 0:
-        drawPage(3, i, 0, 0, 1, 1);
+        displayHandler.drawPage(3, i, 0, 0, 1, 1);
         break;
       case 1:
-        drawPage(3, i, 0, 0, 0, 0);
+        displayHandler.drawPage(3, i, 0, 0, 0, 0);
         break;
       case 2:
-        drawPage(3, i, 1, 1, 1, 1);
+        displayHandler.drawPage(3, i, 1, 1, 1, 1);
         break;
     }
     delay(5000);

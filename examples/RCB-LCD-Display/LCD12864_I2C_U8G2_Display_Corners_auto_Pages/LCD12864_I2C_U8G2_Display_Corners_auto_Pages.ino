@@ -21,7 +21,7 @@ void drawCross(uint16_t x, uint16_t y) {
   }
 }
 
-void drawCorners(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
+void drawPage(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
   char label[total + 1] = { 0 };
   for(int i=0; i<total; i++) {
     if (i == number) {
@@ -30,7 +30,10 @@ void drawCorners(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16
       label[i] = '-';
     }
   }
+  drawCorners(label, h0, v0, h1, v1);
+}
 
+void drawCorners(const char* label, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
   uint16_t charWidth = displayHandler.getMaxCharWidth();
   uint16_t charHeight = displayHandler.getMaxCharHeight();
   uint16_t displayWidth = displayHandler.getDisplayWidth();
@@ -71,13 +74,13 @@ void loop() {
   for(int i=0; i<3; i++) {
     switch(i) {
       case 0:
-        drawCorners(3, i, 0, 0, 1, 1);
+        drawPage(3, i, 0, 0, 1, 1);
         break;
       case 1:
-        drawCorners(3, i, 0, 0, 0, 0);
+        drawPage(3, i, 0, 0, 0, 0);
         break;
       case 2:
-        drawCorners(3, i, 1, 1, 1, 1);
+        drawPage(3, i, 1, 1, 1, 1);
         break;
     }
     delay(5000);

@@ -151,10 +151,10 @@ void CornersDisplayHandler::drawPage(uint8_t total, uint8_t number, uint16_t h0,
       label[i] = '-';
     }
   }
-  drawCorners(label, h0, v0, h1, v1);
+  drawCorners(h0, v0, h1, v1, label);
 }
 
-void CornersDisplayHandler::drawCorners(const char* label, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
+void CornersDisplayHandler::drawCorners(uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1, const char* label) {
   uint16_t charWidth = this->getMaxCharWidth();
   uint16_t charHeight = this->getMaxCharHeight();
   uint16_t displayWidth = this->getDisplayWidth();

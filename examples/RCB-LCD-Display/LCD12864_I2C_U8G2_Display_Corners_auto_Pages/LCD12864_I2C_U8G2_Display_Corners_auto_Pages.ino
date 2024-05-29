@@ -2,6 +2,20 @@
 
 CornersDisplayHandler displayHandler;
 
+void drawPageNumber(int i) {
+  switch(i) {
+    case 0:
+      displayHandler.drawPage(3, i, 0, 0, 1, 1);
+      break;
+    case 1:
+      displayHandler.drawPage(3, i, 0, 0, 0, 0);
+      break;
+    case 2:
+      displayHandler.drawPage(3, i, 1, 1, 1, 1);
+      break;
+  }
+}
+
 void setup() {
   Serial.begin(57600);
   displayHandler.begin();
@@ -9,17 +23,7 @@ void setup() {
 
 void loop() {
   for(int i=0; i<3; i++) {
-    switch(i) {
-      case 0:
-        displayHandler.drawPage(3, i, 0, 0, 1, 1);
-        break;
-      case 1:
-        displayHandler.drawPage(3, i, 0, 0, 0, 0);
-        break;
-      case 2:
-        displayHandler.drawPage(3, i, 1, 1, 1, 1);
-        break;
-    }
+    drawPageNumber(i);
     delay(5000);
   }
 }

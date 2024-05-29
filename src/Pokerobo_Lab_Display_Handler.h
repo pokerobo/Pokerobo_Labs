@@ -42,6 +42,7 @@ class GeometryDisplayHandler: public DisplayHandler {
     void drawPixel(u8g2_uint_t x, u8g2_uint_t y);
     uint16_t drawStr(u8g2_uint_t x, u8g2_uint_t y, const char* text);
     void rotateScreen(bool clockwise=true);
+    void showDisplayInfo();
 };
 
 #endif

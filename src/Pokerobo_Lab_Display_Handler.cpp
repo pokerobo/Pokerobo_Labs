@@ -115,3 +115,13 @@ void GeometryDisplayHandler::rotateScreen(bool clockwise=true) {
     this->setDisplayRotation(this->prevDisplayRotation(this->getDisplayRotation()));
   }
 }
+
+void GeometryDisplayHandler::showDisplayInfo() {
+  uint16_t charWidth = this->getMaxCharWidth();
+  uint16_t charHeight = this->getMaxCharHeight();
+  uint16_t displayWidth = this->getDisplayWidth();
+  uint16_t displayHeight = this->getDisplayHeight();
+  char text[7] = { 0 };
+  sprintf(text, "%dx%d", displayWidth, displayHeight);
+  this->drawStr((displayWidth - strlen(text)*charWidth)/2, displayHeight/2, text);
+}

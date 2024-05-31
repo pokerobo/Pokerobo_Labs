@@ -1,4 +1,3 @@
-#include <U8g2lib.h>
 #include "Pokerobo_Lab_Aim_Target.h"
 
 AimTarget::AimTarget(CoordinateAxes* axes, byte type) {
@@ -17,18 +16,18 @@ void AimTarget::render() {
 }
 
 void AimTarget::draw() {
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
+  GeometryDisplayHandler* pen = _axes->getPencil();
   switch(_type) {
     case 0:
-      u8g2->drawPixel(x, y);
+      pen->drawPixel(x, y);
       break;
     case 1:
       drawCross(x, y, 4);
-      u8g2->drawFrame(x-3, y-3, 7, 7);
+      pen->drawFrame(x-3, y-3, 7, 7);
       break;
     case 2:
       drawCross(x, y, 5);
-      u8g2->drawCircle(x, y, 4);
+      pen->drawCircle(x, y, 4);
       break;
     default:
       drawCross(x, y, 3);
@@ -44,13 +43,13 @@ void AimTarget::drawCross(int8_t x, int8_t y, int8_t d, bool straight) {
   int8_t y1 = (y-d >= 0) ? y-d : 0;
   int8_t y2 = (y+d <= _maxY) ? y+d : _maxY;
 
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
+  GeometryDisplayHandler* pen = _axes->getPencil();
   if (straight) {
-    u8g2->drawLine(x1, y, x2, y);
-    u8g2->drawLine(x, y1, x, y2);
+    pen->drawLine(x1, y, x2, y);
+    pen->drawLine(x, y1, x, y2);
   } else {
-    u8g2->drawLine(x1, y1, x2, y2);
-    u8g2->drawLine(x1, y2, x2, y1);
+    pen->drawLine(x1, y1, x2, y2);
+    pen->drawLine(x1, y2, x2, y1);
   }
 }
 

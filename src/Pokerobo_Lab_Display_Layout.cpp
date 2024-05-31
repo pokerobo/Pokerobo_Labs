@@ -1,4 +1,3 @@
-#include <U8g2lib.h>
 #include "Pokerobo_Lab_Display_Layout.h"
 
 CoordinateAxes::CoordinateAxes(GeometryDisplayHandler* pencil) {

@@ -1,6 +1,9 @@
 #include <U8g2lib.h>
 #include "Pokerobo_Lab_Display_Handler.h"
 
+const uint8_t* text_font_title_bold =  u8g2_font_ncenB10_tr;
+const uint8_t* text_font_body_normal = u8g2_font_5x8_tf;
+
 void* GeometryDisplayHandler::getU8g2Ref() {
   return DisplayHandler::getU8g2Ref();
 }

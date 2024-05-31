@@ -1,5 +1,4 @@
 #include "Pokerobo_Lab_Pedestal_Screen.h"
-#include <U8g2lib.h>
 
 #define gte0(x) ((x >= 0) ? x : 0)
 
@@ -24,12 +23,11 @@ void PedestalDisplayHandler::renderInternal(JoystickAction *action, PedestalStat
     this->renderJoystickAction_(0, 0, action);
   }
   if (state != NULL) {
-    U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-    int8_t _charHeight = _u8g2->getMaxCharHeight();
-    int8_t _charWidth = _u8g2->getMaxCharWidth();
-    _u8g2->drawStr(64 + (32 - _charWidth*strlen(_title)/2), 0 + _charHeight, _title);
+    int8_t _charHeight = this->getMaxCharHeight();
+    int8_t _charWidth = this->getMaxCharWidth();
+    this->drawStr(64 + (32 - _charWidth*strlen(_title)/2), 0 + _charHeight, _title);
     for(uint8_t i=0; i<state->getTotal(); i++) {
-      _u8g2->drawStr(64, 0 + _charHeight + 10 + _charHeight * i, _lines[i]);
+      this->drawStr(64, 0 + _charHeight + 10 + _charHeight * i, _lines[i]);
     }
   }
 }
@@ -46,23 +44,22 @@ void Pedestal2DisplayHandler::renderInternal(JoystickAction *action, PedestalSta
     this->renderJoystickAction_(0, 0, action);
   }
   if (state != NULL) {
-    U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-    int8_t _charHeight = _u8g2->getMaxCharHeight();
-    int8_t _charWidth = _u8g2->getMaxCharWidth();
+    int8_t _charHeight = this->getMaxCharHeight();
+    int8_t _charWidth = this->getMaxCharWidth();
     for(uint8_t i=0; i<state->getTotal(); i++) {
       CoordinatePoint hc = getHorizontalCenterOf_(i);
-      _u8g2->drawLine(hc.x - _radius - 1, hc.y, hc.x + _radius + 1, hc.y);
-      _u8g2->drawCircle(hc.x, hc.y, _radius, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
+      this->drawLine(hc.x - _radius - 1, hc.y, hc.x + _radius + 1, hc.y);
+      this->drawCircle(hc.x, hc.y, _radius, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
 
       CoordinatePoint hp = getHorizontalPointOf_(i, state, &hc);
-      _u8g2->drawLine(hc.x , hc.y, hp.x, hp.y);
+      this->drawLine(hc.x , hc.y, hp.x, hp.y);
 
       CoordinatePoint vc = getVerticalCenterOf_(i);
-      _u8g2->drawLine(vc.x - _radius - 1, vc.y, vc.x + _radius + 1, vc.y);
-      _u8g2->drawCircle(vc.x, vc.y, _radius, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
+      this->drawLine(vc.x - _radius - 1, vc.y, vc.x + _radius + 1, vc.y);
+      this->drawCircle(vc.x, vc.y, _radius, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
 
       CoordinatePoint vp = getVerticalPointOf_(i, state, &vc);
-      _u8g2->drawLine(vc.x , vc.y, vp.x, vp.y);
+      this->drawLine(vc.x , vc.y, vp.x, vp.y);
     }
   }
 }
@@ -109,31 +106,31 @@ void Pedestal3DisplayHandler::prepareDisplay(JoystickAction *action, PedestalSta
 void Pedestal3DisplayHandler::renderInternal(JoystickAction *action, PedestalState *state) {
   if (state != NULL) {
     char label[3] = { 'P', '-', '\n' };
-    U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-    int8_t _charHeight = _u8g2->getMaxCharHeight();
-    int8_t _charWidth = _u8g2->getMaxCharWidth();
+
+    int8_t _charHeight = this->getMaxCharHeight();
+    int8_t _charWidth = this->getMaxCharWidth();
     for(uint8_t i=0; i<state->getTotal(); i++) {
       CoordinatePoint hc = getHorizontalCenterOf_(i);
-      _u8g2->drawLine(hc.x - _radius - 1, hc.y, hc.x + _radius + 1, hc.y);
-      _u8g2->drawLine(hc.x, hc.y - 1, hc.x, hc.y + 1);
-      _u8g2->drawCircle(hc.x, hc.y, _radius, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
+      this->drawLine(hc.x - _radius - 1, hc.y, hc.x + _radius + 1, hc.y);
+      this->drawLine(hc.x, hc.y - 1, hc.x, hc.y + 1);
+      this->drawCircle(hc.x, hc.y, _radius, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
 
       CoordinatePoint maxP = getMaxPointOf_(i, &hc, state);
       CoordinatePoint minP = getMinPointOf_(i, &hc, state);
-      _u8g2->drawLine(minP.x , minP.y, maxP.x, maxP.y);
+      this->drawLine(minP.x , minP.y, maxP.x, maxP.y);
 
       CoordinatePoint norP = getNormalPointOf_(i, &hc, state);
-      _u8g2->drawCircle(norP.x , norP.y, 2);
+      this->drawCircle(norP.x , norP.y, 2);
 
       char line[6] = {0};
       sprintf(line, "H:%3d", state->getHorizontalPositionOf(i));
-      _u8g2->drawStr(hc.x - _radius + 2, hc.y + 1*(_charHeight + 2), line);
+      this->drawStr(hc.x - _radius + 2, hc.y + 1*(_charHeight + 2), line);
 
       sprintf(line, "V:%3d", state->getVerticalPositionOf(i));
-      _u8g2->drawStr(hc.x - _radius + 2, hc.y + 2*(_charHeight + 2), line);
+      this->drawStr(hc.x - _radius + 2, hc.y + 2*(_charHeight + 2), line);
 
       label[1] = '0' + i;
-      _u8g2->drawStr(hc.x - _charWidth, hc.y + 3*(_charHeight + 2), label);
+      this->drawStr(hc.x - _charWidth, hc.y + 3*(_charHeight + 2), label);
     }
   }
 }

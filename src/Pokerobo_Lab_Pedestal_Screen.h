@@ -2,11 +2,12 @@
 #define __POKEROBO_LAB_PEDESTAL_SCREEN_H__
 
 #include <Pokerobo_Arm.h>
-#include <Pokerobo_RCB_master.h>
+#include <Pokerobo_RCB.h>
+#include "Pokerobo_Lab_Display_Handler.h"
 
-class PedestalDisplayHandler: public DisplayHandler {
+class PedestalDisplayHandler: public GeometryDisplayHandler {
   public:
-    using DisplayHandler::DisplayHandler;
+    using GeometryDisplayHandler::GeometryDisplayHandler;
     void render(JoystickAction *action, PedestalState *state);
   protected:
     virtual void prepareDisplay(JoystickAction *action, PedestalState *state);

@@ -1,4 +1,3 @@
-#include <U8g2lib.h>
 #include "Pokerobo_Lab_Display_Handler.h"
 
 GeometryDisplayHandler displayHandler;
@@ -18,7 +17,7 @@ void loop() {
 void writeText(byte x, byte y, char* text) {
   displayHandler.firstPage();
   do {
-    displayHandler.setFont(u8g2_font_ncenB10_tr);
+    displayHandler.setFont(text_font_title_bold);
     displayHandler.drawStr(x, y, text);
   } while (displayHandler.nextPage());
 }

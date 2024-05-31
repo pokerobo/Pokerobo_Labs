@@ -1,16 +1,15 @@
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
-#include <Pokerobo_RCB_master.h>
-#include <U8g2lib.h>
+#include <Pokerobo_RCB.h>
+#include "Pokerobo_Lab_Display_Handler.h"
 
-class CaroDisplayHandler: public DisplayHandler {
+class CaroDisplayHandler: public GeometryDisplayHandler {
   public:
     void renderMessage(char *text) {
-      U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
       this->firstPage();
       do {
-        _u8g2->drawStr(0, 32, text);
+        this->drawStr(0, 32, text);
       } while (this->nextPage());
     }
 };

@@ -1,6 +1,5 @@
 #include <Servo.h>
-#include <U8g2lib.h>
-#include <Pokerobo_RCB_master.h>
+#include <Pokerobo_RCB.h>
 #include "Pokerobo_Lab_Display_Handler.h"
 
 GeometryDisplayHandler displayHandler;
@@ -10,7 +9,7 @@ char delayTimeStr[22] = {0};
 
 void displayServoPosition(uint8_t position, int delayTime=1000) {
   displayHandler.firstPage();
-  displayHandler.setFont(u8g2_font_5x8_tf);
+  displayHandler.setFont(text_font_body_normal);
   uint8_t _maxCharHeight = displayHandler.getMaxCharHeight();
   uint8_t _maxCharWidth = displayHandler.getMaxCharWidth();
   sprintf(positionStr, "Servo position: %3d", position);

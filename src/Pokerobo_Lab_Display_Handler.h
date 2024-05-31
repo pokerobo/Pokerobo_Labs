@@ -13,11 +13,47 @@ typedef uint16_t u8g2_uint_t;
 }
 #endif
 
+extern const uint8_t* text_font_title_bold;
+extern const uint8_t* text_font_body_normal;
+
+#ifndef U8G2_H //~u8g2.h
+
+/* u8g2_button.c */
+
+/* border width */
+#define U8G2_BTN_BW_POS 0
+#define U8G2_BTN_BW_MASK 7
+#define U8G2_BTN_BW0 0x00
+#define U8G2_BTN_BW1 0x01
+#define U8G2_BTN_BW2 0x02
+#define U8G2_BTN_BW3 0x03
+
+/* enable shadow and define gap to button */
+#define U8G2_BTN_SHADOW_POS 3
+#define U8G2_BTN_SHADOW_MASK 0x18
+#define U8G2_BTN_SHADOW0 0x08
+#define U8G2_BTN_SHADOW1 0x10
+#define U8G2_BTN_SHADOW2 0x18
+
+/* text is displayed inverted */
+#define U8G2_BTN_INV 0x20
+
+/* horizontal center */
+#define U8G2_BTN_HCENTER 0x40
+
+/* second one pixel frame */
+#define U8G2_BTN_XFRAME 0x80
+
+
+/* u8g2_circle.c */
+
 #define U8G2_DRAW_UPPER_RIGHT  0x01
 #define U8G2_DRAW_UPPER_LEFT   0x02
 #define U8G2_DRAW_LOWER_LEFT   0x04
 #define U8G2_DRAW_LOWER_RIGHT  0x08
 #define U8G2_DRAW_ALL (U8G2_DRAW_UPPER_RIGHT|U8G2_DRAW_UPPER_LEFT|U8G2_DRAW_LOWER_RIGHT|U8G2_DRAW_LOWER_LEFT)
+
+#endif//U8G2_H
 
 class GeometryDisplayHandler: public DisplayHandler {
   public:

@@ -1,5 +1,4 @@
 #include "Pedestal_Display_Handler.h"
-#include <U8g2lib.h>
 
 void PedestalDisplayHandler::render(JoystickAction *action) {
   this->firstPage();

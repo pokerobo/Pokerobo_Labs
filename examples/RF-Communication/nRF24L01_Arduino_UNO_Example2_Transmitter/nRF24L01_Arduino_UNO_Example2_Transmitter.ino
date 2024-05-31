@@ -1,21 +1,20 @@
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
-#include <Pokerobo_RCB_master.h>
-#include <U8g2lib.h>
+#include <Pokerobo_RCB.h>
+#include "Pokerobo_Lab_Display_Handler.h"
 
 const char *title = "Transmitter";
 
-class CaroDisplayHandler: public DisplayHandler {
+class CaroDisplayHandler: public GeometryDisplayHandler {
   public:
     void renderMessage(char *text) {
-      U8G2 *_u8g2 = (U8G2*)_u8g2Ref;
-      int8_t _charHeight = _u8g2->getMaxCharHeight();
-      int8_t _charWidth = _u8g2->getMaxCharWidth();
+      int8_t _charHeight = this->getMaxCharHeight();
+      int8_t _charWidth = this->getMaxCharWidth();
       this->firstPage();
       do {
-        _u8g2->drawStr(64 - _charWidth * strlen(title) / 2, _charHeight + 1, title);
-        _u8g2->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
+        this->drawStr(64 - _charWidth * strlen(title) / 2, _charHeight + 1, title);
+        this->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
       } while (this->nextPage());
     }
 };

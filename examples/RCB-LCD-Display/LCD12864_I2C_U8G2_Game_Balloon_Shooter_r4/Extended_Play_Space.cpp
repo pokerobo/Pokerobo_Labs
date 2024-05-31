@@ -1,5 +1,4 @@
 #include "Extended_Play_Space.h"
-#include <U8g2lib.h>
 
 void drawExplodingBall(GeometryDisplayHandler* pen, int cX, int cY, int8_t _maxX, int8_t _maxY);
 void stringifyRadius(uint8_t radius, char* text);

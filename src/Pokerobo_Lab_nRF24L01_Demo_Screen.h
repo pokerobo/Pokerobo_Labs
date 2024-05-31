@@ -1,7 +1,8 @@
 #ifndef __POKEROBO_LAB_NRF24L01_DEMO_SCREEN_H__
 #define __POKEROBO_LAB_NRF24L01_DEMO_SCREEN_H__
 
-#include <Pokerobo_RCB_master.h>
+#include <Pokerobo_RCB.h>
+#include "Pokerobo_Lab_Display_Handler.h"
 
 class CaroMessagePacket {};
 
@@ -19,9 +20,9 @@ class CaroMessageSerializer {
     virtual CaroMessagePacket* decode(CaroMessagePacket *event, char *payload);
 };
 
-class CaroDisplayHandler: public DisplayHandler {
+class CaroDisplayHandler: public GeometryDisplayHandler {
   public:
-    using DisplayHandler::DisplayHandler;
+    using GeometryDisplayHandler::GeometryDisplayHandler;
     CaroDisplayHandler(char *title);
     void renderMessage(char *text);
     void renderMessage(CaroMessagePacket *packet);

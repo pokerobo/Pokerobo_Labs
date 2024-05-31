@@ -1,7 +1,7 @@
-#include <U8g2lib.h>
 #include "Pokerobo_Lab_Air_Balloon.h"
+#include "Pokerobo_Lab_Display_Handler.h"
 
-const uint8_t* gameInfoFont = u8g2_font_5x8_tf;
+const uint8_t* gameInfoFont = text_font_body_normal;
 
 Balloon::Balloon() {
   _x = 0;
@@ -56,10 +56,10 @@ PlaySpace::PlaySpace(CoordinateAxes* axes,
       concurrentTotal : CONCURRENT_BALLOONS_TOTAL;
   _axes = axes;
 
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-  u8g2->setFont(gameInfoFont);
-  _maxCharHeight = u8g2->getMaxCharHeight();
-  _maxCharWidth = u8g2->getMaxCharWidth();
+  GeometryDisplayHandler* pen = _axes->getPencil();
+  pen->setFont(gameInfoFont);
+  _maxCharHeight = pen->getMaxCharHeight();
+  _maxCharWidth = pen->getMaxCharWidth();
 }
 
 void PlaySpace::begin() {
@@ -187,8 +187,8 @@ void PlaySpace::drawExplodingBalloon(Balloon* balloon) {
 }
 
 void PlaySpace::drawFlyingBalloon(Balloon* balloon) {
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-  u8g2->drawCircle(balloon->_x, balloon->_y, balloon->_radius);
+  GeometryDisplayHandler* pen = _axes->getPencil();
+  pen->drawCircle(balloon->_x, balloon->_y, balloon->_radius);
 }
 
 void PlaySpace::drawGameInfoBar() {
@@ -196,7 +196,7 @@ void PlaySpace::drawGameInfoBar() {
   int8_t _maxX = _axes->getMaxX();
   int8_t _maxY = _axes->getMaxY();
 
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
+  GeometryDisplayHandler* pen = _axes->getPencil();
 
   this->prepareToDrawGameInfoBar();
   char line[15] = {};
@@ -204,13 +204,13 @@ void PlaySpace::drawGameInfoBar() {
       this->getRemainingBalloonTotal(),
       this->getEscapedBalloonTotal(),
       this->getExplodedBalloonTotal());
-  u8g2->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
-  u8g2->drawHLine(0, _maxY - this->getCharHeight() + 1, _maxX + 1);
+  pen->drawButtonUTF8(0, _maxY, U8G2_BTN_INV|U8G2_BTN_BW0, _maxX + 1,  0,  0, line);
+  pen->drawHLine(0, _maxY - this->getCharHeight() + 1, _maxX + 1);
 }
 
 void PlaySpace::prepareToDrawGameInfoBar() {
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-  u8g2->setFont(gameInfoFont);
+  GeometryDisplayHandler* pen = _axes->getPencil();
+  pen->setFont(gameInfoFont);
 }
 
 uint8_t PlaySpace::getCharHeight() {

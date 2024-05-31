@@ -1,4 +1,3 @@
-#include <U8g2lib.h>
 #include "Pokerobo_Lab_Game_Balloon_Shooter.h"
 
 #ifndef BIT_ANALOG_BUTTON
@@ -61,25 +60,25 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
 }
 
 void GameBoard::render() {
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-  u8g2->firstPage();
+  GeometryDisplayHandler* pen = _axes->getPencil();
+  pen->firstPage();
   do {
     _playSpace->render();
     _aimTarget->render();
     switch(_state) {
       case GAME_STATE::GAME_NEW:
-        u8g2->drawStr(2, _axes->getMaxY() >> 2, "  NEW GAME");
+        pen->drawStr(2, _axes->getMaxY() >> 2, "  NEW GAME");
         break;
       case GAME_STATE::GAME_PLAY:
         break;
       case GAME_STATE::GAME_LOSE:
-        u8g2->drawStr(2, _axes->getMaxY() >> 2, " GAME OVER");
+        pen->drawStr(2, _axes->getMaxY() >> 2, " GAME OVER");
         break;
       case GAME_STATE::GAME_WIN:
-        u8g2->drawStr(2, _axes->getMaxY() >> 2, " YOU WIN!");
+        pen->drawStr(2, _axes->getMaxY() >> 2, " YOU WIN!");
         break;
     }
-  } while (u8g2->nextPage());
+  } while (pen->nextPage());
 }
 
 void GameBoard::reset() {

@@ -1,7 +1,6 @@
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
-#include <U8g2lib.h>
 #include "Pokerobo_Lab_nRF24L01_Demo_Screen.h"
 
 void CaroMessageGenerator::createMessage(char *text) {
@@ -13,7 +12,7 @@ CaroMessagePacket* CaroMessageGenerator::createMessage(CaroMessagePacket *packet
   return packet;
 }
 
-CaroDisplayHandler::CaroDisplayHandler(char *title): DisplayHandler() {
+CaroDisplayHandler::CaroDisplayHandler(char *title): GeometryDisplayHandler() {
   _title = title;
 }
 
@@ -26,15 +25,14 @@ void CaroDisplayHandler::renderMessage(CaroMessagePacket *packet) {
 }
 
 void CaroDisplayHandler::renderMessageOrString(CaroMessagePacket *packet, char *text) {
-  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-  int8_t _charHeight = _u8g2->getMaxCharHeight();
-  int8_t _charWidth = _u8g2->getMaxCharWidth();
+  int8_t _charHeight = this->getMaxCharHeight();
+  int8_t _charWidth = this->getMaxCharWidth();
   this->firstPage();
   do {
     this->renderFrame();
     this->renderTitle();
     if (text != NULL) {
-      _u8g2->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
+      this->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
     } else if (packet != NULL) {
       this->renderMessageInternal(packet);
     }
@@ -42,18 +40,16 @@ void CaroDisplayHandler::renderMessageOrString(CaroMessagePacket *packet, char *
 }
 
 void CaroDisplayHandler::renderFrame() {
-  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-  int8_t _charHeight = _u8g2->getMaxCharHeight();
-  int8_t _charWidth = _u8g2->getMaxCharWidth();
-  _u8g2->drawFrame(1, _charHeight + 1, 128 - 2, 64 - _charHeight - 2);
+  int8_t _charHeight = this->getMaxCharHeight();
+  int8_t _charWidth = this->getMaxCharWidth();
+  this->drawFrame(1, _charHeight + 1, 128 - 2, 64 - _charHeight - 2);
 }
 
 void CaroDisplayHandler::renderTitle() {
   if (_title != NULL) {
-    U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-    int8_t _charHeight = _u8g2->getMaxCharHeight();
-    int8_t _charWidth = _u8g2->getMaxCharWidth();
-    _u8g2->drawStr(64 - _charWidth * strlen(_title) / 2, _charHeight, _title);
+    int8_t _charHeight = this->getMaxCharHeight();
+    int8_t _charWidth = this->getMaxCharWidth();
+    this->drawStr(64 - _charWidth * strlen(_title) / 2, _charHeight, _title);
   }
 }
 
@@ -149,13 +145,12 @@ CaroMessagePacket* CounterMessageSerializer::decode(CaroMessagePacket *packet, c
 }
 
 void CounterDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
-  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-  int8_t _charHeight = _u8g2->getMaxCharHeight();
-  int8_t _charWidth = _u8g2->getMaxCharWidth();
+  int8_t _charHeight = this->getMaxCharHeight();
+  int8_t _charWidth = this->getMaxCharWidth();
   if (packet != NULL) {
     CounterMessagePacket* _packet = (CounterMessagePacket*) packet;
     char *text = _packet->getContent();
-    _u8g2->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
+    this->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
   }
 }
 
@@ -227,9 +222,8 @@ CaroMessagePacket* JoystickEventSerializer::decode(CaroMessagePacket *packet, ch
 }
 
 void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
-  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-  int8_t _charHeight = _u8g2->getMaxCharHeight();
-  int8_t _charWidth = _u8g2->getMaxCharWidth();
+  int8_t _charHeight = this->getMaxCharHeight();
+  int8_t _charWidth = this->getMaxCharWidth();
   if (packet == NULL) {
     return;
   }
@@ -240,10 +234,10 @@ void JoystickEventDisplayHandler::renderMessageInternal(CaroMessagePacket *packe
   sprintf(_lines[2], "      Y: %d", _packet->getY());
   sprintf(_lines[3], "  Flags: %d", _packet->getPressFlags());
 
-  _u8g2->drawStr(64 - 10*_charWidth, 32 - 1*_charHeight, _lines[0]);
-  _u8g2->drawStr(64 - 10*_charWidth, 32 - 0*_charHeight, _lines[1]);
-  _u8g2->drawStr(64 - 10*_charWidth, 32 + 1*_charHeight, _lines[2]);
-  _u8g2->drawStr(64 - 10*_charWidth, 32 + 2*_charHeight, _lines[3]);
+  this->drawStr(64 - 10*_charWidth, 32 - 1*_charHeight, _lines[0]);
+  this->drawStr(64 - 10*_charWidth, 32 - 0*_charHeight, _lines[1]);
+  this->drawStr(64 - 10*_charWidth, 32 + 1*_charHeight, _lines[2]);
+  this->drawStr(64 - 10*_charWidth, 32 + 2*_charHeight, _lines[3]);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -255,9 +249,8 @@ void JoystickPadDisplayHandler::renderTitle() {
 }
 
 void JoystickPadDisplayHandler::renderMessageInternal(CaroMessagePacket *packet) {
-  U8G2 *_u8g2 = (U8G2*)getU8g2Ref();
-  int8_t _charHeight = _u8g2->getMaxCharHeight();
-  int8_t _charWidth = _u8g2->getMaxCharWidth();
+  int8_t _charHeight = this->getMaxCharHeight();
+  int8_t _charWidth = this->getMaxCharWidth();
   if (packet == NULL) {
     return;
   }

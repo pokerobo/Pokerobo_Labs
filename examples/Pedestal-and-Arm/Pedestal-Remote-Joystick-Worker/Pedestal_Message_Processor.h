@@ -1,7 +1,7 @@
 #ifndef __PEDESTAL_MESSAGE_PROCESSOR_H__
 #define __PEDESTAL_MESSAGE_PROCESSOR_H__
 
-#include <Pokerobo_RCB_master.h>
+#include <Pokerobo_RCB.h>
 #include <Pokerobo_Arm.h>
 
 class PedestalMessageProcessor: public MessageProcessor {

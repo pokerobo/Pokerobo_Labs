@@ -1,7 +1,7 @@
 #ifndef __PEDESTAL_DISPLAY_HANDLER_H__
 #define __PEDESTAL_DISPLAY_HANDLER_H__
 
-#include <Pokerobo_RCB_master.h>
+#include <Pokerobo_RCB.h>
 
 class PedestalDisplayHandler: public DisplayHandler {
   public:

@@ -1,5 +1,5 @@
 #include <Pokerobo_Arm.h>
-#include <Pokerobo_RCB_master.h>
+#include <Pokerobo_RCB.h>
 
 JoystickHandler joystickHandler;
 JoystickAction action;

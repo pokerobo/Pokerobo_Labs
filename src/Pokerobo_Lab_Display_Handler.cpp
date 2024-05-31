@@ -4,6 +4,10 @@
 const uint8_t* text_font_title_bold =  u8g2_font_ncenB10_tr;
 const uint8_t* text_font_body_normal = u8g2_font_5x8_tf;
 
+U8G2* toU8G2(void* u8g2Ref) {
+  return (U8G2*)u8g2Ref;
+}
+
 void* GeometryDisplayHandler::getU8g2Ref() {
   return DisplayHandler::getU8g2Ref();
 }
@@ -17,48 +21,39 @@ uint8_t GeometryDisplayHandler::nextPage() {
 }
 
 u8g2_uint_t GeometryDisplayHandler::getDisplayHeight() {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  return u8g2->getDisplayHeight();
+  return toU8G2(getU8g2Ref())->getDisplayHeight();
 }
 
 u8g2_uint_t GeometryDisplayHandler::getDisplayWidth() {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  return u8g2->getDisplayWidth();
+  return toU8G2(getU8g2Ref())->getDisplayWidth();
 }
 
 u8g2_uint_t GeometryDisplayHandler::getMaxCharHeight() {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  return u8g2->getMaxCharHeight();
+  return toU8G2(getU8g2Ref())->getMaxCharHeight();
 }
 
 u8g2_uint_t GeometryDisplayHandler::getMaxCharWidth() {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  return u8g2->getMaxCharWidth();
+  return toU8G2(getU8g2Ref())->getMaxCharWidth();
 }
 
 void GeometryDisplayHandler::setFont(const uint8_t *font) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->setFont(font);
+  toU8G2(getU8g2Ref())->setFont(font);
 }
 
 void GeometryDisplayHandler::setDrawColor(const uint8_t color_index) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->setDrawColor(color_index);
+  toU8G2(getU8g2Ref())->setDrawColor(color_index);
 }
 
 void GeometryDisplayHandler::drawBox(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawBox(x, y, w, h);
+  toU8G2(getU8g2Ref())->drawBox(x, y, w, h);
 }
 
 void GeometryDisplayHandler::drawButtonUTF8(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t w, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawButtonUTF8(x, y, flags, w, padding_h, padding_v, text);
+  toU8G2(getU8g2Ref())->drawButtonUTF8(x, y, flags, w, padding_h, padding_v, text);
 }
 
 void GeometryDisplayHandler::drawFrame(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawFrame(x, y, w, h);
+  toU8G2(getU8g2Ref())->drawFrame(x, y, w, h);
 }
 
 void GeometryDisplayHandler::drawCircle(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad) {
@@ -66,8 +61,7 @@ void GeometryDisplayHandler::drawCircle(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uin
 }
 
 void GeometryDisplayHandler::drawCircle(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t opt) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawCircle(x0, y0, rad, opt);
+  toU8G2(getU8g2Ref())->drawCircle(x0, y0, rad, opt);
 }
 
 void GeometryDisplayHandler::drawDisc(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad) {
@@ -75,28 +69,23 @@ void GeometryDisplayHandler::drawDisc(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_
 }
 
 void GeometryDisplayHandler::drawDisc(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t opt) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawDisc(x0, y0, rad, opt);
+  toU8G2(getU8g2Ref())->drawDisc(x0, y0, rad, opt);
 }
 
 void GeometryDisplayHandler::drawLine(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t x1, u8g2_uint_t y1) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawLine(x0, y0, x1, y1);
+  toU8G2(getU8g2Ref())->drawLine(x0, y0, x1, y1);
 }
 
 void GeometryDisplayHandler::drawHLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawHLine(x, y, w);
+  toU8G2(getU8g2Ref())->drawHLine(x, y, w);
 }
 
 void GeometryDisplayHandler::drawVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t h) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawHLine(x, y, h);
+  toU8G2(getU8g2Ref())->drawHLine(x, y, h);
 }
 
 void GeometryDisplayHandler::drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawTriangle(x0, y0, x1, y1, x2, y2);
+  toU8G2(getU8g2Ref())->drawTriangle(x0, y0, x1, y1, x2, y2);
 }
 
 void GeometryDisplayHandler::drawTriangleOutline(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2) {
@@ -107,13 +96,11 @@ void GeometryDisplayHandler::drawTriangleOutline(int16_t x0, int16_t y0, int16_t
 }
 
 void GeometryDisplayHandler::drawPixel(u8g2_uint_t x, u8g2_uint_t y) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  u8g2->drawPixel(x, y);
+  toU8G2(getU8g2Ref())->drawPixel(x, y);
 }
 
 uint16_t GeometryDisplayHandler::drawStr(u8g2_uint_t x, u8g2_uint_t y, const char* text) {
-  U8G2* u8g2 = (U8G2*)getU8g2Ref();
-  return u8g2->drawStr(x, y, text);
+  return toU8G2(getU8g2Ref())->drawStr(x, y, text);
 }
 
 void GeometryDisplayHandler::rotateScreen(bool clockwise=true) {
@@ -129,7 +116,7 @@ void GeometryDisplayHandler::showDisplayInfo() {
   uint16_t charHeight = this->getMaxCharHeight();
   uint16_t displayWidth = this->getDisplayWidth();
   uint16_t displayHeight = this->getDisplayHeight();
-  char text[7] = { 0 };
+  char text[7] = { 0 }; // 6 characters "128x64" and one for '\n'
   sprintf(text, "%dx%d", displayWidth, displayHeight);
   this->drawStr((displayWidth - strlen(text)*charWidth)/2, displayHeight/2, text);
 }

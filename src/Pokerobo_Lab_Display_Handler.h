@@ -13,6 +13,12 @@ typedef uint16_t u8g2_uint_t;
 }
 #endif
 
+#define U8G2_DRAW_UPPER_RIGHT  0x01
+#define U8G2_DRAW_UPPER_LEFT   0x02
+#define U8G2_DRAW_LOWER_LEFT   0x04
+#define U8G2_DRAW_LOWER_RIGHT  0x08
+#define U8G2_DRAW_ALL (U8G2_DRAW_UPPER_RIGHT|U8G2_DRAW_UPPER_LEFT|U8G2_DRAW_LOWER_RIGHT|U8G2_DRAW_LOWER_LEFT)
+
 class GeometryDisplayHandler: public DisplayHandler {
   public:
     using DisplayHandler::DisplayHandler;
@@ -24,6 +30,7 @@ class GeometryDisplayHandler: public DisplayHandler {
     u8g2_uint_t getMaxCharHeight();
     u8g2_uint_t getMaxCharWidth();
     void setFont(const uint8_t *font);
+    void setDrawColor(uint8_t color_index);
     void drawBitmap(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t cnt, u8g2_uint_t h, const uint8_t *bitmap);
     void drawBox(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h);
     void drawButtonUTF8(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text);

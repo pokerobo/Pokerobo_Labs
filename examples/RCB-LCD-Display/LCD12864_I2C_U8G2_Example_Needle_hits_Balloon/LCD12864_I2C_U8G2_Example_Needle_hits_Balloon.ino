@@ -30,29 +30,30 @@ CirclePartitioning::CirclePartitioning(CoordinateAxes* axes) {
 void CirclePartitioning::draw(int8_t x, int8_t y) {
   int8_t _maxX = _axes->getMaxX();
   int8_t _maxY = _axes->getMaxY();
-  U8G2* u8g2 = (U8G2*)_axes->getU8g2Ref();
-  u8g2->drawCircle(_ox, _oy, _radius);
+  GeometryDisplayHandler* pen = _axes->getPencil();
 
-  u8g2->drawLine(0, _oy, _maxX - 10, _oy);
-  u8g2->drawLine(_ox, 0, _ox, _maxY);
+  pen->drawCircle(_ox, _oy, _radius);
 
-  u8g2->drawLine(x, y, _ox, _oy);
+  pen->drawLine(0, _oy, _maxX - 10, _oy);
+  pen->drawLine(_ox, 0, _ox, _maxY);
+
+  pen->drawLine(x, y, _ox, _oy);
 
   int8_t dx = abs(x - _ox);
   int8_t dy = abs(y - _oy);
 
   if (dx >= _radius || dy >= _radius) {
-    u8g2->drawFrame(2, 2, 2*_radius + 1, 2*_radius + 1);
-    u8g2->drawLine(x, y, x, _oy);
-    u8g2->drawLine(x, y, _ox, y);
+    pen->drawFrame(2, 2, 2*_radius + 1, 2*_radius + 1);
+    pen->drawLine(x, y, x, _oy);
+    pen->drawLine(x, y, _ox, y);
   } else if (dx + dy <= _radius) {
-    u8g2->drawLine(_ox, 2, _ox + _radius, _oy);
-    u8g2->drawLine(_ox + _radius, _oy, _ox, _oy + _radius);
-    u8g2->drawLine(_ox, _oy + _radius, 2, _oy);
-    u8g2->drawLine(2, _oy, _ox, 2);
+    pen->drawLine(_ox, 2, _ox + _radius, _oy);
+    pen->drawLine(_ox + _radius, _oy, _ox, _oy + _radius);
+    pen->drawLine(_ox, _oy + _radius, 2, _oy);
+    pen->drawLine(2, _oy, _ox, 2);
 
-    u8g2->drawLine(x, y, x, _oy);
-    u8g2->drawLine(x, y, _ox, y);
+    pen->drawLine(x, y, x, _oy);
+    pen->drawLine(x, y, _ox, y);
   }
 }
 
@@ -63,11 +64,9 @@ CirclePartitioning partitioning(&axes);
 AimTarget target(&axes);
 
 void setup() {
-  u8g2.setI2CAddress(0x3F * 2); 
-  u8g2.begin();
   Serial.begin(57600);
-
   joystickHandler.begin();
+  displayHandler.begin();  
 }
 
 void loop() {
@@ -75,11 +74,11 @@ void loop() {
 
   target.moveByJoystick(action.getX(), action.getY());
 
-  u8g2.firstPage();
+  displayHandler.firstPage();
   do {
     target.render();
     partitioning.draw(target.getX(), target.getY());
-  } while (u8g2.nextPage());
+  } while (displayHandler.nextPage());
 
   delay(100);
 }

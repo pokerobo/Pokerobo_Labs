@@ -38,6 +38,11 @@ void GeometryDisplayHandler::setFont(const uint8_t *font) {
   u8g2->setFont(font);
 }
 
+void GeometryDisplayHandler::setDrawColor(const uint8_t color_index) {
+  U8G2* u8g2 = (U8G2*)getU8g2Ref();
+  u8g2->setDrawColor(color_index);
+}
+
 void GeometryDisplayHandler::drawBox(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) {
   U8G2* u8g2 = (U8G2*)getU8g2Ref();
   u8g2->drawBox(x, y, w, h);
@@ -128,20 +133,6 @@ void GeometryDisplayHandler::showDisplayInfo() {
 
 //-------------------------------------------------------------------------------------------------
 
-void CornersDisplayHandler::drawCorner(uint16_t x, uint16_t y) {
-  this->drawPixel(x, y);
-  this->drawPixel(x+1, y+1);
-  if (y > 0) {
-    this->drawPixel(x+1, y-1);
-  }
-  if (x > 0) {
-    this->drawPixel(x-1, y+1);
-  }
-  if (x > 0 & y > 0) {
-    this->drawPixel(x-1, y-1);
-  }
-}
-
 void CornersDisplayHandler::drawPage(uint8_t total, uint8_t number, uint16_t h0, uint16_t v0, uint16_t h1, uint16_t v1) {
   char label[total + 1] = { 0 };
   for(int i=0; i<total; i++) {
@@ -165,11 +156,11 @@ void CornersDisplayHandler::drawCorners(uint16_t h0, uint16_t v0, uint16_t h1, u
   uint16_t x2 = displayWidth - h1, y2 = displayHeight - v1;
   uint16_t x3 = h0, y3 = displayHeight - v1;
 
-  char lines[4][16] = { {0}, {0}, {0}, {0} };
-  sprintf(lines[0], "C%d: %3d,%2d", 0, x0, y0);
-  sprintf(lines[1], "C%d: %3d,%2d", 1, x1, y1);
-  sprintf(lines[2], "C%d: %3d,%2d", 2, x2, y2);
-  sprintf(lines[3], "C%d: %3d,%2d", 3, x3, y3);
+  char lines[4][12] = { {0}, {0}, {0}, {0} };
+  sprintf(lines[0], "%s: %3d,%2d", "TL", x0, y0);
+  sprintf(lines[1], "%s: %3d,%2d", "TR", x1, y1);
+  sprintf(lines[2], "%s: %3d,%2d", "BR", x2, y2);
+  sprintf(lines[3], "%s: %3d,%2d", "BL", x3, y3);
 
   uint16_t textBlockX = displayWidth/2 - 3*charWidth;
   uint16_t textBlockY = displayHeight/2 - 1*(charHeight + 1);
@@ -191,4 +182,18 @@ void CornersDisplayHandler::drawCorners(uint16_t h0, uint16_t v0, uint16_t h1, u
           textBlockY + i*(charHeight + 1), lines[i]);
     }
   } while (this->nextPage());
+}
+
+void CornersDisplayHandler::drawCorner(uint16_t x, uint16_t y) {
+  this->drawPixel(x, y);
+  this->drawPixel(x+1, y+1);
+  if (y > 0) {
+    this->drawPixel(x+1, y-1);
+  }
+  if (x > 0) {
+    this->drawPixel(x-1, y+1);
+  }
+  if (x > 0 & y > 0) {
+    this->drawPixel(x-1, y-1);
+  }
 }

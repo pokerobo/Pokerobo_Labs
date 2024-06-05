@@ -15,7 +15,7 @@ int gt0(int v) {
   return (v > 0) ? v : 0;
 }
 
-void drawAsterisk(int x, int y, int radius) {
+void drawAsterisk(int x, int y, int radius = 20) {
   displayHandler.drawLine(x, gt0(y - radius), x, y + radius);
   displayHandler.drawLine(gt0(x - radius), y, x + radius, y);
 
@@ -31,12 +31,11 @@ void drawAsterisk(int x, int y, int radius) {
 void loop() {
   joystickHandler.input(&joystickControl);
 
-  int len = 20;
   int x = map(joystickControl.getX(), 0, 1023, 0, 127);
   int y = map(joystickControl.getY(), 0, 1023, 63,  0);
 
   displayHandler.firstPage();
   do {
-    drawAsterisk(x, y, len);
+    drawAsterisk(x, y); // uses default radius ~ 20
   } while (displayHandler.nextPage());
 }

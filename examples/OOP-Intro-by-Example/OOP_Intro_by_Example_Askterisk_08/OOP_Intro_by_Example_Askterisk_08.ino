@@ -11,14 +11,17 @@ int gt0(int v) {
 
 class Asterisk {
   public:
-    Asterisk(JoystickHandler* joystickHandler,
-        GeometryDisplayHandler* displayHandler,
+    Asterisk(GeometryDisplayHandler* displayHandler,
+        JoystickHandler* joystickHandler = NULL,
         int radius = 20) {
       this->joystickHandler = joystickHandler;
       _displayHandler = displayHandler;
       this->radius = radius;
     }
     void followJoystick() {
+      if (joystickHandler == NULL) {
+        return;
+      }
       JoystickAction joystickControl;
       joystickHandler->input(&joystickControl);
       followJoystick(joystickControl.getX(), joystickControl.getY());
@@ -26,6 +29,16 @@ class Asterisk {
     void followJoystick(int joystickX, int joystickY) {
       x = map(joystickX, 0, 1023, 0, 127);
       y = map(joystickY, 0, 1023, 63,  0);
+    }
+    void setPosition(int screenX, int screenY) {
+      x = screenX;
+      y = screenY;
+    }
+    int getX() {
+      return x;
+    }
+    int getY() {
+      return y;
     }
     void draw() {
       _displayHandler->drawLine(x, gt0(y - radius), x, y + radius);
@@ -47,7 +60,10 @@ class Asterisk {
     int y = 0;
 };
 
-Asterisk asterisk(&joystickHandler, &displayHandler, 15);
+const int asteriskRadius = 15;
+
+Asterisk asterisk(&displayHandler, &joystickHandler, asteriskRadius);
+Asterisk asteriskMirror(&displayHandler, &joystickHandler, asteriskRadius);
 
 void setup() {
   Serial.begin(57600);
@@ -57,8 +73,10 @@ void setup() {
 
 void loop() {
   asterisk.followJoystick();
+  asteriskMirror.setPosition(displayHandler.getMaxX() - asterisk.getX(), asterisk.getY());
   displayHandler.firstPage();
   do {
     asterisk.draw();
+    asteriskMirror.draw();
   } while (displayHandler.nextPage());
 }

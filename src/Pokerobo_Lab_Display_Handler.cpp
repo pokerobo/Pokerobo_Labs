@@ -20,6 +20,14 @@ uint8_t GeometryDisplayHandler::nextPage() {
   return DisplayHandler::nextPage();
 }
 
+u8g2_uint_t GeometryDisplayHandler::getMaxX() {
+  return toU8G2(getU8g2Ref())->getDisplayWidth() - 1;
+}
+
+u8g2_uint_t GeometryDisplayHandler::getMaxY() {
+  return toU8G2(getU8g2Ref())->getDisplayHeight() - 1;
+}
+
 u8g2_uint_t GeometryDisplayHandler::getDisplayHeight() {
   return toU8G2(getU8g2Ref())->getDisplayHeight();
 }

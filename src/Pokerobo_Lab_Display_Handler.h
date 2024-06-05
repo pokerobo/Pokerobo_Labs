@@ -61,6 +61,8 @@ class GeometryDisplayHandler: public DisplayHandler {
     void* getU8g2Ref();
     void firstPage();
     uint8_t nextPage();
+    u8g2_uint_t getMaxX();
+    u8g2_uint_t getMaxY();
     u8g2_uint_t getDisplayHeight();
     u8g2_uint_t getDisplayWidth();
     u8g2_uint_t getMaxCharHeight();

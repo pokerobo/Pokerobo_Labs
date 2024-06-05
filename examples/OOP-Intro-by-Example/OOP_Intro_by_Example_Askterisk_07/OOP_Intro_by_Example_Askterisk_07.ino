@@ -17,6 +17,16 @@ class Asterisk {
       x = map(joystickX, 0, 1023, 0, 127);
       y = map(joystickY, 0, 1023, 63,  0);
     }
+    void setPosition(int screenX, int screenY) {
+      x = screenX;
+      y = screenY;
+    }
+    int getX() {
+      return x;
+    }
+    int getY() {
+      return y;
+    }
     void draw() {
       displayHandler.drawLine(x, gt0(y - radius), x, y + radius);
       displayHandler.drawLine(gt0(x - radius), y, x + radius, y);
@@ -36,6 +46,7 @@ class Asterisk {
 };
 
 Asterisk asterisk;
+Asterisk asteriskMirror;
 
 void setup() {
   Serial.begin(57600);
@@ -47,9 +58,11 @@ void loop() {
   joystickHandler.input(&joystickControl);
 
   asterisk.followJoystick(joystickControl.getX(), joystickControl.getY());
+  asteriskMirror.setPosition(displayHandler.getMaxX() - asterisk.getX(), asterisk.getY());
 
   displayHandler.firstPage();
   do {
     asterisk.draw();
+    asteriskMirror.draw();
   } while (displayHandler.nextPage());
 }

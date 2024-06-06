@@ -9,9 +9,9 @@ JoystickAction joystickControl;
 const int asteriskRadius = 15;
 
 Asterisk asterisk(&displayHandler, &joystickHandler, asteriskRadius);
-Asterisk asteriskR(&displayHandler, &joystickHandler, asteriskRadius);
-Asterisk asteriskRB(&displayHandler, &joystickHandler, asteriskRadius);
-Asterisk asteriskB(&displayHandler, &joystickHandler, asteriskRadius);
+Asterisk asterisk1(&displayHandler, &joystickHandler, asteriskRadius);
+Asterisk asterisk2(&displayHandler, &joystickHandler, asteriskRadius);
+Asterisk asterisk3(&displayHandler, &joystickHandler, asteriskRadius);
 
 void setup() {
   Serial.begin(57600);
@@ -21,14 +21,14 @@ void setup() {
 
 void loop() {
   asterisk.followJoystick();
-  asteriskR.setMirrorPositionOf(&asterisk, VERTICAL_MIRROR);
-  asteriskRB.setMirrorPositionOf(&asterisk, SYMMETRICAL_MIRROR);
-  asteriskB.setMirrorPositionOf(&asterisk, HORIZONTAL_MIRROR);
+  asterisk1.setMirrorPositionOf(&asterisk, VERTICAL_MIRROR);
+  asterisk2.setMirrorPositionOf(&asterisk, SYMMETRICAL_MIRROR);
+  asterisk3.setMirrorPositionOf(&asterisk, HORIZONTAL_MIRROR);
   displayHandler.firstPage();
   do {
     asterisk.draw();
-    asteriskR.draw();
-    asteriskRB.draw();
-    asteriskB.draw();
+    asterisk1.draw();
+    asterisk2.draw();
+    asterisk3.draw();
   } while (displayHandler.nextPage());
 }

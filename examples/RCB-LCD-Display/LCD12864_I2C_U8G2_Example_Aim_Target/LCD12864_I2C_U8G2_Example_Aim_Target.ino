@@ -21,7 +21,7 @@ void loop() {
 
   displayHandler.firstPage();
   do {
-    target.render();
+    target.draw();
   } while (displayHandler.nextPage());
 
   delay(10);

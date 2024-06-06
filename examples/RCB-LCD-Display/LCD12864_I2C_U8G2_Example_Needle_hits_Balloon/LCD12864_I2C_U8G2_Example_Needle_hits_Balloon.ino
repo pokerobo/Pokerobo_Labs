@@ -76,7 +76,7 @@ void loop() {
 
   displayHandler.firstPage();
   do {
-    target.render();
+    target.draw();
     partitioning.draw(target.getX(), target.getY());
   } while (displayHandler.nextPage());
 

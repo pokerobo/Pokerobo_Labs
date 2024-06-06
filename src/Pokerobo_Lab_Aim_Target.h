@@ -6,8 +6,6 @@
 class AimTarget {
   public:
     AimTarget(CoordinateAxes* axes, byte type=0xFF);
-    virtual void draw();
-    void render();
     void moveByJoystick(uint16_t x, uint16_t y);
     int8_t speedOfX(uint16_t x, uint16_t y);
     int8_t speedOfY(uint16_t x, uint16_t y);
@@ -15,6 +13,8 @@ class AimTarget {
     int8_t moveY(int8_t deltaY);
     int8_t getX();
     int8_t getY();
+    void render();
+    virtual void draw();
   protected:
     CoordinateAxes* getCoordinateAxes();
     void drawCross(int8_t x, int8_t y, int8_t d=2, bool straight=true);

@@ -11,10 +11,6 @@ CoordinateAxes* AimTarget::getCoordinateAxes() {
   return this->_axes;
 }
 
-void AimTarget::render() {
-  draw();
-}
-
 void AimTarget::draw() {
   GeometryDisplayHandler* pen = _axes->getPencil();
   switch(_type) {

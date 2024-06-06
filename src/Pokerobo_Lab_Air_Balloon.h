@@ -49,7 +49,7 @@ class PlaySpace {
         uint8_t options = 0);
     void begin();
     void change();
-    void render();
+    void draw();
     int8_t shoot(int8_t x, int8_t y);
     bool isFinished();
     virtual bool hasLost();

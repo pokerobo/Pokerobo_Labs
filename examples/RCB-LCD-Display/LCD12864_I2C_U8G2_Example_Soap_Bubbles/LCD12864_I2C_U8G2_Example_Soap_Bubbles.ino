@@ -16,7 +16,7 @@ void loop() {
 
   displayHandler.firstPage();
   do {
-    playSpace.render();
+    playSpace.draw();
   } while (displayHandler.nextPage());
 
   delay(50);

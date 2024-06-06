@@ -63,8 +63,8 @@ void GameBoard::render() {
   GeometryDisplayHandler* pen = _axes->getPencil();
   pen->firstPage();
   do {
-    _playSpace->render();
-    _aimTarget->render();
+    _playSpace->draw();
+    _aimTarget->draw();
     switch(_state) {
       case GAME_STATE::GAME_NEW:
         pen->drawStr(2, _axes->getMaxY() >> 2, "  NEW GAME");

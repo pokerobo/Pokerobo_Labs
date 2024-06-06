@@ -13,7 +13,6 @@ class AimTarget {
     int8_t moveY(int8_t deltaY);
     int8_t getX();
     int8_t getY();
-    void render();
     virtual void draw();
   protected:
     CoordinateAxes* getCoordinateAxes();

@@ -135,7 +135,7 @@ void PlaySpace::change() {
   }
 }
 
-void PlaySpace::render() {
+void PlaySpace::draw() {
   if (this->_options & PLAY_SPACE_OPTION_STATUS_BAR) {
     drawGameInfoBar();
   }

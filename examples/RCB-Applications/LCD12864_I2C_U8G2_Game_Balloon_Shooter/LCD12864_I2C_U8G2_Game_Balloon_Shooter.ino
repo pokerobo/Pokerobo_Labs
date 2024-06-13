@@ -8,11 +8,9 @@ GeometryDisplayHandler displayHandler(LCD_PINS_ON_RIGHT);
 JoystickHandler joystickHandler;
 JoystickAction action;
 
-CoordinateAxes axes(&displayHandler);
-
-AimTarget aimTarget(&axes);
-PlaySpace playSpace(&axes, 5, 100, PLAY_SPACE_OPTION_STATUS_BAR);
-GameBoard gameBoard(&axes, &aimTarget, &playSpace);
+AimTarget aimTarget(&displayHandler);
+PlaySpace playSpace(&displayHandler, 5, 100, PLAY_SPACE_OPTION_STATUS_BAR);
+GameBoard gameBoard(&displayHandler, &aimTarget, &playSpace);
 
 void setup() {
   Serial.begin(57600);

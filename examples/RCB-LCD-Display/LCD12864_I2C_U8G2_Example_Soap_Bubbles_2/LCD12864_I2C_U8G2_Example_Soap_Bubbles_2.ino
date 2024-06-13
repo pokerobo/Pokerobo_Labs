@@ -2,8 +2,7 @@
 
 GeometryDisplayHandler displayHandler;
 
-CoordinateAxes axes(&displayHandler);
-PlaySpace playSpace(&axes, 5, 20, PLAY_SPACE_OPTION_STATUS_BAR);
+PlaySpace playSpace(&displayHandler, 5, 20, PLAY_SPACE_OPTION_STATUS_BAR);
 
 void setup() {
   Serial.begin(57600);

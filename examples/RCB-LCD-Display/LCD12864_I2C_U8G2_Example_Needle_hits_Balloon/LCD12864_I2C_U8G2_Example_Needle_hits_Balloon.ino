@@ -3,24 +3,22 @@
 
 class CirclePartitioning {
   public:
-    CirclePartitioning(CoordinateAxes* axes);
+    CirclePartitioning(GeometryDisplayHandler* pencil);
     void draw(int8_t x, int8_t y);
-  protected:
-    CoordinateAxes* getCoordinateAxes();
   private:
-    CoordinateAxes* _axes;
+    GeometryDisplayHandler* _pencil;
     int8_t _ox;
     int8_t _oy;
     int8_t _radius;
 };
 
-CirclePartitioning::CirclePartitioning(CoordinateAxes* axes) {
-  _axes = axes;
-  if (_axes == NULL) {
+CirclePartitioning::CirclePartitioning(GeometryDisplayHandler* pencil) {
+  if (pencil == NULL) {
     exit(0);
   }
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
+  _pencil = pencil;
+  int8_t _maxX = _pencil->getMaxX();
+  int8_t _maxY = _pencil->getMaxY();
   int8_t diameter = min(_maxX, _maxY);
   _radius = (diameter >> 1) - 2;
   _ox = (diameter >> 1);
@@ -28,9 +26,9 @@ CirclePartitioning::CirclePartitioning(CoordinateAxes* axes) {
 }
 
 void CirclePartitioning::draw(int8_t x, int8_t y) {
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
-  GeometryDisplayHandler* pen = _axes->getPencil();
+  int8_t _maxX = _pencil->getMaxX();
+  int8_t _maxY = _pencil->getMaxY();
+  GeometryDisplayHandler* pen = _pencil;
 
   pen->drawCircle(_ox, _oy, _radius);
 
@@ -59,9 +57,8 @@ void CirclePartitioning::draw(int8_t x, int8_t y) {
 
 GeometryDisplayHandler displayHandler;
 JoystickHandler joystickHandler;
-CoordinateAxes axes(&displayHandler);
-CirclePartitioning partitioning(&axes);
-AimTarget target(&axes);
+CirclePartitioning partitioning(&displayHandler);
+AimTarget target(&displayHandler);
 
 void setup() {
   Serial.begin(57600);

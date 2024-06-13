@@ -4,8 +4,7 @@
 GeometryDisplayHandler displayHandler;
 
 JoystickHandler joystickHandler;
-CoordinateAxes axes(&displayHandler);
-AimTarget target(&axes);
+AimTarget target(&displayHandler);
 
 void setup() {
   Serial.begin(57600);

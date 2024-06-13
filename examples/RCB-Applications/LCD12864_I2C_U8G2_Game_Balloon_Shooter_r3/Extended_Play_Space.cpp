@@ -4,15 +4,12 @@ void drawExplodingBall(GeometryDisplayHandler* pen, int cX, int cY, int8_t _maxX
 void stringifyRadius(uint8_t radius, char* text);
 
 void ExtendedPlaySpace::drawExplodingBalloon(Balloon* b) {
-  CoordinateAxes* _axes = this->getCoordinateAxes();
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
-  drawExplodingBall(_axes->getPencil(), b->getX(), b->getY(), _maxX, _maxY);
+  GeometryDisplayHandler* pen = this->getPencil();
+  drawExplodingBall(pen, b->getX(), b->getY(), pen->getMaxX(), pen->getMaxY());
 }
 
 void ExtendedPlaySpace::drawFlyingBalloon(Balloon* b) {
-  CoordinateAxes* _axes = this->getCoordinateAxes();
-  GeometryDisplayHandler* pen = _axes->getPencil();
+  GeometryDisplayHandler* pen = this->getPencil();
   pen->drawCircle(b->getX(), b->getY(), b->getRadius());
 
   char num[3] = { 0 };

@@ -8,8 +8,21 @@
 
 GameBoard::GameBoard(CoordinateAxes* axes, AimTarget* aimTarget, PlaySpace* playSpace) {
   _axes = axes;
+  initialize(aimTarget, playSpace);
+}
+
+GameBoard::GameBoard(GeometryDisplayHandler* pencil, AimTarget* aimTarget, PlaySpace* playSpace) {
+  _pencil = pencil;
+  initialize(aimTarget, playSpace);
+}
+
+void GameBoard::initialize(AimTarget* aimTarget, PlaySpace* playSpace) {
   _aimTarget = aimTarget;
   _playSpace = playSpace;
+}
+
+GeometryDisplayHandler* GameBoard::getPencil() {
+  return (_pencil != NULL) ? _pencil : _axes->getPencil();
 }
 
 void GameBoard::begin() {
@@ -60,22 +73,22 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
 }
 
 void GameBoard::render() {
-  GeometryDisplayHandler* pen = _axes->getPencil();
+  GeometryDisplayHandler* pen = getPencil();
   pen->firstPage();
   do {
     _playSpace->draw();
     _aimTarget->draw();
     switch(_state) {
       case GAME_STATE::GAME_NEW:
-        pen->drawStr(2, _axes->getMaxY() >> 2, "  NEW GAME");
+        pen->drawStr(2, pen->getMaxY() >> 2, "  NEW GAME");
         break;
       case GAME_STATE::GAME_PLAY:
         break;
       case GAME_STATE::GAME_LOSE:
-        pen->drawStr(2, _axes->getMaxY() >> 2, " GAME OVER");
+        pen->drawStr(2, pen->getMaxY() >> 2, " GAME OVER");
         break;
       case GAME_STATE::GAME_WIN:
-        pen->drawStr(2, _axes->getMaxY() >> 2, " YOU WIN!");
+        pen->drawStr(2, pen->getMaxY() >> 2, " YOU WIN!");
         break;
     }
   } while (pen->nextPage());

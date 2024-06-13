@@ -50,22 +50,34 @@ PlaySpace::PlaySpace(CoordinateAxes* axes,
     uint8_t concurrentTotal,
     uint16_t appearanceTotal,
     uint8_t options) {
+  _axes = axes;
+  initialize(concurrentTotal, appearanceTotal, options);
+}
+
+PlaySpace::PlaySpace(GeometryDisplayHandler* pencil,
+    uint8_t concurrentTotal,
+    uint16_t appearanceTotal,
+    uint8_t options) {
+  _pencil = pencil;
+  initialize(concurrentTotal, appearanceTotal, options);
+}
+
+void PlaySpace::initialize(uint8_t concurrentTotal,
+    uint16_t appearanceTotal,
+    uint8_t options) {
   _options = options;
   _appearanceTotal = appearanceTotal;
   _concurrentTotal = (concurrentTotal <= CONCURRENT_BALLOONS_TOTAL) ?
       concurrentTotal : CONCURRENT_BALLOONS_TOTAL;
-  _axes = axes;
 
-  GeometryDisplayHandler* pen = _axes->getPencil();
+  GeometryDisplayHandler* pen = getPencil();
   pen->setFont(gameInfoFont);
-  _maxCharHeight = pen->getMaxCharHeight();
-  _maxCharWidth = pen->getMaxCharWidth();
 }
 
 void PlaySpace::begin() {
   randomSeed(analogRead(A3));
 
-  int8_t _maxY = _axes->getMaxY();
+  int8_t _maxY = getPencil()->getMaxY();
   int8_t minDelay = _maxY;
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
@@ -90,9 +102,13 @@ CoordinateAxes* PlaySpace::getCoordinateAxes() {
   return this->_axes;
 }
 
+GeometryDisplayHandler* PlaySpace::getPencil() {
+  return (_pencil != NULL) ? _pencil : getCoordinateAxes()->getPencil();
+}
+
 void PlaySpace::resetBalloon(Balloon* b) {
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
+  int8_t _maxX = getPencil()->getMaxX();
+  int8_t _maxY = getPencil()->getMaxY();
   b->_radius = random(AIR_BALLOON_MIN_RADIUS, AIR_BALLOON_MAX_RADIUS + 1);
   b->_x = random(_maxX);
   b->_y = b->_radius + _maxY + 1;
@@ -187,16 +203,13 @@ void PlaySpace::drawExplodingBalloon(Balloon* balloon) {
 }
 
 void PlaySpace::drawFlyingBalloon(Balloon* balloon) {
-  GeometryDisplayHandler* pen = _axes->getPencil();
-  pen->drawCircle(balloon->_x, balloon->_y, balloon->_radius);
+  getPencil()->drawCircle(balloon->_x, balloon->_y, balloon->_radius);
 }
 
 void PlaySpace::drawGameInfoBar() {
-  CoordinateAxes* _axes = this->getCoordinateAxes();
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
-
-  GeometryDisplayHandler* pen = _axes->getPencil();
+  GeometryDisplayHandler* pen = getPencil();
+  int8_t _maxX = pen->getMaxX();
+  int8_t _maxY = pen->getMaxY();
 
   this->prepareToDrawGameInfoBar();
   char line[15] = {};
@@ -209,16 +222,15 @@ void PlaySpace::drawGameInfoBar() {
 }
 
 void PlaySpace::prepareToDrawGameInfoBar() {
-  GeometryDisplayHandler* pen = _axes->getPencil();
-  pen->setFont(gameInfoFont);
+  getPencil()->setFont(gameInfoFont);
 }
 
 uint8_t PlaySpace::getCharHeight() {
-  return _maxCharHeight;
+  return getPencil()->getMaxCharHeight();
 }
 
 uint8_t PlaySpace::getCharWidth() {
-  return _maxCharWidth;
+  return getPencil()->getMaxCharWidth();
 }
 
 uint16_t PlaySpace::getRemainingBalloonTotal() {

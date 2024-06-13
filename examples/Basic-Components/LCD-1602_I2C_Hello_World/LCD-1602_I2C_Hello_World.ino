@@ -6,10 +6,10 @@ void setup() {
   lcd.init();
   lcd.clear();
   lcd.backlight();
-  
+
   lcd.setCursor(2,0);
   lcd.print("Hello world!");
-  
+
   lcd.setCursor(2,1);
   lcd.print("LCD Tutorial");
 }

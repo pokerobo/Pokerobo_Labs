@@ -1,16 +1,8 @@
 #include "Pokerobo_Lab_Display_Layout.h"
 
-CoordinateAxes::CoordinateAxes(GeometryDisplayHandler* pencil) {
-  _pencil = pencil;
-}
-
-GeometryDisplayHandler* CoordinateAxes::getPencil() {
-  return _pencil;
-}
-
-lcd_layout_t CoordinateAxes::getLcdLayout() {
-  if (_pencil != NULL) {
-    DisplayOptions* options = _pencil->getOptions();
+lcd_layout_t extractLcdLayout(GeometryDisplayHandler* pencil) {
+  if (pencil != NULL) {
+    DisplayOptions* options = pencil->getOptions();
     if (options != NULL) {
       switch(options->getLcdRotation()) {
         case LCD_PINS_ON_TOP:
@@ -25,6 +17,18 @@ lcd_layout_t CoordinateAxes::getLcdLayout() {
     }
   }
   return LCD_LAYOUT_R2;
+}
+
+CoordinateAxes::CoordinateAxes(GeometryDisplayHandler* pencil) {
+  _pencil = pencil;
+}
+
+GeometryDisplayHandler* CoordinateAxes::getPencil() {
+  return _pencil;
+}
+
+lcd_layout_t CoordinateAxes::getLcdLayout() {
+  return extractLcdLayout(_pencil);
 }
 
 void* CoordinateAxes::getU8g2Ref() {

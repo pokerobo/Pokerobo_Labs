@@ -10,6 +10,8 @@ typedef enum {
   LCD_LAYOUT_R3
 } lcd_layout_t;
 
+lcd_layout_t extractLcdLayout(GeometryDisplayHandler* pencil);
+
 class CoordinateAxes {
   public:
     CoordinateAxes(GeometryDisplayHandler* pencil);

@@ -3,10 +3,8 @@
 void drawExplodingBall(GeometryDisplayHandler* pen, int cX, int cY, int8_t _maxX, int8_t _maxY);
 
 void ExtendedPlaySpace::drawExplodingBalloon(Balloon* b) {
-  CoordinateAxes* _axes = this->getCoordinateAxes();
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
-  drawExplodingBall(_axes->getPencil(), b->getX(), b->getY(), _maxX, _maxY);
+  GeometryDisplayHandler* pen = this->getPencil();
+  drawExplodingBall(pen, b->getX(), b->getY(), pen->getMaxX(), pen->getMaxY());
 }
 
 int ge0(int v) {

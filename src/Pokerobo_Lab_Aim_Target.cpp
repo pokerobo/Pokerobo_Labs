@@ -1,18 +1,31 @@
 #include "Pokerobo_Lab_Aim_Target.h"
 
 AimTarget::AimTarget(CoordinateAxes* axes, byte type) {
-  _type = type;
   _axes = axes;
-  x = _axes->getMaxX() >> 1;
-  y = _axes->getMaxY() >> 1;
+  initialize(type);
+}
+
+AimTarget::AimTarget(GeometryDisplayHandler* pencil, byte type) {
+  _pencil = pencil;
+  initialize(type);
+}
+
+void AimTarget::initialize(byte type) {
+  _type = type;
+  x = getPencil()->getMaxX() >> 1;
+  y = getPencil()->getMaxY() >> 1;
 }
 
 CoordinateAxes* AimTarget::getCoordinateAxes() {
   return this->_axes;
 }
 
+GeometryDisplayHandler* AimTarget::getPencil() {
+  return (_pencil != NULL) ? _pencil : getCoordinateAxes()->getPencil();
+}
+
 void AimTarget::draw() {
-  GeometryDisplayHandler* pen = _axes->getPencil();
+  GeometryDisplayHandler* pen = getPencil();
   switch(_type) {
     case 0:
       pen->drawPixel(x, y);
@@ -31,15 +44,15 @@ void AimTarget::draw() {
 }
 
 void AimTarget::drawCross(int8_t x, int8_t y, int8_t d, bool straight) {
-  int8_t _maxX = _axes->getMaxX();
-  int8_t _maxY = _axes->getMaxY();
+  GeometryDisplayHandler* pen = getPencil();
+  int8_t _maxX = pen->getMaxX();
+  int8_t _maxY = pen->getMaxY();
 
   int8_t x1 = (x-d >= 0) ? x-d : 0;
   int8_t x2 = (x+d <= _maxX) ? x+d : _maxX;
   int8_t y1 = (y-d >= 0) ? y-d : 0;
   int8_t y2 = (y+d <= _maxY) ? y+d : _maxY;
 
-  GeometryDisplayHandler* pen = _axes->getPencil();
   if (straight) {
     pen->drawLine(x1, y, x2, y);
     pen->drawLine(x, y1, x, y2);
@@ -66,7 +79,7 @@ int8_t AimTarget::speedOfX(uint16_t x, uint16_t y) {
   }
 
   int rX = 0;
-  switch (_axes->getLcdLayout()) {
+  switch (extractLcdLayout(getPencil())) {
     case LCD_LAYOUT_R0:
     case LCD_LAYOUT_R2:
       Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
@@ -98,7 +111,7 @@ int8_t AimTarget::speedOfY(uint16_t x, uint16_t y) {
   }
 
   int rY = 0;
-  switch (_axes->getLcdLayout()) {
+  switch (extractLcdLayout(getPencil())) {
     case LCD_LAYOUT_R0:
     case LCD_LAYOUT_R2:
       Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
@@ -119,7 +132,7 @@ int8_t AimTarget::speedOfY(uint16_t x, uint16_t y) {
 }
 
 int8_t AimTarget::moveX(int8_t dX) {
-  int8_t _maxX = _axes->getMaxX();
+  int8_t _maxX = getPencil()->getMaxX();
   int8_t oX = x;
   if (dX < 0 && x < -dX) {
     x = 0;
@@ -132,7 +145,7 @@ int8_t AimTarget::moveX(int8_t dX) {
 }
 
 int8_t AimTarget::moveY(int8_t dY) {
-  int8_t _maxY = _axes->getMaxY();
+  int8_t _maxY = getPencil()->getMaxY();
   int8_t oY = y;
   if (y < -dY) {
     y = 0;

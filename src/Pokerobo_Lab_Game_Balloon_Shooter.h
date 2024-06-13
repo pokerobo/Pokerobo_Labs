@@ -14,7 +14,6 @@ typedef enum GAME_STATE {
 
 class GameBoard {
   public:
-    GameBoard(CoordinateAxes* axes, AimTarget* aimTarget, PlaySpace* playSpace);
     GameBoard(GeometryDisplayHandler* pencil, AimTarget* aimTarget, PlaySpace* playSpace);
     void begin();
     void play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystickY);
@@ -27,7 +26,6 @@ class GameBoard {
   private:
     AimTarget* _aimTarget;
     PlaySpace* _playSpace;
-    CoordinateAxes* _axes = NULL;
     GeometryDisplayHandler* _pencil = NULL;
     game_state_t _state = GAME_STATE::GAME_NEW;
     bool _suspending = false;

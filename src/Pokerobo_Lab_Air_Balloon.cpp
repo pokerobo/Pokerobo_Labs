@@ -46,14 +46,6 @@ bool Balloon::isHit(int8_t aimX, int8_t aimY) {
   return false;
 }
 
-PlaySpace::PlaySpace(CoordinateAxes* axes,
-    uint8_t concurrentTotal,
-    uint16_t appearanceTotal,
-    uint8_t options) {
-  _axes = axes;
-  initialize(concurrentTotal, appearanceTotal, options);
-}
-
 PlaySpace::PlaySpace(GeometryDisplayHandler* pencil,
     uint8_t concurrentTotal,
     uint16_t appearanceTotal,
@@ -98,12 +90,8 @@ void PlaySpace::begin() {
   this->_destroyCount = 0;
 }
 
-CoordinateAxes* PlaySpace::getCoordinateAxes() {
-  return this->_axes;
-}
-
 GeometryDisplayHandler* PlaySpace::getPencil() {
-  return (_pencil != NULL) ? _pencil : getCoordinateAxes()->getPencil();
+  return _pencil;
 }
 
 void PlaySpace::resetBalloon(Balloon* b) {

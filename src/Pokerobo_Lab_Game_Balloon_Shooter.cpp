@@ -6,11 +6,6 @@
 
 #define MASK_ANALOG_BUTTON 1U << BIT_ANALOG_BUTTON
 
-GameBoard::GameBoard(CoordinateAxes* axes, AimTarget* aimTarget, PlaySpace* playSpace) {
-  _axes = axes;
-  initialize(aimTarget, playSpace);
-}
-
 GameBoard::GameBoard(GeometryDisplayHandler* pencil, AimTarget* aimTarget, PlaySpace* playSpace) {
   _pencil = pencil;
   initialize(aimTarget, playSpace);
@@ -22,7 +17,7 @@ void GameBoard::initialize(AimTarget* aimTarget, PlaySpace* playSpace) {
 }
 
 GeometryDisplayHandler* GameBoard::getPencil() {
-  return (_pencil != NULL) ? _pencil : _axes->getPencil();
+  return _pencil;
 }
 
 void GameBoard::begin() {

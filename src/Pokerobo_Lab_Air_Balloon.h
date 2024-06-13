@@ -44,10 +44,6 @@ class Balloon {
 
 class PlaySpace {
   public:
-    PlaySpace(CoordinateAxes* axes,
-        uint8_t concurrentTotal=CONCURRENT_BALLOONS_TOTAL,
-        uint16_t appearanceTotal=APPEARANCE_BALLOONS_TOTAL,
-        uint8_t options = 0);
     PlaySpace(GeometryDisplayHandler* pencil,
         uint8_t concurrentTotal=CONCURRENT_BALLOONS_TOTAL,
         uint16_t appearanceTotal=APPEARANCE_BALLOONS_TOTAL,
@@ -68,7 +64,6 @@ class PlaySpace {
     virtual void drawFlyingBalloon(Balloon* balloon);
     virtual void drawGameInfoBar();
     void prepareToDrawGameInfoBar();
-    CoordinateAxes* getCoordinateAxes();
     GeometryDisplayHandler* getPencil();
     uint8_t getCharHeight();
     uint8_t getCharWidth();
@@ -82,7 +77,6 @@ class PlaySpace {
     uint16_t _appearanceTotal = 0;
     uint8_t _concurrentTotal = 0;
     Balloon _balloons[CONCURRENT_BALLOONS_TOTAL];
-    CoordinateAxes* _axes = NULL;
     GeometryDisplayHandler* _pencil = NULL;
     uint8_t _options = 0;
 };

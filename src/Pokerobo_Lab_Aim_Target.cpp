@@ -1,10 +1,5 @@
 #include "Pokerobo_Lab_Aim_Target.h"
 
-AimTarget::AimTarget(CoordinateAxes* axes, byte type) {
-  _axes = axes;
-  initialize(type);
-}
-
 AimTarget::AimTarget(GeometryDisplayHandler* pencil, byte type) {
   _pencil = pencil;
   initialize(type);
@@ -16,12 +11,8 @@ void AimTarget::initialize(byte type) {
   y = getPencil()->getMaxY() >> 1;
 }
 
-CoordinateAxes* AimTarget::getCoordinateAxes() {
-  return this->_axes;
-}
-
 GeometryDisplayHandler* AimTarget::getPencil() {
-  return (_pencil != NULL) ? _pencil : getCoordinateAxes()->getPencil();
+  return _pencil;
 }
 
 void AimTarget::draw() {

@@ -18,5 +18,5 @@ void loop() {
     displayHandler.drawLine((63 - len), (31 - len), (63 + len), (31 + len));
     displayHandler.drawLine((63 - len), (31 + len), (63 + len), (31 - len));
 
-  } while (displayHandler.ne63tPage());
+  } while (displayHandler.nextPage());
 }

@@ -9,11 +9,11 @@ void setup() {
 
 void drawAsterisk(int x, int y, int radius) {
   displayHandler.drawLine(x, y - radius, x, y + radius);
-    displayHandler.drawLine(x - radius, y, x + radius, y);
+  displayHandler.drawLine(x - radius, y, x + radius, y);
 
-    int len2 = radius / sqrt(2);
-    displayHandler.drawLine(x - len2, y - len2, x + len2, y + len2);
-    displayHandler.drawLine(x - len2, y + len2, x + len2, y - len2);
+  int len2 = radius / sqrt(2);
+  displayHandler.drawLine(x - len2, y - len2, x + len2, y + len2);
+  displayHandler.drawLine(x - len2, y + len2, x + len2, y - len2);
 }
 
 void loop() {

@@ -11,21 +11,21 @@ void setup() {
 }
 
 void loop() {
-  if (direction) {
+  if (direction > 0) { // left-to-right direction
     x = x + speed;
-    if (x > 127 - r) {
+    if (x + r > 127) {
       x = 127 - r;
     }
     if (x == 127 - r) {
-      direction = 1 - direction;
+      direction = 1 - direction; // switch to right-to-left
     }
-  } else {
+  } else { // right-to-left direction
     x = x - speed;
     if (x < r) {
       x = r;
     }
     if (x == r) {
-      direction = 1 - direction;
+      direction = 1 - direction; // switch to left-to-right
     }
   }
   dh.firstPage();

@@ -51,12 +51,13 @@ class PlaySpace {
     void begin();
     void change();
     void draw();
-    int8_t shoot(int8_t x, int8_t y);
+    int8_t prick(int8_t x, int8_t y);
     bool isFinished();
     virtual bool hasLost();
     virtual void reset();
   protected:
     void initialize(uint8_t concurrentTotal, uint16_t appearanceTotal, uint8_t options);
+    void initBalloon(Balloon* balloon);
     void resetBalloon(Balloon* balloon);
     virtual void onBalloonExploded(Balloon* balloon);
     virtual void onBalloonEscaped(Balloon* balloon);

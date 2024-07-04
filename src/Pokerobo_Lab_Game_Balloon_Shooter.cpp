@@ -52,7 +52,7 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
       _aimTarget->moveX(_aimTarget->speedOfX(joystickX, joystickY));
       _aimTarget->moveY(_aimTarget->speedOfY(joystickX, joystickY));
 
-      _playSpace->shoot(_aimTarget->getX(), _aimTarget->getY());
+      _playSpace->prick(_aimTarget->getX(), _aimTarget->getY());
       break;
     case GAME_STATE::GAME_LOSE:
       if (isJoystickClicked(toggleFlags)) {

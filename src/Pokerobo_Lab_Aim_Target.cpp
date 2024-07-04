@@ -124,7 +124,6 @@ int8_t AimTarget::speedOfY(uint16_t x, uint16_t y) {
 
 int8_t AimTarget::moveX(int8_t dX) {
   int8_t _maxX = getPencil()->getMaxX();
-  int8_t oX = x;
   if (dX < 0 && x < -dX) {
     x = 0;
   } else if (dX > 0 && x > _maxX - dX) {
@@ -137,7 +136,6 @@ int8_t AimTarget::moveX(int8_t dX) {
 
 int8_t AimTarget::moveY(int8_t dY) {
   int8_t _maxY = getPencil()->getMaxY();
-  int8_t oY = y;
   if (y < -dY) {
     y = 0;
   } else if (y > _maxY - dY) {

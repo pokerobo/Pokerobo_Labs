@@ -73,12 +73,9 @@ void PlaySpace::begin() {
   int8_t minDelay = _maxY;
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
-    b->_state = BALLOON_STATE::BALLOON_NEW;
-    this->resetBalloon(b);
+    this->initBalloon(b);
     b->_delay = random(0, _maxY);
-    if (b->_delay < minDelay) {
-      minDelay = b->_delay;
-    }
+    minDelay = min(b->_delay, minDelay);
   }
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
@@ -92,6 +89,11 @@ void PlaySpace::begin() {
 
 GeometryDisplayHandler* PlaySpace::getPencil() {
   return _pencil;
+}
+
+void PlaySpace::initBalloon(Balloon* b) {
+  b->_state = BALLOON_STATE::BALLOON_NEW;
+  resetBalloon(b);
 }
 
 void PlaySpace::resetBalloon(Balloon* b) {
@@ -157,7 +159,7 @@ void PlaySpace::draw() {
   }
 }
 
-int8_t PlaySpace::shoot(int8_t aimX, int8_t aimY) {
+int8_t PlaySpace::prick(int8_t aimX, int8_t aimY) {
   int8_t count = 0;
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];

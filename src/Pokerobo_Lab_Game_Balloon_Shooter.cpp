@@ -6,13 +6,13 @@
 
 #define MASK_ANALOG_BUTTON 1U << BIT_ANALOG_BUTTON
 
-GameBoard::GameBoard(GeometryDisplayHandler* pencil, AimTarget* aimTarget, PlaySpace* playSpace) {
+GameBoard::GameBoard(GeometryDisplayHandler* pencil, ShootingTarget* shootingTarget, PlaySpace* playSpace) {
   _pencil = pencil;
-  initialize(aimTarget, playSpace);
+  initialize(shootingTarget, playSpace);
 }
 
-void GameBoard::initialize(AimTarget* aimTarget, PlaySpace* playSpace) {
-  _aimTarget = aimTarget;
+void GameBoard::initialize(ShootingTarget* shootingTarget, PlaySpace* playSpace) {
+  _shootingTarget = shootingTarget;
   _playSpace = playSpace;
 }
 
@@ -49,10 +49,10 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
 
       _playSpace->change();
 
-      _aimTarget->moveX(_aimTarget->speedOfX(joystickX, joystickY));
-      _aimTarget->moveY(_aimTarget->speedOfY(joystickX, joystickY));
+      _shootingTarget->moveX(_shootingTarget->speedOfX(joystickX, joystickY));
+      _shootingTarget->moveY(_shootingTarget->speedOfY(joystickX, joystickY));
 
-      _playSpace->prick(_aimTarget->getX(), _aimTarget->getY());
+      _playSpace->prick(_shootingTarget->getX(), _shootingTarget->getY());
       break;
     case GAME_STATE::GAME_LOSE:
       if (isJoystickClicked(toggleFlags)) {
@@ -72,7 +72,7 @@ void GameBoard::render() {
   pen->firstPage();
   do {
     _playSpace->draw();
-    _aimTarget->draw();
+    _shootingTarget->draw();
     switch(_state) {
       case GAME_STATE::GAME_NEW:
         pen->drawStr(2, pen->getMaxY() >> 2, "  NEW GAME");

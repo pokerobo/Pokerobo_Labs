@@ -4,9 +4,9 @@
 JoystickHandler joystickHandler;
 GeometryDisplayHandler displayHandler;
 
-class SimpleAimTarget {
+class SimpleShootingTarget {
   public:
-    SimpleAimTarget(byte type);
+    SimpleShootingTarget(byte type);
     void draw();
     int8_t speedOfX(uint16_t x);
     int8_t speedOfY(uint16_t y);
@@ -19,13 +19,13 @@ class SimpleAimTarget {
     int8_t _y;
 };
 
-SimpleAimTarget::SimpleAimTarget(byte type=2) {
+SimpleShootingTarget::SimpleShootingTarget(byte type=2) {
   _type = type;
   _x = 63;
   _y = 31;
 }
 
-void SimpleAimTarget::draw() {
+void SimpleShootingTarget::draw() {
   switch(_type) {
     case 0:
       displayHandler.drawPixel(_x, _y);
@@ -43,7 +43,7 @@ void SimpleAimTarget::draw() {
   }
 }
 
-void SimpleAimTarget::drawPlus(int8_t x, int8_t y, int8_t d) {
+void SimpleShootingTarget::drawPlus(int8_t x, int8_t y, int8_t d) {
   int8_t x1 = (x-d >= 0) ? x-d : 0;
   int8_t x2 = (x+d <= 127) ? x+d : 127;
   int8_t y1 = (y-d >= 0) ? y-d : 0;
@@ -52,7 +52,7 @@ void SimpleAimTarget::drawPlus(int8_t x, int8_t y, int8_t d) {
   displayHandler.drawLine(x, y1, x, y2);
 }
 
-int8_t SimpleAimTarget::speedOfX(uint16_t x) {
+int8_t SimpleShootingTarget::speedOfX(uint16_t x) {
   int jX = -512 + x;
 
   Serial.print("jX: "), Serial.print(jX);
@@ -70,7 +70,7 @@ int8_t SimpleAimTarget::speedOfX(uint16_t x) {
   return rX;
 }
 
-int8_t SimpleAimTarget::speedOfY(uint16_t y) {
+int8_t SimpleShootingTarget::speedOfY(uint16_t y) {
   int jY = -512 + y;
 
   Serial.print("jY: "), Serial.print(jY);
@@ -88,7 +88,7 @@ int8_t SimpleAimTarget::speedOfY(uint16_t y) {
   return rY;
 }
 
-int8_t SimpleAimTarget::moveX(int8_t dX) {
+int8_t SimpleShootingTarget::moveX(int8_t dX) {
   int8_t oX = _x;
   if (dX < 0 && _x < -dX) {
     _x = 0;
@@ -100,7 +100,7 @@ int8_t SimpleAimTarget::moveX(int8_t dX) {
   return _x - oX;
 }
 
-int8_t SimpleAimTarget::moveY(int8_t dY) {
+int8_t SimpleShootingTarget::moveY(int8_t dY) {
   int8_t oY = _y;
   if (_y < -dY) {
     _y = 0;
@@ -112,7 +112,7 @@ int8_t SimpleAimTarget::moveY(int8_t dY) {
   return _y - oY;
 }
 
-SimpleAimTarget target(1);
+SimpleShootingTarget target(1);
 
 void setup() {
   Serial.begin(57600);

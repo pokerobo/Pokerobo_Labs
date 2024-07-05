@@ -1,6 +1,6 @@
 #include <Pokerobo_RCB.h>
-#include "Pokerobo_Lab_Aim_Target.h"
 #include "Pokerobo_Lab_Air_Balloon.h"
+#include "Pokerobo_Lab_Aim_Target.h"
 #include "Pokerobo_Lab_Game_Balloon_Shooter.h"
 
 GeometryDisplayHandler displayHandler(LCD_PINS_ON_RIGHT);
@@ -8,9 +8,9 @@ GeometryDisplayHandler displayHandler(LCD_PINS_ON_RIGHT);
 JoystickHandler joystickHandler;
 JoystickAction action;
 
-AimTarget aimTarget(&displayHandler);
+ShootingTarget shootingTarget(&displayHandler);
 PlaySpace playSpace(&displayHandler, 5, 100, PLAY_SPACE_OPTION_STATUS_BAR);
-GameBoard gameBoard(&displayHandler, &aimTarget, &playSpace);
+GameBoard gameBoard(&displayHandler, &shootingTarget, &playSpace);
 
 void setup() {
   Serial.begin(57600);

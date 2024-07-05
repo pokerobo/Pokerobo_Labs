@@ -4,9 +4,9 @@
 #include "Pokerobo_Lab_Display_Handler.h"
 #include "Pokerobo_Lab_Display_Layout.h"
 
-class AimTarget {
+class ShootingTarget {
   public:
-    AimTarget(GeometryDisplayHandler* pencil, byte type=0xFF);
+    ShootingTarget(GeometryDisplayHandler* pencil, byte type=0xFF);
     void moveByJoystick(uint16_t x, uint16_t y);
     int8_t speedOfX(uint16_t x, uint16_t y);
     int8_t speedOfY(uint16_t x, uint16_t y);

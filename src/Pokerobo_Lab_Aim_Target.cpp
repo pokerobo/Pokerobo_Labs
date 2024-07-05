@@ -1,21 +1,21 @@
 #include "Pokerobo_Lab_Aim_Target.h"
 
-AimTarget::AimTarget(GeometryDisplayHandler* pencil, byte type) {
+ShootingTarget::ShootingTarget(GeometryDisplayHandler* pencil, byte type) {
   _pencil = pencil;
   initialize(type);
 }
 
-void AimTarget::initialize(byte type) {
+void ShootingTarget::initialize(byte type) {
   _type = type;
   x = getPencil()->getMaxX() >> 1;
   y = getPencil()->getMaxY() >> 1;
 }
 
-GeometryDisplayHandler* AimTarget::getPencil() {
+GeometryDisplayHandler* ShootingTarget::getPencil() {
   return _pencil;
 }
 
-void AimTarget::draw() {
+void ShootingTarget::draw() {
   GeometryDisplayHandler* pen = getPencil();
   switch(_type) {
     case 0:
@@ -34,7 +34,7 @@ void AimTarget::draw() {
   }
 }
 
-void AimTarget::drawCross(int8_t x, int8_t y, int8_t d, bool straight) {
+void ShootingTarget::drawCross(int8_t x, int8_t y, int8_t d, bool straight) {
   GeometryDisplayHandler* pen = getPencil();
   int8_t _maxX = pen->getMaxX();
   int8_t _maxY = pen->getMaxY();
@@ -53,12 +53,12 @@ void AimTarget::drawCross(int8_t x, int8_t y, int8_t d, bool straight) {
   }
 }
 
-void AimTarget::moveByJoystick(uint16_t joystickX, uint16_t joystickY) {
+void ShootingTarget::moveByJoystick(uint16_t joystickX, uint16_t joystickY) {
   this->moveX(this->speedOfX(joystickX, joystickY));
   this->moveY(this->speedOfY(joystickX, joystickY));
 }
 
-int8_t AimTarget::speedOfX(uint16_t x, uint16_t y) {
+int8_t ShootingTarget::speedOfX(uint16_t x, uint16_t y) {
   int jX = -512 + x;
   if (-30 < jX && jX < 30) {
     jX = 0;
@@ -90,7 +90,7 @@ int8_t AimTarget::speedOfX(uint16_t x, uint16_t y) {
   return rX;
 }
 
-int8_t AimTarget::speedOfY(uint16_t x, uint16_t y) {
+int8_t ShootingTarget::speedOfY(uint16_t x, uint16_t y) {
   int jX = -512 + x;
   if (-30 < jX && jX < 30) {
     jX = 0;
@@ -122,7 +122,7 @@ int8_t AimTarget::speedOfY(uint16_t x, uint16_t y) {
   return rY;
 }
 
-int8_t AimTarget::moveX(int8_t dX) {
+int8_t ShootingTarget::moveX(int8_t dX) {
   int8_t _maxX = getPencil()->getMaxX();
   if (dX < 0 && x < -dX) {
     x = 0;
@@ -134,7 +134,7 @@ int8_t AimTarget::moveX(int8_t dX) {
   return x;
 }
 
-int8_t AimTarget::moveY(int8_t dY) {
+int8_t ShootingTarget::moveY(int8_t dY) {
   int8_t _maxY = getPencil()->getMaxY();
   if (y < -dY) {
     y = 0;
@@ -146,10 +146,10 @@ int8_t AimTarget::moveY(int8_t dY) {
   return y;
 }
 
-int8_t AimTarget::getX() {
+int8_t ShootingTarget::getX() {
   return x;
 }
 
-int8_t AimTarget::getY() {
+int8_t ShootingTarget::getY() {
   return y;
 }

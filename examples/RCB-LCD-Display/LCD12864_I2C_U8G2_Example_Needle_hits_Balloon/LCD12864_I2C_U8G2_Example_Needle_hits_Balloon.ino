@@ -58,7 +58,7 @@ void CirclePartitioning::draw(int8_t x, int8_t y) {
 GeometryDisplayHandler displayHandler;
 JoystickHandler joystickHandler;
 CirclePartitioning partitioning(&displayHandler);
-AimTarget target(&displayHandler);
+ShootingTarget target(&displayHandler);
 
 void setup() {
   Serial.begin(57600);

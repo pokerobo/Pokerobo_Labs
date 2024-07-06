@@ -1,10 +1,9 @@
-#include <Pokerobo_RCB.h>
-#include "Pokerobo_Lab_Aim_Target.h"
-
-GeometryDisplayHandler displayHandler;
+#include "SimpleShootingTarget_Extension.h"
 
 JoystickHandler joystickHandler;
-ShootingTarget target(&displayHandler);
+GeometryDisplayHandler displayHandler;
+
+SimpleShootingTargetInCircle target(&displayHandler);
 
 void setup() {
   Serial.begin(57600);
@@ -15,12 +14,16 @@ void setup() {
 void loop() {
   JoystickAction action = joystickHandler.input();
 
-  target.moveByJoystick(action.getX(), action.getY());
+  int8_t rX = target.speedOfX(action.getX());
+  int8_t rY = target.speedOfY(action.getY());
+
+  target.moveX(rX);
+  target.moveY(rY);
 
   displayHandler.firstPage();
   do {
     target.draw();
   } while (displayHandler.nextPage());
 
-  delay(10);
+  delay(5);
 }

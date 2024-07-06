@@ -24,7 +24,7 @@ struct VerboseShootingTargetLogger: public ShootingTargetLogger {
 
 class ShootingTarget {
   public:
-    ShootingTarget(GeometryDisplayHandler* pencil, ShootingTargetLogger* logger);
+    ShootingTarget(GeometryDisplayHandler* pencil, ShootingTargetLogger* logger=NULL);
     void moveByJoystick(uint16_t x, uint16_t y);
     int8_t speedOfX(uint16_t x, uint16_t y);
     int8_t speedOfY(uint16_t x, uint16_t y);
@@ -37,13 +37,12 @@ class ShootingTarget {
     void initialize();
     int adjustX(uint16_t jX);
     int adjustY(uint16_t jY);
+    virtual int8_t getStepSpeedMax();
     void drawCross(int8_t x, int8_t y, int8_t d=2, bool straight=true);
     GeometryDisplayHandler* getPencil();
   private:
-    byte _type;
     int8_t x;
     int8_t y;
-    int8_t _maxStepSpeed = SHOOTING_TARGET_MAX_STEP_SPEED;
     GeometryDisplayHandler* _pencil = NULL;
     ShootingTargetLogger* _logger = NULL;
 };

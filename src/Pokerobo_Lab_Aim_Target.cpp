@@ -53,9 +53,14 @@ int ShootingTarget::adjustY(uint16_t y) {
   return (-SHOOTING_TARGET_DEADZONE_BOUND < jY && jY < SHOOTING_TARGET_DEADZONE_BOUND) ? 0 : jY;
 }
 
+int8_t ShootingTarget::getStepSpeedMax() {
+  return SHOOTING_TARGET_MAX_STEP_SPEED;
+}
+
 int8_t ShootingTarget::speedOfX(uint16_t x, uint16_t y) {
   int jX = this->adjustX(x);
   int jY = this->adjustY(y);
+  int8_t _maxStepSpeed = this->getStepSpeedMax();
 
   int rX = 0;
   lcd_layout_t layout = extractLcdLayout(getPencil());
@@ -80,6 +85,7 @@ int8_t ShootingTarget::speedOfX(uint16_t x, uint16_t y) {
 int8_t ShootingTarget::speedOfY(uint16_t x, uint16_t y) {
   int jX = this->adjustX(x);
   int jY = this->adjustY(y);
+  int8_t _maxStepSpeed = this->getStepSpeedMax();
 
   int rY = 0;
   lcd_layout_t layout = extractLcdLayout(getPencil());

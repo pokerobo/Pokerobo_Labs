@@ -1,12 +1,12 @@
 #include "Pokerobo_Lab_Aim_Target.h"
 
-ShootingTarget::ShootingTarget(GeometryDisplayHandler* pencil, byte type) {
+ShootingTarget::ShootingTarget(GeometryDisplayHandler* pencil, ShootingTargetLogger* logger) {
   _pencil = pencil;
-  initialize(type);
+  _logger = logger;
+  initialize();
 }
 
-void ShootingTarget::initialize(byte type) {
-  _type = type;
+void ShootingTarget::initialize() {
   x = getPencil()->getMaxX() >> 1;
   y = getPencil()->getMaxY() >> 1;
 }
@@ -16,22 +16,7 @@ GeometryDisplayHandler* ShootingTarget::getPencil() {
 }
 
 void ShootingTarget::draw() {
-  GeometryDisplayHandler* pen = getPencil();
-  switch(_type) {
-    case 0:
-      pen->drawPixel(x, y);
-      break;
-    case 1:
-      drawCross(x, y, 4);
-      pen->drawFrame(x-3, y-3, 7, 7);
-      break;
-    case 2:
-      drawCross(x, y, 5);
-      pen->drawCircle(x, y, 4);
-      break;
-    default:
-      drawCross(x, y, 3);
-  }
+  drawCross(x, y, 3);
 }
 
 void ShootingTarget::drawCross(int8_t x, int8_t y, int8_t d, bool straight) {
@@ -58,67 +43,61 @@ void ShootingTarget::moveByJoystick(uint16_t joystickX, uint16_t joystickY) {
   this->moveY(this->speedOfY(joystickX, joystickY));
 }
 
-int8_t ShootingTarget::speedOfX(uint16_t x, uint16_t y) {
+int ShootingTarget::adjustX(uint16_t x) {
   int jX = -512 + x;
-  if (-30 < jX && jX < 30) {
-    jX = 0;
-  }
+  return (-SHOOTING_TARGET_DEADZONE_BOUND < jX && jX < SHOOTING_TARGET_DEADZONE_BOUND) ? 0 : jX;
+}
 
+int ShootingTarget::adjustY(uint16_t y) {
   int jY = -512 + y;
-  if (-30 < jY && jY < 30) {
-    jY = 0;
-  }
+  return (-SHOOTING_TARGET_DEADZONE_BOUND < jY && jY < SHOOTING_TARGET_DEADZONE_BOUND) ? 0 : jY;
+}
+
+int8_t ShootingTarget::speedOfX(uint16_t x, uint16_t y) {
+  int jX = this->adjustX(x);
+  int jY = this->adjustY(y);
 
   int rX = 0;
-  switch (extractLcdLayout(getPencil())) {
+  lcd_layout_t layout = extractLcdLayout(getPencil());
+  switch (layout) {
     case LCD_LAYOUT_R0:
     case LCD_LAYOUT_R2:
-      Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
-      rX = map(jX, -512, 512, -10, 10);
+      rX = map(jX, -512, 512, -_maxStepSpeed, _maxStepSpeed);
       break;
     case LCD_LAYOUT_R1:
-      Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
-      rX = map(jY, -512, 512, -10, 10);
+      rX = map(jY, -512, 512, -_maxStepSpeed, _maxStepSpeed);
       break;
     case LCD_LAYOUT_R3:
-      Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
-      rX = map(jY, -512, 512, 10, -10);
+      rX = map(jY, -512, 512, _maxStepSpeed, -_maxStepSpeed);
       break;
   }
-  Serial.print("rX: "), Serial.print(rX), Serial.println();
-
+  if (_logger != NULL) {
+    _logger->speedOfX_Log(layout, jX, jY, rX);
+  }
   return rX;
 }
 
 int8_t ShootingTarget::speedOfY(uint16_t x, uint16_t y) {
-  int jX = -512 + x;
-  if (-30 < jX && jX < 30) {
-    jX = 0;
-  }
-
-  int jY = -512 + y;
-  if (-30 < jY && jY < 30) {
-    jY = 0;
-  }
+  int jX = this->adjustX(x);
+  int jY = this->adjustY(y);
 
   int rY = 0;
-  switch (extractLcdLayout(getPencil())) {
+  lcd_layout_t layout = extractLcdLayout(getPencil());
+  switch (layout) {
     case LCD_LAYOUT_R0:
     case LCD_LAYOUT_R2:
-      Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
-      rY = map(jY, -512, 512, 10, -10);
+      rY = map(jY, -512, 512, _maxStepSpeed, -_maxStepSpeed);
       break;
     case LCD_LAYOUT_R1:
-      Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
-      rY = map(jX, -512, 512, -10, 10);
+      rY = map(jX, -512, 512, -_maxStepSpeed, _maxStepSpeed);
       break;
     case LCD_LAYOUT_R3:
-      Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
-      rY = map(jX, -512, 512, 10, -10);
+      rY = map(jX, -512, 512, _maxStepSpeed, -_maxStepSpeed);
       break;
   }
-  Serial.print("rY: "), Serial.print(rY), Serial.println();
-
+  if (_logger != NULL) {
+    _logger->speedOfY_Log(layout, jX, jY, rY);
+  }
   return rY;
 }
 
@@ -152,4 +131,50 @@ int8_t ShootingTarget::getX() {
 
 int8_t ShootingTarget::getY() {
   return y;
+}
+
+void ShootingTargetInSquare::draw() {
+  int8_t x = getX();
+  int8_t y = getY();
+  drawCross(x, y, 4);
+  getPencil()->drawFrame(x-3, y-3, 7, 7);
+}
+
+void ShootingTargetInCircle::draw() {
+  int8_t x = getX();
+  int8_t y = getY();
+  drawCross(x, y, 5);
+  getPencil()->drawCircle(x, y, 4);
+}
+
+void VerboseShootingTargetLogger::speedOfX_Log(lcd_layout_t layout, int jX, int jY, int rX) {
+  switch (layout) {
+    case LCD_LAYOUT_R0:
+    case LCD_LAYOUT_R2:
+      Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
+      break;
+    case LCD_LAYOUT_R1:
+      Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
+      break;
+    case LCD_LAYOUT_R3:
+      Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
+      break;
+  }
+  Serial.print("rX: "), Serial.print(rX), Serial.println();
+}
+
+void VerboseShootingTargetLogger::speedOfY_Log(lcd_layout_t layout, int jX, int jY, int rY) {
+  switch (layout) {
+    case LCD_LAYOUT_R0:
+    case LCD_LAYOUT_R2:
+      Serial.print("jY: "), Serial.print(jY), Serial.print(" -> ");
+      break;
+    case LCD_LAYOUT_R1:
+      Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
+      break;
+    case LCD_LAYOUT_R3:
+      Serial.print("jX: "), Serial.print(jX), Serial.print(" -> ");
+      break;
+  }
+  Serial.print("rY: "), Serial.print(rY), Serial.println();
 }

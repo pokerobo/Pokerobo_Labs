@@ -38,7 +38,7 @@ class ShootingTarget {
     int adjustX(uint16_t jX);
     int adjustY(uint16_t jY);
     virtual int8_t getStepSpeedMax();
-    void drawCross(int8_t x, int8_t y, int8_t d=2, bool straight=true);
+    virtual void drawCross(int8_t x, int8_t y, int8_t d=2, bool straight=true);
     GeometryDisplayHandler* getPencil();
   private:
     int8_t x;
@@ -51,11 +51,13 @@ class ShootingTargetInSquare: public ShootingTarget {
   public:
     using ShootingTarget::ShootingTarget;
     void draw();
+  protected:
+    void drawCross(int8_t x, int8_t y, int8_t d=2, bool straight=true);
 };
 
-class ShootingTargetInCircle: public ShootingTarget {
+class ShootingTargetInCircle: public ShootingTargetInSquare {
   public:
-    using ShootingTarget::ShootingTarget;
+    using ShootingTargetInSquare::ShootingTargetInSquare;
     void draw();
 };
 

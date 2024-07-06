@@ -146,6 +146,38 @@ void ShootingTargetInSquare::draw() {
   getPencil()->drawFrame(x-3, y-3, 7, 7);
 }
 
+void ShootingTargetInSquare::drawCross(int8_t x, int8_t y, int8_t d, bool straight) {
+  GeometryDisplayHandler* pen = getPencil();
+  int8_t _maxX = pen->getMaxX();
+  int8_t _maxY = pen->getMaxY();
+
+  int8_t x1 = (x-d >= 0) ? x-d : 0;
+  int x3 = min(max(x-d + 2, 0), _maxX);
+
+  int8_t x2 = (x+d <= _maxX) ? x+d : _maxX;
+  int x4 = min(max(x+d - 2, 0), _maxX);
+
+  int8_t y1 = (y-d >= 0) ? y-d : 0;
+  int y3 = min(max(y-d + 2, 0), _maxY);
+
+  int8_t y2 = (y+d <= _maxY) ? y+d : _maxY;
+  int y4 = min(max(y+d - 2, 0), _maxY);
+
+  if (x3 > x1) {
+    pen->drawLine(x1, y, x3, y);
+  }
+  if (x4 < x2) {
+    pen->drawLine(x4, y, x2, y);
+  }
+
+  if (y3 > y1) {
+    pen->drawLine(x, y1, x, y3);
+  }
+  if (y4 < y2) {
+    pen->drawLine(x, y4, x, y2);
+  }
+}
+
 void ShootingTargetInCircle::draw() {
   int8_t x = getX();
   int8_t y = getY();

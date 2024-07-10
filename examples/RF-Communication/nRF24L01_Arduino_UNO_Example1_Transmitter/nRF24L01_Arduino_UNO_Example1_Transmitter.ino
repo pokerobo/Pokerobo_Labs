@@ -21,11 +21,12 @@ void renderMessage(char *text);
 
 void loop() {
   const char text[20];
-  createMessage(text);
-  renderMessage(text);
-  rf24.write(&text, sizeof(text));
 
-  delay(1000);
+  createMessage(text);
+  bool result = rf24.write(&text, sizeof(text));
+  renderMessage(text, result);
+
+  delay(100);
 }
 
 int count = 0;
@@ -35,7 +36,8 @@ void createMessage(char *text) {
   sprintf(text, "Count: %d", count);
 }
 
-void renderMessage(char *text) {
-  Serial.print("Received ["), Serial.print(text), Serial.print(']');
+void renderMessage(char *text, bool result) {
+  Serial.print("Sending ["), Serial.print(text), Serial.print(']');
+  Serial.print(" result: "), Serial.print(result);
   Serial.println();
 }

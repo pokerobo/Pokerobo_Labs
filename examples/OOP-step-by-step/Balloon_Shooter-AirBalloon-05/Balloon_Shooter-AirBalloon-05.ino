@@ -2,47 +2,38 @@
 
 GeometryDisplayHandler dh;
 
-class DemoBalloon {
-  public:
-    // constructor / cấu tử / hàm dựng
-    DemoBalloon(int cx, int cy, int cr) {
-      _x = cx; _y = cy; _r = cr;
-    }
-    // method / phương thức / hành vi
-    void check() {
-      if (_y + _r >= 0) {
-        _y = _y - 3;
-      } else {
-        _y = 63 + _r;
-      }
-    }
-    void draw() {
-      dh.drawCircle(_x, _y, _r);  
-    }
-    // Properties / thuộc tính
-    int _x;
-    int _y;
-    int _r;
-};
+int x = 63, y = 63; int r = 5;
+int x2 = 80, y2 = 63, r2 = 8;
+int x3 = 20, y3 = 63, r3 = 13;
 
-DemoBalloon b1(63, 63, 5); //int x = 63, y = 63; int r = 5;
-DemoBalloon b2(80, 63, 8); //int x2 = 80, y2 = 63, r2 = 8;
-DemoBalloon b3(20, 63, 13); // int x3 = 20, y3 = 63, r3 = 13;
+void check(int &cx, int &cy, int &cr) {
+  if (cy + cr >= 0) {
+    cy = cy - 3;
+  } else {
+    cy = 63 + cr;
+    cx = random(0, 128);
+  }
+}
+
+void draw(int cx, int cy, int cr) {
+  dh.drawCircle(cx, cy, cr);
+}
 
 void setup() {
+  randomSeed(analogRead(A3));
   dh.begin();
 }
 
 void loop() {
-  b1.check();
-  b2.check();
-  b3.check();
+  check(x, y, r);
+  check(x2, y2, r2);
+  check(x3, y3, r3);
 
   dh.firstPage();
   do {
-    b1.draw();
-    b2.draw();
-    b3.draw();
+    draw(x, y, r);
+    draw(x2, y2, r2);
+    draw(x3, y3, r3);
   } while(dh.nextPage());
 
   delay(50);

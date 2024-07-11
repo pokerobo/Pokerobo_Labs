@@ -11,14 +11,14 @@ class DemoBalloon {
     // method / phương thức / hành vi
     void init() {
       _r = random(5, 10 + 1);
+      _y = 63 + _r;
       _x = random(0, 128);
-      _y = 63;
     }
     void check() {
       if (_y + _r >= 0) {
         _y = _y - 3;
       } else {
-        _y = 63;
+        _y = 63 + _r;
         _x = random(0, 128);
       }
     }

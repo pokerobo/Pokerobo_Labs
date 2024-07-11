@@ -15,7 +15,7 @@ void loop() {
   if (y + r >= 0) {
     y = y - 3;
   } else {
-    y = 63;
+    y = 63 + r;
   }
 
   dh.firstPage();

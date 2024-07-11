@@ -8,8 +8,8 @@ DemoBalloon::DemoBalloon(int cx, int cy, int cr) {
 
 void DemoBalloon::init(GeometryDisplayHandler *displayHandler) {
   _r = random(5, 10 + 1);
+  _y = 63 + _r;
   _x = random(0, 128);
-  _y = 63;
   _pencil = displayHandler;
 }
 
@@ -17,7 +17,7 @@ void DemoBalloon::check() {
   if (_y + _r >= 0) {
     _y = _y - 3;
   } else {
-    _y = 63;
+    _y = 63 + _r;
     _x = random(0, 128);
   }
 }

@@ -12,8 +12,8 @@ class DemoBalloon {
       if (_y + _r >= 0) {
         _y = _y - 3;
       } else {
+        _y = 63 + _r;
         _x = random(0, 128);
-        _y = 63;
       }
     }
     void draw() {

@@ -13,7 +13,7 @@ class DemoBalloon {
       if (_y + _r >= 0) {
         _y = _y - 3;
       } else {
-        _y = 63;
+        _y = 63 + _r;
         _x = random(0, 128);
       }
     }
@@ -35,8 +35,8 @@ void setup() {
   dh.begin();
   for(int k=0; k<numOfBalls; k++) {
     balls[k]._r = random(5, 10 + 1);
+    balls[k]._y = 63 + balls[k]._r;
     balls[k]._x = random(0, 128);
-    balls[k]._y = 63;
   }
 }
 

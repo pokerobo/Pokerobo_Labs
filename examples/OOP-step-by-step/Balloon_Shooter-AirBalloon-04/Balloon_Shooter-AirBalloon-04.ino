@@ -10,7 +10,7 @@ void check(int &cx, int &cy, int &cr) {
   if (cy + cr >= 0) {
     cy = cy - 3;
   } else {
-    cy = 63;
+    cy = 63 + cr;
   }
 }
 

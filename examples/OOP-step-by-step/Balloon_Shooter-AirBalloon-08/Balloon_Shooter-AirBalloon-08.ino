@@ -18,7 +18,7 @@ class DemoBalloon {
       }
     }
     void draw() {
-      dh.drawCircle(_x, _y, _r);  
+      dh.drawCircle(_x, _y, _r);
     }
     // Properties / thuộc tính
     int _x;

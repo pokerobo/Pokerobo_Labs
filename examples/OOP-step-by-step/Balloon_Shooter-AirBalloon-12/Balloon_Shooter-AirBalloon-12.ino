@@ -8,10 +8,12 @@ class DemoBalloon {
     DemoBalloon(int cx, int cy, int cr) {
       _x = cx; _y = cy; _r = cr;
     }
-    void init(GeometryDisplayHandler *displayHandler) {
+    void init() {
       _r = random(5, 10 + 1);
       _y = 63 + _r;
       _x = random(0, 128);
+    }
+    void set(GeometryDisplayHandler *displayHandler) {
       _pencil = displayHandler;
     }
     // method / phương thức / hành vi
@@ -46,9 +48,10 @@ void setup() {
   for(int k=0; k<numOfBalls; k++) {
     balls[k] = new DemoBalloon();
     // -> toán tử tham chiếu
-    // _x có phải là thuộc tính của balls[k]? NO
+    // _x có phải là thuộc tính của balls[k]? KHÔNG
     // _x là thuộc tính của đối tượng mà balls[k] trỏ đến
-    balls[k]->init(&dh);
+    balls[k]->init();
+    balls[k]->set(&dh);
   }
 }
 

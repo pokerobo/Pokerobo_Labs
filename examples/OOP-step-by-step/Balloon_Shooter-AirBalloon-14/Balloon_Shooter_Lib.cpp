@@ -6,10 +6,13 @@ DemoBalloon::DemoBalloon(int cx, int cy, int cr) {
   _x = cx; _y = cy; _r = cr;
 }
 
-void DemoBalloon::init(GeometryDisplayHandler *displayHandler) {
+void DemoBalloon::init() {
   _r = random(5, 10 + 1);
   _y = 63 + _r;
   _x = random(0, 128);
+}
+
+void DemoBalloon::set(GeometryDisplayHandler *displayHandler) {
   _pencil = displayHandler;
 }
 

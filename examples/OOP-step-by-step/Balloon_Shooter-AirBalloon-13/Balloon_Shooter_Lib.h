@@ -9,10 +9,12 @@ class DemoBalloon {
     DemoBalloon(int cx, int cy, int cr) {
       _x = cx; _y = cy; _r = cr;
     }
-    void init(GeometryDisplayHandler *displayHandler) {
+    void init() {
       _r = random(5, 10 + 1);
       _y = 63 + _r;
       _x = random(0, 128);
+    }
+    void set(GeometryDisplayHandler *displayHandler) {
       _pencil = displayHandler;
     }
     // method / phương thức / hành vi

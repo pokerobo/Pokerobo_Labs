@@ -11,7 +11,8 @@ void setup() {
   dh.begin();
   for(int k=0; k<numOfBalls; k++) {
     balls[k] = new DemoBalloon();
-    balls[k]->init(&dh);
+    balls[k]->init();
+    balls[k]->set(&dh);
   }
 }
 

@@ -6,8 +6,11 @@ DemoBalloon::DemoBalloon(int cx, int cy, int cr) {
   _x = cx; _y = cy; _r = cr;
 }
 
-void DemoBalloon::init(GeometryDisplayHandler *displayHandler) {
+void DemoBalloon::set(GeometryDisplayHandler *displayHandler) {
   _pencil = displayHandler;
+}
+
+void DemoBalloon::init() {
   reset();
 }
 
@@ -43,7 +46,8 @@ DemoPlaySpace::DemoPlaySpace(GeometryDisplayHandler* pencil,
 void DemoPlaySpace::begin() {
   for(int k=0; k<_concurrentTotal; k++) {
     _balloons[k] = new DemoBalloon();
-    _balloons[k]->init(_pencil);
+    _balloons[k]->set(_pencil);
+    _balloons[k]->init();
   }
 }
 

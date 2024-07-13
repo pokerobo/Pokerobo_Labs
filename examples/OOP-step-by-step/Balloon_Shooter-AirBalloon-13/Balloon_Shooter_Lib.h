@@ -5,6 +5,7 @@
 
 class DemoBalloon {
   public:
+    // Constructors
     DemoBalloon() {}
     DemoBalloon(int cx, int cy, int cr) {
       _x = cx; _y = cy; _r = cr;
@@ -17,7 +18,7 @@ class DemoBalloon {
     void set(GeometryDisplayHandler *displayHandler) {
       _pencil = displayHandler;
     }
-    // method / phương thức / hành vi
+    // Methods
     void check() {
       if (_y + _r >= 0) {
         _y = _y - 3;
@@ -30,7 +31,7 @@ class DemoBalloon {
       _pencil->drawCircle(_x, _y, _r);  
     }
   private:
-    // Properties / thuộc tính
+    // Properties
     int _x;
     int _y;
     int _r;

@@ -4,11 +4,12 @@ GeometryDisplayHandler dh;
 
 class DemoBalloon {
   public:
+    // Constructors
     DemoBalloon() {}
     DemoBalloon(int cx, int cy, int cr) {
       _x = cx; _y = cy; _r = cr;
     }
-    // method / phương thức / hành vi
+    // Methods
     void init() {
       _r = random(5, 10 + 1);
       _y = 63 + _r;
@@ -25,7 +26,8 @@ class DemoBalloon {
     void draw() {
       dh.drawCircle(_x, _y, _r);
     }
-    // Properties / thuộc tính
+  private:
+    // Properties
     int _x;
     int _y;
     int _r;
@@ -42,15 +44,13 @@ void setup() {
   dh.begin();
   for(int k=0; k<numOfBalls; k++) {
     balls[k] = new DemoBalloon();
-    // -> toán tử tham chiếu
-    // _x có phải là thuộc tính của balls[k]? NO
-    // _x là thuộc tính của đối tượng mà balls[k] trỏ đến
     balls[k]->init();
   }
 }
 
 void loop() {
   for(int i=0; i<numOfBalls; i++) {
+    // -> toán tử tham chiếu
     balls[i]->check();
   }
 

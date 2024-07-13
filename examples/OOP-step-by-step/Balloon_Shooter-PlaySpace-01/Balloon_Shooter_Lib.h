@@ -7,7 +7,8 @@ class DemoBalloon {
   public:
     DemoBalloon();
     DemoBalloon(int cx, int cy, int cr);
-    void init(GeometryDisplayHandler *displayHandler);
+    void set(GeometryDisplayHandler *displayHandler);
+    void init();
     void check();
     void draw();
   private:

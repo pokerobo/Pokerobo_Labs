@@ -4,6 +4,7 @@ GeometryDisplayHandler dh;
 
 class DemoBalloon {
   public:
+    // Constructors
     DemoBalloon() {}
     DemoBalloon(int cx, int cy, int cr) {
       _x = cx; _y = cy; _r = cr;
@@ -16,7 +17,7 @@ class DemoBalloon {
     void set(GeometryDisplayHandler *displayHandler) {
       _pencil = displayHandler;
     }
-    // method / phương thức / hành vi
+    // Methods
     void check() {
       if (_y + _r >= 0) {
         _y = _y - 3;
@@ -29,7 +30,7 @@ class DemoBalloon {
       _pencil->drawCircle(_x, _y, _r);  
     }
   private:
-    // Properties / thuộc tính
+    // Properties
     int _x;
     int _y;
     int _r;
@@ -38,8 +39,6 @@ class DemoBalloon {
 
 const int numOfBalls = 4;
 
-// balls không còn là một mảng các đối tượng kiểu DemoBalloon
-// balls bây giờ là một mảng các con trỏ (có thể trỏ tới các) đối tượng DemoBalloon
 DemoBalloon* balls[numOfBalls];
 
 void setup() {
@@ -47,9 +46,6 @@ void setup() {
   dh.begin();
   for(int k=0; k<numOfBalls; k++) {
     balls[k] = new DemoBalloon();
-    // -> toán tử tham chiếu
-    // _x có phải là thuộc tính của balls[k]? KHÔNG
-    // _x là thuộc tính của đối tượng mà balls[k] trỏ đến
     balls[k]->init();
     balls[k]->set(&dh);
   }

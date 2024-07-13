@@ -1,14 +1,21 @@
 #include "Pokerobo_Lab_Display_Handler.h"
 
+bool exec() {
+  randomSeed(analogRead(A3));
+  return true;
+}
+bool _ = exec();
+
 GeometryDisplayHandler dh;
 
 class DemoBalloon {
   public:
+    // Constructors
     DemoBalloon() {}
     DemoBalloon(int cx, int cy, int cr) {
       _x = cx; _y = cy; _r = cr;
     }
-    // method / phương thức / hành vi
+    // Methods
     void init() {
       _r = random(5, 10 + 1);
       _y = 63 + _r;
@@ -26,7 +33,7 @@ class DemoBalloon {
       dh.drawCircle(_x, _y, _r);
     }
   private:
-    // Properties / thuộc tính
+    // Properties
     int _x;
     int _y;
     int _r;

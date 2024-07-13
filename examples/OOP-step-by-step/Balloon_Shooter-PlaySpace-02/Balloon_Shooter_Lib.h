@@ -8,7 +8,8 @@ class DemoBalloon {
   public:
     DemoBalloon();
     DemoBalloon(int cx, int cy, int cr);
-    void init(GeometryDisplayHandler *displayHandler);
+    void set(GeometryDisplayHandler *displayHandler);
+    void init();
     void reset();
     void check();
     void draw();

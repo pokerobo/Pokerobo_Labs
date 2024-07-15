@@ -1,6 +1,6 @@
 #include "Pokerobo_Lab_Display_Handler.h"
 
-#define TOTAL_OF_BALLOONS     10
+#define CONCURRENT_BALLOONS_TOTAL     10
 
 GeometryDisplayHandler dh;
 
@@ -36,16 +36,14 @@ class DemoBalloon {
     int _r;
 };
 
-int numOfBalls = TOTAL_OF_BALLOONS;
+int numOfBalls = CONCURRENT_BALLOONS_TOTAL;
 
-// balls không còn là một mảng các đối tượng kiểu DemoBalloon
-// balls bây giờ là một mảng các con trỏ (có thể trỏ tới các) đối tượng DemoBalloon
-DemoBalloon* balls[TOTAL_OF_BALLOONS] = { 0 };
+DemoBalloon* balls[CONCURRENT_BALLOONS_TOTAL] = { 0 };
 
 void setup() {
   randomSeed(analogRead(A3));
   dh.begin();
-  numOfBalls = random(3, TOTAL_OF_BALLOONS + 1);
+  numOfBalls = random(3, CONCURRENT_BALLOONS_TOTAL + 1);
   for(int k=0; k<numOfBalls; k++) {
     balls[k] = new DemoBalloon();
   }

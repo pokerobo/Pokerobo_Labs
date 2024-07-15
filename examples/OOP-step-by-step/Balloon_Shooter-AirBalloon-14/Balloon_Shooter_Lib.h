@@ -7,10 +7,11 @@ class DemoBalloon {
   public:
     DemoBalloon();
     DemoBalloon(int cx, int cy, int cr);
-    void init();
     void set(GeometryDisplayHandler *displayHandler);
     void check();
     void draw();
+  protected:
+    void init();
   private:
     int _x;
     int _y;

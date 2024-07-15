@@ -1,17 +1,19 @@
 #include "Balloon_Shooter_Lib.h"
 
+#define TOTAL_OF_BALLOONS     10
+
 GeometryDisplayHandler dh;
 
-const int numOfBalls = 4;
+int numOfBalls = TOTAL_OF_BALLOONS;
 
-DemoBalloon* balls[numOfBalls];
+DemoBalloon* balls[TOTAL_OF_BALLOONS] = { 0 };
 
 void setup() {
   randomSeed(analogRead(A3));
   dh.begin();
+  numOfBalls = random(3, TOTAL_OF_BALLOONS + 1);
   for(int k=0; k<numOfBalls; k++) {
     balls[k] = new DemoBalloon();
-    balls[k]->init();
     balls[k]->set(&dh);
   }
 }

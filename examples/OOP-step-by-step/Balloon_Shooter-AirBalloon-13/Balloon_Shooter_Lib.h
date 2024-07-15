@@ -6,14 +6,9 @@
 class DemoBalloon {
   public:
     // Constructors
-    DemoBalloon() {}
+    DemoBalloon() { init(); }
     DemoBalloon(int cx, int cy, int cr) {
       _x = cx; _y = cy; _r = cr;
-    }
-    void init() {
-      _r = random(5, 10 + 1);
-      _y = 63 + _r;
-      _x = random(0, 128);
     }
     void set(GeometryDisplayHandler *displayHandler) {
       _pencil = displayHandler;
@@ -29,6 +24,12 @@ class DemoBalloon {
     }
     void draw() {
       _pencil->drawCircle(_x, _y, _r);  
+    }
+  protected:
+    void init() {
+      _r = random(5, 10 + 1);
+      _y = 63 + _r;
+      _x = random(0, 128);
     }
   private:
     // Properties

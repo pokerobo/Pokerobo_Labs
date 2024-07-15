@@ -1,6 +1,8 @@
 #include "Balloon_Shooter_Lib.h"
 
-DemoBalloon::DemoBalloon() {}
+DemoBalloon::DemoBalloon() {
+  init();
+}
 
 DemoBalloon::DemoBalloon(int cx, int cy, int cr) {
   _x = cx; _y = cy; _r = cr;
@@ -47,7 +49,6 @@ void DemoPlaySpace::begin() {
   for(int k=0; k<_concurrentTotal; k++) {
     _balloons[k] = new DemoBalloon();
     _balloons[k]->set(_pencil);
-    _balloons[k]->init();
   }
 }
 

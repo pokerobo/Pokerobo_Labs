@@ -8,9 +8,10 @@ class DemoBalloon {
     DemoBalloon();
     DemoBalloon(int cx, int cy, int cr);
     void set(GeometryDisplayHandler *displayHandler);
-    void init();
     void check();
     void draw();
+  protected:
+    void init();
   private:
     int _x;
     int _y;
@@ -19,7 +20,6 @@ class DemoBalloon {
 };
 
 #define CONCURRENT_BALLOONS_TOTAL 20
-
 
 class DemoPlaySpace {
   public:

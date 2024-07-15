@@ -9,10 +9,11 @@ class DemoBalloon {
     DemoBalloon();
     DemoBalloon(int cx, int cy, int cr);
     void set(GeometryDisplayHandler *displayHandler);
-    void init();
     void reset();
     void check();
     void draw();
+  protected:
+    void init();
   private:
     int _x;
     int _y;

@@ -28,5 +28,5 @@ void DemoBalloon::check() {
 }
 
 void DemoBalloon::draw() {
-  _pencil->drawCircle(_x, _y, _r);  
+  _pencil->drawCircle(_x, _y, _r);
 }

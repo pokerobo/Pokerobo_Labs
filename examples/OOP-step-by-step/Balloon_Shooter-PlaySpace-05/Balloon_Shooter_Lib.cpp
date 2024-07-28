@@ -56,6 +56,18 @@ void DemoPlaySpace::begin() {
   }
 }
 
+int8_t DemoPlaySpace::prick(int8_t aimX, int8_t aimY) {
+  int8_t count = 0;
+  for (uint8_t i=0; i<_concurrentTotal; i++) {
+    DemoBalloon *b = _balloons[i];
+    if (b->isHit(aimX, aimY)) {
+      b->_s = BALLOON_STATE::BALLOON_EXPLODED;
+      count++;
+    }
+  }
+  return count;
+}
+
 void DemoPlaySpace::change() {
   for(int i=0; i<_concurrentTotal; i++) {
     DemoBalloon *b = _balloons[i];
@@ -113,16 +125,4 @@ void DemoPlaySpace::resetBalloon(DemoBalloon* balloon) {
   balloon->_r = random(5, 10 + 1);
   balloon->_x = random(_maxX);
   balloon->_y = balloon->_r + _maxY + 1;
-}
-
-int8_t DemoPlaySpace::prick(int8_t aimX, int8_t aimY) {
-  int8_t count = 0;
-  for (uint8_t i=0; i<_concurrentTotal; i++) {
-    DemoBalloon *b = _balloons[i];
-    if (b->isHit(aimX, aimY)) {
-      b->_s = BALLOON_STATE::BALLOON_EXPLODED;
-      count++;
-    }
-  }
-  return count;
 }

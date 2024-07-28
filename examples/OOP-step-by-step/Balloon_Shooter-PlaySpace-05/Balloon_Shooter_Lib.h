@@ -35,9 +35,9 @@ class DemoPlaySpace {
     DemoPlaySpace(GeometryDisplayHandler* pencil,
         uint8_t concurrentTotal=CONCURRENT_BALLOONS_TOTAL);
     void begin();
+    int8_t prick(int8_t aimX, int8_t aimY);
     void change();
     void draw();
-    int8_t prick(int8_t aimX, int8_t aimY);
   protected:
     void initBalloon(DemoBalloon* balloon);
     void resetBalloon(DemoBalloon* balloon);

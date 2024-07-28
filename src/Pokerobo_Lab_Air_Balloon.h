@@ -49,9 +49,9 @@ class PlaySpace {
         uint16_t appearanceTotal=APPEARANCE_BALLOONS_TOTAL,
         uint8_t options = 0);
     void begin();
+    int8_t prick(int8_t x, int8_t y);
     void change();
     void draw();
-    int8_t prick(int8_t x, int8_t y);
     bool isFinished();
     virtual bool hasLost();
     virtual void reset();

@@ -105,6 +105,18 @@ void PlaySpace::resetBalloon(Balloon* b) {
   b->_delay = 0;
 }
 
+int8_t PlaySpace::prick(int8_t aimX, int8_t aimY) {
+  int8_t count = 0;
+  for (uint8_t i=0; i<_concurrentTotal; i++) {
+    Balloon *b = &_balloons[i];
+    if (b->isHit(aimX, aimY)) {
+      b->_state = BALLOON_STATE::BALLOON_EXPLODED;
+      count++;
+    }
+  }
+  return count;
+}
+
 void PlaySpace::change() {
   for (uint8_t i=0; i<_concurrentTotal; i++) {
     Balloon *b = &_balloons[i];
@@ -157,18 +169,6 @@ void PlaySpace::draw() {
         break;
     }
   }
-}
-
-int8_t PlaySpace::prick(int8_t aimX, int8_t aimY) {
-  int8_t count = 0;
-  for (uint8_t i=0; i<_concurrentTotal; i++) {
-    Balloon *b = &_balloons[i];
-    if (b->isHit(aimX, aimY)) {
-      b->_state = BALLOON_STATE::BALLOON_EXPLODED;
-      count++;
-    }
-  }
-  return count;
 }
 
 bool PlaySpace::hasLost() {

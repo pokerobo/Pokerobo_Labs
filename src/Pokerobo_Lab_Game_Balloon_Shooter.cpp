@@ -21,6 +21,9 @@ GeometryDisplayHandler* GameBoard::getPencil() {
 }
 
 void GameBoard::begin() {
+  if (_playSpace != NULL) {
+    _playSpace->begin();
+  }
 }
 
 void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystickY) {
@@ -38,6 +41,13 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
         return;
       }
 
+      _shootingTarget->moveX(_shootingTarget->speedOfX(joystickX, joystickY));
+      _shootingTarget->moveY(_shootingTarget->speedOfY(joystickX, joystickY));
+
+      _playSpace->prick(_shootingTarget->getX(), _shootingTarget->getY());
+
+      _playSpace->change();
+
       if (_playSpace->hasLost()) {
         _state = GAME_STATE::GAME_LOSE;
         break;
@@ -47,12 +57,6 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
         break;
       }
 
-      _playSpace->change();
-
-      _shootingTarget->moveX(_shootingTarget->speedOfX(joystickX, joystickY));
-      _shootingTarget->moveY(_shootingTarget->speedOfY(joystickX, joystickY));
-
-      _playSpace->prick(_shootingTarget->getX(), _shootingTarget->getY());
       break;
     case GAME_STATE::GAME_LOSE:
       if (isJoystickClicked(toggleFlags)) {

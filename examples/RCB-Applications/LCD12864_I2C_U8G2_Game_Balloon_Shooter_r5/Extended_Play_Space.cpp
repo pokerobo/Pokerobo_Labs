@@ -1,7 +1,8 @@
 #include "Extended_Play_Space.h"
 
 void drawExplodingBall(GeometryDisplayHandler* pen, int cX, int cY, int8_t _maxX, int8_t _maxY);
-void stringifyRadius(uint8_t radius, char* text);
+void stringifyInteger(uint8_t number, char* text);
+int8_t estimateRewardPoint(Balloon* balloon);
 
 void ExtendedPlaySpace::reset() {
   PlaySpace::reset();
@@ -14,13 +15,15 @@ bool ExtendedPlaySpace::hasLost() {
 }
 
 void ExtendedPlaySpace::onBalloonExploded(Balloon* balloon) {
-  this->_rewardPointTotal += balloon->getRadius();
-  this->_rewardPointAmount += balloon->getRadius();
+  int8_t rewardPoint = estimateRewardPoint(balloon);
+  this->_rewardPointTotal += rewardPoint;
+  this->_rewardPointAmount += rewardPoint;
 }
 
 void ExtendedPlaySpace::onBalloonEscaped(Balloon* balloon) {
-  this->_rewardPointTotal += balloon->getRadius();
-  this->_rewardPointAmount -= balloon->getRadius();
+  int8_t rewardPoint = estimateRewardPoint(balloon);
+  this->_rewardPointTotal += rewardPoint;
+  this->_rewardPointAmount -= rewardPoint;
 }
 
 void ExtendedPlaySpace::drawExplodingBalloon(Balloon* b) {
@@ -33,7 +36,7 @@ void ExtendedPlaySpace::drawFlyingBalloon(Balloon* b) {
   pen->drawCircle(b->getX(), b->getY(), b->getRadius());
 
   char num[3] = { 0 };
-  stringifyRadius(b->getRadius(), num);
+  stringifyInteger(estimateRewardPoint(b), num);
 
   pen->drawStr(b->getX() - (strlen(num) * getCharWidth() / 2),
       b->getY() + getCharHeight()/2, num);
@@ -76,23 +79,27 @@ void drawExplodingBall(GeometryDisplayHandler* pen, int cX, int cY, int8_t _maxX
   pen->drawLine(ge0(cX - 2), ge0(cY - 2), ge0(cX - 2 - 3), ge0(cY - 2 - 3));
 }
 
-void stringifyRadius(uint8_t radius, char* text) {
-  if (radius <= 9) {
-    text[0] = '0' + radius;
+void stringifyInteger(uint8_t number, char* text) {
+  if (number <= 9) {
+    text[0] = '0' + number;
     text[1] = 0;
     return;
   }
-  if (radius <= 99) {
-    text[0] = '0' + radius / 10;
-    text[1] = '0' + radius % 10;
+  if (number <= 99) {
+    text[0] = '0' + number / 10;
+    text[1] = '0' + number % 10;
     text[2] = 0;
     return;
   }
-  if (radius <= 255) {
-    text[0] = '0' + radius / 100;
-    text[1] = '0' + radius / 10 % 10;
-    text[2] = '0' + radius % 10;
+  if (number <= 255) {
+    text[0] = '0' + number / 100;
+    text[1] = '0' + number / 10 % 10;
+    text[2] = '0' + number % 10;
     text[3] = 0;
     return;
   }
+}
+
+int8_t estimateRewardPoint(Balloon* b) {
+  return b->getRadius();
 }

@@ -16,8 +16,6 @@ int speedOfX(int jX) {
 
 int speedOfY(int jY) {
   int nY = -512 + jY; // jY - 512
-  // Y đảo ngược khoảng vì trục Y trên màn hình từ trên xuống
-  // trục Y của Joystick là từ dưới lên
   return map(nY, -512, 512, 10, -10);
 }
 
@@ -36,6 +34,7 @@ void move(int dX, int dY) {
 }
 
 void draw() {
+  displayHandler.drawPixel(x, y);
   displayHandler.drawCircle(x, y, r);
 }
 

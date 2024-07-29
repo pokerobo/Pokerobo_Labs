@@ -24,8 +24,8 @@ class GameBoard {
     GeometryDisplayHandler* getPencil();
     bool isJoystickClicked(uint16_t flags);
   private:
-    ShootingTarget* _shootingTarget;
-    PlaySpace* _playSpace;
+    ShootingTarget* _shootingTarget = NULL;
+    PlaySpace* _playSpace = NULL;
     GeometryDisplayHandler* _pencil = NULL;
     game_state_t _state = GAME_STATE::GAME_NEW;
     bool _suspending = false;

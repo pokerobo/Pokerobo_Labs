@@ -111,7 +111,7 @@ uint16_t GeometryDisplayHandler::drawStr(u8g2_uint_t x, u8g2_uint_t y, const cha
   return toU8G2(getU8g2Ref())->drawStr(x, y, text);
 }
 
-void GeometryDisplayHandler::rotateScreen(bool clockwise=true) {
+void GeometryDisplayHandler::rotateScreen(bool clockwise) {
   if (clockwise) {
     this->setDisplayRotation(this->nextDisplayRotation(this->getDisplayRotation()));
   } else {

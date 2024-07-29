@@ -17,7 +17,7 @@ void setup() {
   Serial.begin(57600);
   displayHandler.begin();
   joystickHandler.begin();
-  playSpace.begin();
+  gameBoard.begin();
 }
 
 void loop() {

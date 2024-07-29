@@ -19,7 +19,5 @@ void setup() {
 
 void loop() {
   gameBoard.play(joystickHandler.input(&action));
-  gameBoard.render();
-
-  delay(50);
+  gameBoard.renderAndDelay(50);
 }

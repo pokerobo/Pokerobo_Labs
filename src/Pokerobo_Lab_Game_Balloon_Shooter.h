@@ -18,6 +18,7 @@ class GameBoard {
     void play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystickY);
     void play(JoystickAction* action);
     void render();
+    void renderAndDelay(int millis);
     void reset();
   protected:
     void initialize(ShootingTarget* shootingTarget, PlaySpace* playSpace);

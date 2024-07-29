@@ -97,6 +97,11 @@ void GameBoard::render() {
   } while (pen->nextPage());
 }
 
+void GameBoard::renderAndDelay(int millis) {
+  render();
+  delay(millis);
+}
+
 void GameBoard::reset() {
   _playSpace->reset();
   _state = GAME_STATE::GAME_NEW;

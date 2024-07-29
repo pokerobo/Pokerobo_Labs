@@ -3,7 +3,6 @@
 
 #include "Pokerobo_Lab_Air_Balloon.h"
 #include "Pokerobo_Lab_Aim_Target.h"
-#include "Pokerobo_Lab_Display_Layout.h"
 
 typedef enum GAME_STATE {
   GAME_NEW,
@@ -17,6 +16,7 @@ class GameBoard {
     GameBoard(GeometryDisplayHandler* pencil, ShootingTarget* shootingTarget, PlaySpace* playSpace);
     void begin();
     void play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystickY);
+    void play(JoystickAction* action);
     void render();
     void reset();
   protected:

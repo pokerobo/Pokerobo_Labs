@@ -71,6 +71,10 @@ void GameBoard::play(uint16_t toggleFlags, uint16_t joystickX, uint16_t joystick
   }
 }
 
+void GameBoard::play(JoystickAction* action) {
+  play(action->getTogglingFlags(), action->getX(), action->getY());
+}
+
 void GameBoard::render() {
   GeometryDisplayHandler* pen = getPencil();
   pen->firstPage();

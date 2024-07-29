@@ -1,5 +1,3 @@
-#include "Pokerobo_Lab_Air_Balloon.h"
-#include "Pokerobo_Lab_Aim_Target.h"
 #include "Pokerobo_Lab_Game_Balloon_Shooter.h"
 
 GeometryDisplayHandler displayHandler(LCD_PINS_ON_RIGHT);
@@ -19,9 +17,7 @@ void setup() {
 }
 
 void loop() {
-  joystickHandler.input(&action);
-
-  gameBoard.play(action.getTogglingFlags(), action.getX(), action.getY());
+  gameBoard.play(joystickHandler.input(&action));
   gameBoard.render();
 
   delay(50);

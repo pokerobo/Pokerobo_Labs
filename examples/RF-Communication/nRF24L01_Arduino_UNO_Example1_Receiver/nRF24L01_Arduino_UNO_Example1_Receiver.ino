@@ -1,5 +1,3 @@
-#include <SPI.h>
-#include <nRF24L01.h>
 #include <RF24.h>
 
 const uint64_t address = 0x123456789ABCDEF0LL;

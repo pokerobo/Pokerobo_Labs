@@ -1,7 +1,4 @@
-#include <SPI.h>
-#include <nRF24L01.h>
 #include <RF24.h>
-#include <Pokerobo_RCB.h>
 #include "Pokerobo_Lab_Display_Handler.h"
 
 class CaroDisplayHandler: public GeometryDisplayHandler {

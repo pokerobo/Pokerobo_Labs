@@ -9,14 +9,13 @@ CaroRF24Transmitter messageTransmitter;
 
 void setup() {
   Serial.begin(57600);
-
   displayHandler.begin();
-
   messageTransmitter.begin(address);
 }
 
 void loop() {
   const char text[20];
+
   messageGenerator.createMessage(text);
   displayHandler.renderMessage(text);
   messageTransmitter.write(text, sizeof(text));

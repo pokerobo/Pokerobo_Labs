@@ -13,11 +13,8 @@ CaroRF24Transmitter messageTransmitter;
 
 void setup() {
   Serial.begin(57600);
-
   joystickHandler.begin();
-
   displayHandler.begin();
-
   messageTransmitter.begin(address);
 }
 

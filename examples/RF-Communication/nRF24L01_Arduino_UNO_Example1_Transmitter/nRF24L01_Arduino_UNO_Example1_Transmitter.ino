@@ -17,7 +17,7 @@ void setup() {
 }
 
 void createMessage(char *text);
-void renderMessage(char *text);
+void renderMessage(char *text, bool result);
 
 void loop() {
   const char text[20];

@@ -20,12 +20,11 @@ CaroDisplayHandler displayHandler;
 
 void setup() {
   Serial.begin(57600);
+  displayHandler.begin();
 
   rf24.begin();
   rf24.openReadingPipe(0, address);
   rf24.startListening();
-
-  displayHandler.begin();
 }
 
 void loop() {

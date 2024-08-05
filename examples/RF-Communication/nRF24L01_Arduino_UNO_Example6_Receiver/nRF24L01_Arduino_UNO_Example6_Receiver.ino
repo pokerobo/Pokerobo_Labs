@@ -10,8 +10,8 @@ JoystickEventDisplayHandler displayHandler("Receiver");
 
 void setup() {
   Serial.begin(57600);
-  messageReceiver.begin(address);
   displayHandler.begin();
+  messageReceiver.begin(address);
 }
 
 void loop() {

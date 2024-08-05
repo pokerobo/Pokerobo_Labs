@@ -22,9 +22,9 @@ void loop() {
   const char text[20];
 
   messageGenerator.createMessage(&messagePacket);
-  displayHandler.renderMessage(&messagePacket);
   messageSerializer.encode(text, &messagePacket);
   messageTransmitter.write(text, sizeof(text));
+  displayHandler.renderMessage(&messagePacket);
 
   delay(100);
 }

@@ -17,8 +17,8 @@ void loop() {
   const char text[20];
 
   messageGenerator.createMessage(text);
-  displayHandler.renderMessage(text);
   messageTransmitter.write(text, sizeof(text));
+  displayHandler.renderMessage(text);
 
   delay(1000);
 }

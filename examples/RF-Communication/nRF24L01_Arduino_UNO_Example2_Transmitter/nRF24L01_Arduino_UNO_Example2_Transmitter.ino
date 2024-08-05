@@ -5,7 +5,7 @@ const char *title = "Transmitter";
 
 class CaroDisplayHandler: public GeometryDisplayHandler {
   public:
-    void renderMessage(char *text) {
+    void renderText(char *text) {
       int8_t _charHeight = this->getMaxCharHeight();
       int8_t _charWidth = this->getMaxCharWidth();
       this->firstPage();
@@ -37,9 +37,10 @@ void createMessage(char *text);
 
 void loop() {
   const char text[20];
+
   createMessage(text);
-  displayHandler.renderMessage(text);
   rf24.write(&text, sizeof(text));
+  displayHandler.renderText(text);
 
   delay(1000);
 }

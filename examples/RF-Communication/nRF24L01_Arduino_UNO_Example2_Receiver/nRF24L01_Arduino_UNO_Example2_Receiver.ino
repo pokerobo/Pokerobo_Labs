@@ -3,10 +3,10 @@
 
 class CaroDisplayHandler: public GeometryDisplayHandler {
   public:
-    void renderMessage(char *text) {
+    void renderText(char *text) {
       this->firstPage();
       do {
-        this->drawStr(0, 32, text);
+        this->drawStr(32, 32, text);
       } while (this->nextPage());
     }
 };
@@ -32,7 +32,7 @@ void loop() {
   if (rf24.available()) {
     char text[20] = {0};
     rf24.read(&text, sizeof(text));
-    displayHandler.renderMessage(text);
+    displayHandler.renderText(text);
     delay(100);
   }
 }

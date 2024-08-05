@@ -18,8 +18,8 @@ void loop() {
   const char text[20];
 
   createMessage(text);
+  messageTransmitter.write(text, sizeof(text));
   displayHandler.renderMessage(text);
-  messageTransmitter.begin(address);
 
   delay(1000);
 }

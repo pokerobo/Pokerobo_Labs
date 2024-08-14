@@ -5,7 +5,7 @@ IrReceiverDisplayHandler displayHandler;
 void setup() {
   Serial.begin(57600);
   displayHandler.begin();
-  IrReceiver.begin(A2, ENABLE_LED_FEEDBACK);
+  IrReceiver.begin(A3, ENABLE_LED_FEEDBACK);
 }
 
 void loop() {

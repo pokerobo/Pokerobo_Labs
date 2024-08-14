@@ -8,28 +8,13 @@ char* toString(decode_type_t protocol);
 //-------------------------------------------------------------------------------------------------
 
 void IrReceiverDisplayHandler::renderMessage(char *text) {
-  this->renderMessageOrString(NULL, text);
-}
-
-void IrReceiverDisplayHandler::renderMessage(IRData *irData) {
-  this->renderMessageOrString(irData, NULL);
-}
-
-void IrReceiverDisplayHandler::renderMessageOrString(IRData *irData, char *text) {
   int8_t _charHeight = this->getMaxCharHeight();
   int8_t _charWidth = this->getMaxCharWidth();
-  if (irData != NULL) {
-    this->prepareIrData(irData);
-  }
   this->firstPage();
   do {
     this->renderFrame();
     this->renderTitle();
-    if (irData != NULL) {
-      this->renderIrData(irData);
-    } else if (text != NULL) {
-      this->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
-    }
+    this->drawStr(64 - _charWidth * strlen(text) / 2, 32 + _charHeight / 2, text);
   } while (this->nextPage());
 }
 
@@ -47,14 +32,64 @@ void IrReceiverDisplayHandler::renderTitle() {
   }
 }
 
-void IrReceiverDisplayHandler::prepareIrData(IRData *irData) {
+//-------------------------------------------------------------------------------------------------
+
+void IrDetectorDisplayHandler::renderMessage(IRData *irData) {
+  int8_t _charHeight = this->getMaxCharHeight();
+  int8_t _charWidth = this->getMaxCharWidth();
+  if (irData != NULL) {
+    this->prepareIrData(irData);
+  }
+  this->firstPage();
+  do {
+    this->renderFrame();
+    this->renderTitle();
+    if (irData != NULL) {
+      this->renderIrData();
+    }
+  } while (this->nextPage());
+}
+
+void IrDetectorDisplayHandler::prepareIrData(IRData *irData) {
   sprintf(_lines[0], "P:%s", toString(irData->protocol));
   sprintf(_lines[1], "C:0x%X/0x%lX", irData->command, irData->decodedRawData);
 }
 
-void IrReceiverDisplayHandler::renderIrData(IRData *irData) {
-  this->drawStr(10, 32, _lines[0]);
-  this->drawStr(10, 32 + 12, _lines[1]);
+void IrDetectorDisplayHandler::renderIrData() {
+  this->drawStr(10, 12 + 10, _lines[0]);
+  this->drawStr(10, 12 + 2*10, _lines[1]);
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void IrConverterDisplayHandler::renderConversion(IRData *irData,
+      decode_type_t aProtocol, uint16_t aAddress, uint16_t aCommand) {
+  int8_t _charHeight = this->getMaxCharHeight();
+  int8_t _charWidth = this->getMaxCharWidth();
+  if (irData != NULL) {
+    this->prepareIrData(irData, aProtocol, aAddress, aCommand);
+  }
+  this->firstPage();
+  do {
+    this->renderFrame();
+    this->renderTitle();
+    if (irData != NULL) {
+      this->renderIrData();
+    }
+  } while (this->nextPage());
+}
+
+void IrConverterDisplayHandler::prepareIrData(IRData *irData,
+      decode_type_t aProtocol, uint16_t aAddress, uint16_t aCommand) {
+  IrDetectorDisplayHandler::prepareIrData(irData);
+  sprintf(_targets[0], "P:%s", toString(aProtocol));
+  sprintf(_targets[1], "C:0x%X", aCommand);
+}
+
+void IrConverterDisplayHandler::renderIrData() {
+  IrDetectorDisplayHandler::renderIrData();
+  this->drawStr(10, 12 + 2*10 + 12, _targets[0]);
+  this->drawStr(10, 12 + 2*10 + 12 + 10, _targets[1]);
 }
 
 //-------------------------------------------------------------------------------------------------

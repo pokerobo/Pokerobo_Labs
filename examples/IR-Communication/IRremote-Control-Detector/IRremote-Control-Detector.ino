@@ -1,6 +1,6 @@
 #include "Pokerobo_Lab_IRremote_Demo.h"
 
-IrReceiverDisplayHandler displayHandler;
+IrDetectorDisplayHandler displayHandler;
 
 void setup() {
   Serial.begin(57600);

@@ -16,7 +16,6 @@ class IrReceiverDisplayHandler: public GeometryDisplayHandler {
     virtual void renderTitle();
   private:
     char *_title = NULL;
-    
 };
 
 class IrDetectorDisplayHandler: public IrReceiverDisplayHandler {

@@ -6,7 +6,9 @@
 
 IrConverterDisplayHandler displayHandler;
 
-uint16_t mappingPanasonic[] = { // PANASONIC - 11
+const int keysTotal = 18;
+
+uint16_t mappingPanasonic[keysTotal] = { // PANASONIC - 11
   0x34,  // BIT_UP_BUTTON
   0x20,  // BIT_RIGHT_BUTTON
   0x35,  // BIT_DOWN_BUTTON
@@ -27,7 +29,7 @@ uint16_t mappingPanasonic[] = { // PANASONIC - 11
   0x3D,
 };
 
-uint16_t mappingSony[] = { // SONY (23)
+uint16_t mappingSony[keysTotal] = { // SONY (23)
   0x74,  // BIT_UP_BUTTON
   0x33,  // BIT_RIGHT_BUTTON
   0x75,  // BIT_DOWN_BUTTON
@@ -59,9 +61,9 @@ int findIndex(int total, uint16_t *mapping, uint16_t value) {
   return pos;
 }
 
-void logMapping(uint16_t sCommand, int newIndex, uint16_t tCommand) {
+void logMapping(uint16_t sCommand, int keyIndex, uint16_t tCommand) {
   Serial.print("source command: "), Serial.print(sCommand, HEX);
-  Serial.print(" -> index: "), Serial.println(newIndex);
+  Serial.print(" -> index: "), Serial.print(keyIndex);
   Serial.print(" => target command: "), Serial.print(tCommand, HEX);
   Serial.println();
 }
@@ -75,22 +77,24 @@ void setup() {
 
 void loop() {
   if (IrReceiver.decode()) {
-    displayHandler.clear();
     IRData decodedIRData = IrReceiver.decodedIRData;
 
-    int newIndex = findIndex(18, &mappingPanasonic[0], decodedIRData.command);
-    if (newIndex >= 0) {
-      uint16_t tCommand = mappingSony[newIndex];
-      logMapping(decodedIRData.command, newIndex, tCommand);
-      IrSender.write(SONY, 0x1, tCommand, 2);
-      displayHandler.renderConversion(&decodedIRData, SONY, 0x1, tCommand);
-    } else {
+    bool found = false;
+    if (decodedIRData.protocol == PANASONIC) {
+      int keyIndex = findIndex(keysTotal, &mappingPanasonic[0], decodedIRData.command);
+      if (keyIndex >= 0) {
+        uint16_t tCommand = mappingSony[keyIndex];
+        logMapping(decodedIRData.command, keyIndex, tCommand);
+        IrSender.write(SONY, 0x1, tCommand, 2);
+        displayHandler.renderConversion(&decodedIRData, SONY, 0x1, tCommand);
+        found = true;
+      }
+    }
+    if (!found) {
       displayHandler.renderMessage(&decodedIRData);
     }
 
-    IrReceiver.printIRResultShort(&Serial);
-    IrReceiver.printIRSendUsage(&Serial);
     IrReceiver.resume();
   }
-  delay(50);
+  delay(100);
 }

@@ -87,10 +87,10 @@ int findIndex(int total, uint16_t *mapping, uint16_t value) {
   return pos;
 }
 
-void logMapping(uint16_t sCommand, int keyIndex, uint16_t tCommand) {
-  Serial.print("source command: "), Serial.print(sCommand, HEX);
-  Serial.print(" -> index: "), Serial.print(keyIndex);
-  Serial.print(" => target command: "), Serial.print(tCommand, HEX);
+void logMapping(uint16_t rcButtonCode, int codeIndex, uint16_t tvButtonCode) {
+  Serial.print("source command: "), Serial.print(rcButtonCode, HEX);
+  Serial.print(" -> index: "), Serial.print(codeIndex);
+  Serial.print(" => target command: "), Serial.print(tvButtonCode, HEX);
   Serial.println();
 }
 
@@ -103,21 +103,21 @@ void setup() {
 
 void loop() {
   if (IrReceiver.decode()) {
-    IRData decodedIRData = IrReceiver.decodedIRData;
+    IRData irData = IrReceiver.decodedIRData;
 
     bool found = false;
-    if (decodedIRData.protocol == RC_PROTOCOL_TYPE) {
-      int keyIndex = findIndex(keysTotal, &keySourceCommands[0], decodedIRData.command);
-      if (keyIndex >= 0) {
-        uint16_t tCommand = keyTargetCommands[keyIndex];
-        logMapping(decodedIRData.command, keyIndex, tCommand);
-        IrSender.write(SONY, 0x1, tCommand, 2);
-        displayHandler.renderConversion(&decodedIRData, SONY, 0x1, tCommand);
+    if (irData.protocol == RC_PROTOCOL_TYPE) {
+      int codeIndex = findIndex(keysTotal, &keySourceCommands[0], irData.command);
+      if (codeIndex >= 0) {
+        uint16_t tvButtonCode = keyTargetCommands[codeIndex];
+        logMapping(irData.command, codeIndex, tvButtonCode);
+        IrSender.write(SONY, 0x1, tvButtonCode, 2);
+        displayHandler.renderConversion(&irData, SONY, 0x1, tvButtonCode);
         found = true;
       }
     }
     if (!found) {
-      displayHandler.renderMessage(&decodedIRData);
+      displayHandler.renderMessage(&irData);
     }
 
     IrReceiver.resume();

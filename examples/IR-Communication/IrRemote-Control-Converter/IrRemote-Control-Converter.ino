@@ -1,28 +1,26 @@
 #define DECODE_NEC
-#define DECODE_PANASONIC
 #define DECODE_SONY
 
 #include "Pokerobo_Lab_IRremote_Demo.h"
 
-#define RC_PROTOCOL_TYPE          PANASONIC
-#define RC_KEY_UP_BUTTON          0x34
-#define RC_KEY_RIGHT_BUTTON       0x20
-#define RC_KEY_DOWN_BUTTON        0x35
-#define RC_KEY_LEFT_BUTTON        0x21
-#define RC_KEY_OK_BUTTON          0x49
-#define RC_KEY_ASTERISK_BUTTON    0x39
-#define RC_KEY_SHARP_BUTTON       0x3B
+#define RC_PROTOCOL_TYPE          NEC
+#define RC_KEY_UP_BUTTON          0x18
+#define RC_KEY_RIGHT_BUTTON       0x5A
+#define RC_KEY_DOWN_BUTTON        0x52
+#define RC_KEY_LEFT_BUTTON        0x08
+#define RC_KEY_OK_BUTTON          0x1C
+#define RC_KEY_ASTERISK_BUTTON    0x16
+#define RC_KEY_SHARP_BUTTON       0x0D
 #define RC_KEY_DIGIT0_BUTTON      0x19
-#define RC_KEY_DIGIT1_BUTTON      0x10
-#define RC_KEY_DIGIT2_BUTTON      0x11
-#define RC_KEY_DIGIT3_BUTTON      0x12
-#define RC_KEY_DIGIT4_BUTTON      0x13
-#define RC_KEY_DIGIT5_BUTTON      0x14
-#define RC_KEY_DIGIT6_BUTTON      0x15
-#define RC_KEY_DIGIT7_BUTTON      0x16
-#define RC_KEY_DIGIT8_BUTTON      0x17
-#define RC_KEY_DIGIT9_BUTTON      0x18
-#define RC_KEY_POWER_BUTTON       0x3D
+#define RC_KEY_DIGIT1_BUTTON      0x45
+#define RC_KEY_DIGIT2_BUTTON      0x46
+#define RC_KEY_DIGIT3_BUTTON      0x47
+#define RC_KEY_DIGIT4_BUTTON      0x44
+#define RC_KEY_DIGIT5_BUTTON      0x40
+#define RC_KEY_DIGIT6_BUTTON      0x43
+#define RC_KEY_DIGIT7_BUTTON      0x07
+#define RC_KEY_DIGIT8_BUTTON      0x15
+#define RC_KEY_DIGIT9_BUTTON      0x09
 
 #define TV_PROTOCOL_TYPE          SONY
 #define TV_KEY_VOL_INC            0x12
@@ -32,7 +30,7 @@
 
 IrConverterDisplayHandler displayHandler;
 
-const int keysTotal = 18;
+const int keysTotal = 17;
 
 uint16_t keySourceCommands[keysTotal] = { // PANASONIC - 11
   RC_KEY_UP_BUTTON,           // BIT_UP_BUTTON
@@ -52,7 +50,6 @@ uint16_t keySourceCommands[keysTotal] = { // PANASONIC - 11
   RC_KEY_DIGIT7_BUTTON,       // BIT_DIGIT7_BUTTON
   RC_KEY_DIGIT8_BUTTON,       // BIT_DIGIT8_BUTTON
   RC_KEY_DIGIT9_BUTTON,       // BIT_DIGIT9_BUTTON
-  RC_KEY_POWER_BUTTON,
 };
 
 uint16_t keyTargetCommands[keysTotal] = { // SONY (23)
@@ -73,7 +70,6 @@ uint16_t keyTargetCommands[keysTotal] = { // SONY (23)
   0x06,  // BIT_DIGIT7_BUTTON
   0x07,  // BIT_DIGIT8_BUTTON
   0x08,  // BIT_DIGIT9_BUTTON
-  TV_KEY_POWER_BUTTON,
 };
 
 int findIndex(int total, uint16_t *mapping, uint16_t value) {

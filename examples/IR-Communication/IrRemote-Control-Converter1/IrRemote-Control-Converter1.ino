@@ -32,7 +32,7 @@ IrConverterDisplayHandler displayHandler;
 
 const int keysTotal = 17;
 
-uint16_t keySourceCommands[keysTotal] = { // PANASONIC - 11
+uint16_t keySourceCommands[keysTotal] = { // NEC - 11
   RC_KEY_UP_BUTTON,           // BIT_UP_BUTTON
   RC_KEY_RIGHT_BUTTON,        // BIT_RIGHT_BUTTON
   RC_KEY_DOWN_BUTTON,         // BIT_DOWN_BUTTON

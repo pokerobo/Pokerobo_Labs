@@ -4,32 +4,58 @@
 
 #include "Pokerobo_Lab_IRremote_Demo.h"
 
+#define RC_PROTOCOL_TYPE          PANASONIC
+#define RC_KEY_UP_BUTTON          0x34
+#define RC_KEY_RIGHT_BUTTON       0x20
+#define RC_KEY_DOWN_BUTTON        0x35
+#define RC_KEY_LEFT_BUTTON        0x21
+#define RC_KEY_OK_BUTTON          0x49
+#define RC_KEY_ASTERISK_BUTTON    0x39
+#define RC_KEY_SHARP_BUTTON       0x3B
+#define RC_KEY_DIGIT0_BUTTON      0x19
+#define RC_KEY_DIGIT1_BUTTON      0x10
+#define RC_KEY_DIGIT2_BUTTON      0x11
+#define RC_KEY_DIGIT3_BUTTON      0x12
+#define RC_KEY_DIGIT4_BUTTON      0x13
+#define RC_KEY_DIGIT5_BUTTON      0x14
+#define RC_KEY_DIGIT6_BUTTON      0x15
+#define RC_KEY_DIGIT7_BUTTON      0x16
+#define RC_KEY_DIGIT8_BUTTON      0x17
+#define RC_KEY_DIGIT9_BUTTON      0x18
+#define RC_KEY_POWER_BUTTON       0x3D
+
+#define TV_PROTOCOL_TYPE          SONY
+#define TV_KEY_VOL_INC            0x12
+#define TV_KEY_VOL_DEC            0x13
+#define TV_KEY_CHANNEL_TOGGLE     0x25
+#define TV_KEY_POWER_BUTTON       0x15
+
 IrConverterDisplayHandler displayHandler;
 
 const int keysTotal = 18;
 
-uint16_t mappingPanasonic[keysTotal] = { // PANASONIC - 11
-  0x34,  // BIT_UP_BUTTON
-  0x20,  // BIT_RIGHT_BUTTON
-  0x35,  // BIT_DOWN_BUTTON
-  0x21,  // BIT_LEFT_BUTTON
-  0x49,  // BIT_OK_BUTTON
-  0x39,  // BIT_ASTERISK_BUTTON
-  0x3B,  // BIT_SHARP_BUTTON
-  0x19,  // BIT_DIGIT0_BUTTON
-  0x10,  // BIT_DIGIT1_BUTTON
-  0x11,  // BIT_DIGIT2_BUTTON
-  0x12,  // BIT_DIGIT3_BUTTON
-  0x13,  // BIT_DIGIT4_BUTTON
-  0x14,  // BIT_DIGIT5_BUTTON
-  0x15,  // BIT_DIGIT6_BUTTON
-  0x16,  // BIT_DIGIT7_BUTTON
-  0x17,  // BIT_DIGIT8_BUTTON
-  0x18,  // BIT_DIGIT9_BUTTON
-  0x3D,
+uint16_t keySourceCommands[keysTotal] = { // PANASONIC - 11
+  RC_KEY_UP_BUTTON,           // BIT_UP_BUTTON
+  RC_KEY_RIGHT_BUTTON,        // BIT_RIGHT_BUTTON
+  RC_KEY_DOWN_BUTTON,         // BIT_DOWN_BUTTON
+  RC_KEY_LEFT_BUTTON,         // BIT_LEFT_BUTTON
+  RC_KEY_OK_BUTTON,           // BIT_OK_BUTTON
+  RC_KEY_ASTERISK_BUTTON,     // BIT_ASTERISK_BUTTON
+  RC_KEY_SHARP_BUTTON,        // BIT_SHARP_BUTTON
+  RC_KEY_DIGIT0_BUTTON,       // BIT_DIGIT0_BUTTON
+  RC_KEY_DIGIT1_BUTTON,       // BIT_DIGIT1_BUTTON
+  RC_KEY_DIGIT2_BUTTON,       // BIT_DIGIT2_BUTTON
+  RC_KEY_DIGIT3_BUTTON,       // BIT_DIGIT3_BUTTON
+  RC_KEY_DIGIT4_BUTTON,       // BIT_DIGIT4_BUTTON
+  RC_KEY_DIGIT5_BUTTON,       // BIT_DIGIT5_BUTTON
+  RC_KEY_DIGIT6_BUTTON,       // BIT_DIGIT6_BUTTON
+  RC_KEY_DIGIT7_BUTTON,       // BIT_DIGIT7_BUTTON
+  RC_KEY_DIGIT8_BUTTON,       // BIT_DIGIT8_BUTTON
+  RC_KEY_DIGIT9_BUTTON,       // BIT_DIGIT9_BUTTON
+  RC_KEY_POWER_BUTTON,
 };
 
-uint16_t mappingSony[keysTotal] = { // SONY (23)
+uint16_t keyTargetCommands[keysTotal] = { // SONY (23)
   0x74,  // BIT_UP_BUTTON
   0x33,  // BIT_RIGHT_BUTTON
   0x75,  // BIT_DOWN_BUTTON
@@ -47,7 +73,7 @@ uint16_t mappingSony[keysTotal] = { // SONY (23)
   0x06,  // BIT_DIGIT7_BUTTON
   0x07,  // BIT_DIGIT8_BUTTON
   0x08,  // BIT_DIGIT9_BUTTON
-  0x15,
+  TV_KEY_POWER_BUTTON,
 };
 
 int findIndex(int total, uint16_t *mapping, uint16_t value) {
@@ -80,10 +106,10 @@ void loop() {
     IRData decodedIRData = IrReceiver.decodedIRData;
 
     bool found = false;
-    if (decodedIRData.protocol == PANASONIC) {
-      int keyIndex = findIndex(keysTotal, &mappingPanasonic[0], decodedIRData.command);
+    if (decodedIRData.protocol == RC_PROTOCOL_TYPE) {
+      int keyIndex = findIndex(keysTotal, &keySourceCommands[0], decodedIRData.command);
       if (keyIndex >= 0) {
-        uint16_t tCommand = mappingSony[keyIndex];
+        uint16_t tCommand = keyTargetCommands[keyIndex];
         logMapping(decodedIRData.command, keyIndex, tCommand);
         IrSender.write(SONY, 0x1, tCommand, 2);
         displayHandler.renderConversion(&decodedIRData, SONY, 0x1, tCommand);

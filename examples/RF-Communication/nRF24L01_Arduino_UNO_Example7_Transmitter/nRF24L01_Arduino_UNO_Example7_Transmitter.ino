@@ -7,7 +7,7 @@ JoystickHandler joystickHandler;
 JoystickEventPacket messagePacket;
 JoystickEventGenerator messageGenerator(&joystickHandler);
 JoystickEventSerializer messageSerializer;
-JoystickEventDisplayHandler displayHandler("Transmitter");
+JoystickPadDisplayHandler displayHandler("Transmitter");
 
 CaroRF24Transmitter messageTransmitter;
 

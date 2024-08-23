@@ -6,7 +6,7 @@ CaroRF24Receiver messageReceiver;
 
 JoystickEventPacket messagePacket;
 JoystickEventSerializer messageSerializer;
-JoystickPadDisplayHandler displayHandler("Receiver");
+JoystickEventDisplayHandler displayHandler("Receiver");
 
 void setup() {
   Serial.begin(57600);

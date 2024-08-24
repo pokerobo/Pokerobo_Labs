@@ -17,13 +17,13 @@ class IrRoboCarDispatcher: public IREventDispatcher {
     void processSharpButtonPressedEvent();
     void processDigitButtonsPressedEvent(uint32_t buttons);
   protected:
-    uint8_t getSpeed();
+    int getSpeed();
   private:
     RoboCarHandler *_roboCarHandler = NULL;
-    uint8_t _baseSpeed = 255 - 3*15;
-    uint8_t _gearNumber = 0;
-    bool _asteriskButtonState = 0;
-    bool _sharpButtonState = 0;
+    uint8_t _baseSpeed = 255 - 3*10;
+    uint8_t _gearNumber = 3;
+    bool _asteriskButtonState = false;
+    bool _sharpButtonState = false;
     bool _reversed = false;
 };
 

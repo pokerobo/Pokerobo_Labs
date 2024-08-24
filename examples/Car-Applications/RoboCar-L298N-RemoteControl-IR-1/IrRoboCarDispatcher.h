@@ -19,7 +19,7 @@ class IrRoboCarDispatcher: public IREventDispatcher {
     uint8_t getSpeed();
   private:
     RoboCarHandler *_roboCarHandler = NULL;
-    uint8_t _baseSpeed = 255 - 32;
+    uint8_t _baseSpeed = 255;
 };
 
 #endif

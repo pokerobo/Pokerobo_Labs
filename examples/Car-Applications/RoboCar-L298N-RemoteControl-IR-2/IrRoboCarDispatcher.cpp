@@ -5,12 +5,12 @@
 #define IR_MASK_DIGIT3_BUTTON   1UL << (7+3)
 
 IrRoboCarDispatcher::IrRoboCarDispatcher(RoboCarHandler *roboCarHandler) {
-  if (roboCarHandler == NULL) exit(-1);
+  // if (roboCarHandler == NULL) exit(-1);
   _roboCarHandler = roboCarHandler;
 }
 
-uint8_t IrRoboCarDispatcher::getSpeed() {
-  return _baseSpeed + _gearNumber * 15;
+int IrRoboCarDispatcher::getSpeed() {
+  return _baseSpeed + _gearNumber * 10;
 }
 
 void IrRoboCarDispatcher::processOkButtonPressedEvent() {
@@ -20,7 +20,7 @@ void IrRoboCarDispatcher::processOkButtonPressedEvent() {
 void IrRoboCarDispatcher::processDPadUpButtonPressedEvent() {
   if (_sharpButtonState) {
     _reversed = false;
-    _sharpButtonState = 1 - _sharpButtonState;
+    _sharpButtonState = !_sharpButtonState;
     return;
   }
   _roboCarHandler->move(1, getSpeed(), getSpeed(), 1, _reversed);
@@ -33,7 +33,7 @@ void IrRoboCarDispatcher::processDPadRightButtonPressedEvent() {
 void IrRoboCarDispatcher::processDPadDownButtonPressedEvent() {
   if (_sharpButtonState) {
     _reversed = true;
-    _sharpButtonState = 1 - _sharpButtonState;
+    _sharpButtonState = !_sharpButtonState;
     return;
   }
   _roboCarHandler->move(-1, getSpeed(), getSpeed(), -1, _reversed);
@@ -44,7 +44,7 @@ void IrRoboCarDispatcher::processDPadLeftButtonPressedEvent() {
 }
 
 void IrRoboCarDispatcher::processAsteriskButtonPressedEvent() {
-  _asteriskButtonState = 1 - _asteriskButtonState;
+  _asteriskButtonState = !_asteriskButtonState;
   if (_asteriskButtonState) {
     _roboCarHandler->turnOn();
   } else {
@@ -53,7 +53,7 @@ void IrRoboCarDispatcher::processAsteriskButtonPressedEvent() {
 }
 
 void IrRoboCarDispatcher::processSharpButtonPressedEvent() {
-  _sharpButtonState = 1 - _sharpButtonState;
+  _sharpButtonState = !_sharpButtonState;
 }
 
 void IrRoboCarDispatcher::processDigitButtonsPressedEvent(uint32_t buttons) {

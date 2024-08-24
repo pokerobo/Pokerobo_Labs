@@ -1,3 +1,5 @@
+#define DECODE_PANASONIC
+
 #include "IrCodeMappings.h"
 #include "IrRoboCarDispatcher.h"
 

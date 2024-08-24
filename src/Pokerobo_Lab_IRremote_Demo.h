@@ -30,6 +30,11 @@ class IrDetectorDisplayHandler: public IrReceiverDisplayHandler {
     char _lines[2][32] = { {0}, {0} };
 };
 
+class IrInterceptorDisplayHandler: public IrDetectorDisplayHandler {
+  public:
+    IrInterceptorDisplayHandler(): IrDetectorDisplayHandler("IR Interceptor") {};
+};
+
 class IrConverterDisplayHandler: public IrDetectorDisplayHandler {
   public:
     IrConverterDisplayHandler(): IrDetectorDisplayHandler("IR Converter") {};

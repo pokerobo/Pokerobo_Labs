@@ -16,7 +16,7 @@ int IRvalue5 = 0;
 
 void setup() {
   delay(200);
-  Serial.begin(115200);
+  Serial.begin(57600);
   pinMode(ex0, PCF8574_P0, INPUT);
   pinMode(ex0, PCF8574_P1, INPUT);
   pinMode(ex0, PCF8574_P2, INPUT);

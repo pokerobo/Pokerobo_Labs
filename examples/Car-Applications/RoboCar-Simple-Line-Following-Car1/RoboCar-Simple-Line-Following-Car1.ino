@@ -2,13 +2,11 @@
 
 const int max_speed = 180;
 
+char text[9] = { 0 };
+
 DisplayAdapter displayAdapter;
 LineDetector5Channels lineDetector;
-
 RoboCarHandler roboCarHandler;
-MovingResolver movingResolver;
-
-char text[9] = { 0 };
 
 void setup() {
   Serial.begin(57600);

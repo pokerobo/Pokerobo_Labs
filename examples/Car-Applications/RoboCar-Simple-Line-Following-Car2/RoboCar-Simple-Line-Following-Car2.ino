@@ -29,14 +29,14 @@ void loop() {
       break;
     case 0b01100:
     case 0b11100:
-      roboCarHandler.move(1, min_speed, max_speed, 1);
+      roboCarHandler.move(1, min_speed, medium_speed, 1);
       break;
     case 0b01110:
       roboCarHandler.move(1, max_speed, max_speed, 1);
       break;
     case 0b00110:
     case 0b00111:
-      roboCarHandler.move(1, max_speed, min_speed, 1);
+      roboCarHandler.move(1, medium_speed, min_speed, 1);
       break;
     case 0b00011:
     case 0b00001:

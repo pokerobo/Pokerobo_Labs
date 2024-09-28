@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 const int pinOUT1 = 8;
 const int pinOUT2 = 9;
 const int pinOUT3 = 10;
@@ -17,7 +19,6 @@ void setup()
   pinMode(pinOUT3,INPUT);
   pinMode(pinOUT4,INPUT);
   pinMode(pinOUT5,INPUT);
-
 }
 
 void loop()

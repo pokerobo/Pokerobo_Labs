@@ -133,6 +133,7 @@ char* toString(decode_type_t protocol) {
 
 bool checkKeyPress(IRData *decodedIRData) {
   bool ok = true;
+  uint32_t rawData = decodedIRData->decodedRawData;
   switch (decodedIRData->protocol) {
     case UNKNOWN:
       ok = false;
@@ -154,7 +155,6 @@ bool checkKeyPress(IRData *decodedIRData) {
       };
       break;
     case NEC:
-      uint32_t rawData = decodedIRData->decodedRawData;
       switch(rawData) {
         case 0xBA45FF00:
           Serial.println("1");

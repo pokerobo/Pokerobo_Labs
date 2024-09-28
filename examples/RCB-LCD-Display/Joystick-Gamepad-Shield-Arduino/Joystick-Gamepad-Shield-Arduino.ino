@@ -12,7 +12,7 @@ void setup() {
     pinMode(buttons[i], INPUT);
   }
 
-  Serial.begin(115200);
+  Serial.begin(57600);
 }
 
 void loop() {

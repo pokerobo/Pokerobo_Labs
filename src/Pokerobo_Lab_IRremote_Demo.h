@@ -9,7 +9,7 @@ class IrReceiverDisplayHandler: public GeometryDisplayHandler {
     using GeometryDisplayHandler::GeometryDisplayHandler;
     void renderMessage(char *text);
   protected:
-    IrReceiverDisplayHandler(const char *title): GeometryDisplayHandler() {
+    IrReceiverDisplayHandler(char *title): GeometryDisplayHandler() {
       _title = title;
     }
     virtual void renderFrame();

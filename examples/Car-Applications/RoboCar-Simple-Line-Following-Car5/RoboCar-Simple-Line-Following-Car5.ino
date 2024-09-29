@@ -13,24 +13,26 @@ int8_t _leftDirection = 0;
 int _leftSpeed = 0;
 int8_t _rightDirection = 0;
 int _rightSpeed = 0;
-uint32_t _delayTime = 0;
+uint32_t _movingTime = 0;
 
-void probe(int8_t leftDirection, int leftSpeed, int rightSpeed, int8_t rightDirection, uint32_t ms=200) {
+void probe(int8_t leftDirection, int leftSpeed,
+    int rightSpeed, int8_t rightDirection, uint32_t movingTime=200) {
   _leftDirection = leftDirection;
   _leftSpeed = leftSpeed;
   _rightDirection = rightDirection;
   _rightSpeed = rightSpeed;
-  _delayTime = ms;
+  _movingTime = movingTime;
   roboCarHandler.move(_leftDirection, _leftSpeed, _rightSpeed, _rightDirection);
-  if (_delayTime > 0) delay(_delayTime);
+  if (_movingTime > 0) delay(_movingTime);
   roboCarHandler.move(0, _leftSpeed, _rightSpeed, 0);
 }
 
 void back() {
   roboCarHandler.move(-_rightDirection, _rightSpeed, _leftSpeed, -_leftDirection);
-  delay(_delayTime);
+  delay(_movingTime);
   roboCarHandler.move(_leftDirection, _leftSpeed, _rightSpeed, _rightDirection);
-  delay(_delayTime/2);
+  delay(_movingTime/2);
+  roboCarHandler.move(0, _leftSpeed, _rightSpeed, 0);
 }
 
 void setup() {

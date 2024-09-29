@@ -57,15 +57,15 @@ void loop() {
       break;
     case 0b01000:
     case 0b01100:
-      probe(1, medium_speed, medium_speed, 1);
+      probe(1, medium_speed, medium_speed, 1, 200);
       break;
     case 0b00100:
     case 0b01110:
-      probe(1, medium_speed, medium_speed, 1);
+      probe(1, medium_speed, medium_speed, 1, 200);
       break;
     case 0b00010:
     case 0b00110:
-      probe(1, medium_speed, medium_speed, 1);
+      probe(1, medium_speed, medium_speed, 1, 200);
       break;
     case 0b00111:
       probe(1, medium_speed, min_speed, 1, 100);

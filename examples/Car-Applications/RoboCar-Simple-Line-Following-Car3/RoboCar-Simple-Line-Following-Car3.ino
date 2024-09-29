@@ -66,5 +66,5 @@ void loop() {
       roboCarHandler.stop();
   }
   Serial.println(lineDetector.toText(signals, text));
-  delay(200);
+  delay(50);
 }

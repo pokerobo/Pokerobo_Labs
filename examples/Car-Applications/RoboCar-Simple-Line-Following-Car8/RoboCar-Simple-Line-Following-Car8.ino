@@ -107,9 +107,9 @@ void setup() {
 
   roboCarHandler.begin();
   roboCarHandler.turnOn();
-  lineFollower.begin();
   lineDetector.setBlackLine(true);
   lineDetector.begin();
+  lineFollower.begin();
 }
 
 void loop() {

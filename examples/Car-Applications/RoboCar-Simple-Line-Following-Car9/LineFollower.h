@@ -12,7 +12,7 @@ class LineFollower {
     void begin();
     void check(uint8_t signals);
   protected:
-    virtual void checkImplementation(uint8_t signals);
+    virtual void decideNextMove(uint8_t signals);
     virtual void remember(int8_t leftDirection, int leftSpeed,
         int rightSpeed, int8_t rightDirection, uint32_t movingTime=200);
     virtual void probe(int8_t leftDirection, int leftSpeed,

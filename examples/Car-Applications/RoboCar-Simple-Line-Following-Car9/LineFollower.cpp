@@ -12,10 +12,10 @@ void LineFollower::begin() {
 }
 
 void LineFollower::check(uint8_t signals) {
-  checkImplementation(signals);
+  decideNextMove(signals);
 }
 
-void LineFollower::checkImplementation(uint8_t signals) {
+void LineFollower::decideNextMove(uint8_t signals) {
   switch(signals) {
     case 0b10000:
     case 0b11000:

@@ -28,7 +28,7 @@ void probe(int8_t leftDirection, int leftSpeed,
 }
 
 void back() {
-  roboCarHandler.move(-_rightDirection, _rightSpeed, _leftSpeed, -_leftDirection);
+  roboCarHandler.move(-_leftDirection, _leftSpeed, _rightSpeed, -_rightDirection);
   delay(_movingTime);
   roboCarHandler.move(_leftDirection, _leftSpeed, _rightSpeed, _rightDirection);
   delay(_movingTime/2);

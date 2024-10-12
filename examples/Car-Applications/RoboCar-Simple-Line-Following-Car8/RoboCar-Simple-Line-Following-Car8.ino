@@ -11,7 +11,7 @@ class LineFollower {
   protected:
     virtual void probe(int8_t leftDirection, int leftSpeed,
         int rightSpeed, int8_t rightDirection, uint32_t movingTime=200);
-    virtual void reverse();
+    virtual void reverse(bool variant=false);
   private:
     RoboCarHandler* _roboCarHandler = NULL;
     int8_t _leftDirection = 0;
@@ -88,8 +88,12 @@ void LineFollower::probe(int8_t leftDirection, int leftSpeed,
   _roboCarHandler->move(0, _leftSpeed, _rightSpeed, 0);
 }
 
-void LineFollower::reverse() {
-  _roboCarHandler->move(-_rightDirection, _rightSpeed, _leftSpeed, -_leftDirection);
+void LineFollower::reverse(bool variant) {
+  if (variant) {
+    _roboCarHandler->move(-_rightDirection, _rightSpeed, _leftSpeed, -_leftDirection);
+  } else {
+    _roboCarHandler->move(-_leftDirection, _leftSpeed, _rightSpeed, -_rightDirection);
+  }
   delay(_movingTime);
   _roboCarHandler->move(_leftDirection, _leftSpeed, _rightSpeed, _rightDirection);
   delay(_movingTime/2);

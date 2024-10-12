@@ -13,9 +13,9 @@ void setup() {
 void loop() {
   delay(100);
   Serial.print("Obstacle detected: ");
-  Serial.print(sonar.ping_cm());
+  Serial.print(sonar.distance_cm());
   Serial.print("cm, ~ ");
-  Serial.print(sonar.ping_in());
+  Serial.print(sonar.distance_in());
   Serial.print("in");
   Serial.println();
 }

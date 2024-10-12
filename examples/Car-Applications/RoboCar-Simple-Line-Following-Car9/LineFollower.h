@@ -8,6 +8,8 @@ class LineFollower {
     static const int max_speed;
     static const int medium_speed;
     static const int min_speed;
+    static const int moving_time;
+    static const int moving_time_2;
     LineFollower(RoboCarHandler* roboCarHandler);
     void begin();
     void check(uint8_t signals);

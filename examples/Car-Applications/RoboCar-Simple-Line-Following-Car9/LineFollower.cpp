@@ -3,6 +3,8 @@
 const int LineFollower::max_speed = 150;
 const int LineFollower::medium_speed = 140;
 const int LineFollower::min_speed = 110;
+const int LineFollower::moving_time = 100;
+const int LineFollower::moving_time_2 = LineFollower::moving_time;
 
 LineFollower::LineFollower(RoboCarHandler* roboCarHandler) {
   _roboCarHandler = roboCarHandler;
@@ -45,30 +47,30 @@ void LineFollower::decideNextMove(uint8_t signals) {
     case 0b10000:
     case 0b11000:
     case 0b11110:
-      probe(0, min_speed, medium_speed, 1, 100);
+      probe(0, min_speed, medium_speed, 1, moving_time);
       break;
     case 0b11100:
-      probe(1, min_speed, medium_speed, 1, 100);
+      probe(1, min_speed, medium_speed, 1, moving_time);
       break;
     case 0b01000:
     case 0b01100:
-      probe(1, medium_speed, medium_speed, 1, 200);
+      probe(1, medium_speed, medium_speed, 1, moving_time_2);
       break;
     case 0b00100:
     case 0b01110:
-      probe(1, medium_speed, medium_speed, 1, 200);
+      probe(1, medium_speed, medium_speed, 1, moving_time_2);
       break;
     case 0b00010:
     case 0b00110:
-      probe(1, medium_speed, medium_speed, 1, 200);
+      probe(1, medium_speed, medium_speed, 1, moving_time_2);
       break;
     case 0b00111:
-      probe(1, medium_speed, min_speed, 1, 100);
+      probe(1, medium_speed, min_speed, 1, moving_time);
       break;
     case 0b00001:
     case 0b00011:
     case 0b01111:
-      probe(1, medium_speed, min_speed, 0, 100);
+      probe(1, medium_speed, min_speed, 0, moving_time);
       break;
     case 0b00000:
       _reversionCount++;

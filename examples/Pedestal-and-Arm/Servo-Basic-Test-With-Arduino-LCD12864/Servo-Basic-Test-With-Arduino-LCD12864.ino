@@ -23,9 +23,9 @@ void displayServoPosition(uint8_t position, int delayTime=1000) {
 Servo servo;
 
 void setup() {
-  displayHandler.begin();
   Serial.begin(57600);
-  servo.attach(8);
+  displayHandler.begin();
+  servo.attach(2);
   servo.write(0);
   delay(1000);
 }

@@ -11,7 +11,7 @@ class LineFollower {
     void begin();
     void check(uint8_t signals);
   protected:
-    virtual void probe(int8_t leftDirection, int leftSpeed,
+    virtual void nudge(int8_t leftDirection, int leftSpeed,
         int rightSpeed, int8_t rightDirection, uint32_t movingTime=200);
     virtual void reverse(bool variant=false);
   private:
@@ -42,30 +42,30 @@ void LineFollower::check(uint8_t signals) {
     case 0b10000:
     case 0b11000:
     case 0b11110:
-      probe(0, min_speed, medium_speed, 1, moving_time);
+      nudge(0, min_speed, medium_speed, 1, moving_time);
       break;
     case 0b11100:
-      probe(1, min_speed, medium_speed, 1, moving_time);
+      nudge(1, min_speed, medium_speed, 1, moving_time);
       break;
     case 0b01000:
     case 0b01100:
-      probe(1, medium_speed, medium_speed, 1, moving_time_2);
+      nudge(1, medium_speed, medium_speed, 1, moving_time_2);
       break;
     case 0b00100:
     case 0b01110:
-      probe(1, medium_speed, medium_speed, 1, moving_time_2);
+      nudge(1, medium_speed, medium_speed, 1, moving_time_2);
       break;
     case 0b00010:
     case 0b00110:
-      probe(1, medium_speed, medium_speed, 1, moving_time_2);
+      nudge(1, medium_speed, medium_speed, 1, moving_time_2);
       break;
     case 0b00111:
-      probe(1, medium_speed, min_speed, 1, moving_time);
+      nudge(1, medium_speed, min_speed, 1, moving_time);
       break;
     case 0b00001:
     case 0b00011:
     case 0b01111:
-      probe(1, medium_speed, min_speed, 0, moving_time);
+      nudge(1, medium_speed, min_speed, 0, moving_time);
       break;
     case 0b11111:
     case 0b00000:
@@ -79,7 +79,7 @@ void LineFollower::check(uint8_t signals) {
   }
 }
 
-void LineFollower::probe(int8_t leftDirection, int leftSpeed,
+void LineFollower::nudge(int8_t leftDirection, int leftSpeed,
     int rightSpeed, int8_t rightDirection, uint32_t movingTime=200) {
   _count = 0;
   _leftDirection = leftDirection;

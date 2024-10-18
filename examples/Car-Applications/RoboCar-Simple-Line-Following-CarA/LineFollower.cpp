@@ -50,30 +50,30 @@ void LineFollower::decideNextMove(uint8_t signals) {
     case 0b10000:
     case 0b11000:
     case 0b11110:
-      probe(0, _stepMinSpeed, _stepMediumSpeed, 1, _stepMovingTime);
+      nudge(0, _stepMinSpeed, _stepMediumSpeed, 1, _stepMovingTime);
       break;
     case 0b11100:
-      probe(1, _stepMinSpeed, _stepMediumSpeed, 1, _stepMovingTime);
+      nudge(1, _stepMinSpeed, _stepMediumSpeed, 1, _stepMovingTime);
       break;
     case 0b01000:
     case 0b01100:
-      probe(1, _stepMediumSpeed, _stepMediumSpeed, 1, _stepMovingTime_2);
+      nudge(1, _stepMediumSpeed, _stepMediumSpeed, 1, _stepMovingTime_2);
       break;
     case 0b00100:
     case 0b01110:
-      probe(1, _stepMediumSpeed, _stepMediumSpeed, 1, _stepMovingTime_2);
+      nudge(1, _stepMediumSpeed, _stepMediumSpeed, 1, _stepMovingTime_2);
       break;
     case 0b00010:
     case 0b00110:
-      probe(1, _stepMediumSpeed, _stepMediumSpeed, 1, _stepMovingTime_2);
+      nudge(1, _stepMediumSpeed, _stepMediumSpeed, 1, _stepMovingTime_2);
       break;
     case 0b00111:
-      probe(1, _stepMediumSpeed, _stepMinSpeed, 1, _stepMovingTime);
+      nudge(1, _stepMediumSpeed, _stepMinSpeed, 1, _stepMovingTime);
       break;
     case 0b00001:
     case 0b00011:
     case 0b01111:
-      probe(1, _stepMediumSpeed, _stepMinSpeed, 0, _stepMovingTime);
+      nudge(1, _stepMediumSpeed, _stepMinSpeed, 0, _stepMovingTime);
       break;
     case 0b00000:
       _reversionCount++;
@@ -95,7 +95,7 @@ void LineFollower::remember(int8_t leftDirection, int leftSpeed,
   _movingTime = movingTime;
 }
 
-void LineFollower::probe(int8_t leftDirection, int leftSpeed,
+void LineFollower::nudge(int8_t leftDirection, int leftSpeed,
     int rightSpeed, int8_t rightDirection, uint32_t movingTime=200) {
   remember(leftDirection, leftSpeed, rightSpeed, rightDirection, movingTime);
   _reversionCount = 0;

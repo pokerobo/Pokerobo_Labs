@@ -17,7 +17,7 @@ class LineFollower {
     virtual void decideNextMove(uint8_t signals);
     virtual void remember(int8_t leftDirection, int leftSpeed,
         int rightSpeed, int8_t rightDirection, uint32_t movingTime=200);
-    virtual void probe(int8_t leftDirection, int leftSpeed,
+    virtual void nudge(int8_t leftDirection, int leftSpeed,
         int rightSpeed, int8_t rightDirection, uint32_t movingTime=200);
     virtual void reverse(bool variant=false);
   private:

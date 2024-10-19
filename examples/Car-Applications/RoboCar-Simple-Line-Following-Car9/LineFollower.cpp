@@ -11,6 +11,7 @@ LineFollower::LineFollower(RoboCarHandler* roboCarHandler) {
 }
 
 void LineFollower::begin() {
+  _roboCarHandler->turnOn();
 }
 
 void LineFollower::check(uint8_t signals) {
@@ -18,30 +19,6 @@ void LineFollower::check(uint8_t signals) {
 }
 
 void LineFollower::decideNextMove(uint8_t signals) {
-  // check to turn on the car
-  if (!_roboCarHandler->isActive() && signals == 0b11111) {
-    if (_idleCount < 255) {
-      _idleCount++;
-    }
-    if (_idleCount >= 50) {
-      _roboCarHandler->turnOn();
-    }
-  } else {
-    _idleCount = 0;
-  }
-  // if the car is not active, do nothing
-  if (!_roboCarHandler->isActive()) {
-    return;
-  }
-  // check the car has been at finish line
-  if (signals == 0b11111) {
-    _roboCarHandler->turnOff();
-    _isFinished = true;
-  }
-  // if the car is not active, do nothing
-  if (!_roboCarHandler->isActive()) {
-    return;
-  }
   // decide the next move
   switch(signals) {
     case 0b10000:

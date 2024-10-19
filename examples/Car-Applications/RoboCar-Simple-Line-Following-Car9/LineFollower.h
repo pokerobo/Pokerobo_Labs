@@ -28,8 +28,6 @@ class LineFollower {
     int _rightSpeed = 0;
     uint32_t _movingTime = 0;
     int _reversionCount = 0;
-    byte _idleCount = 0;
-    bool _isFinished = false;
 };
 
 #endif

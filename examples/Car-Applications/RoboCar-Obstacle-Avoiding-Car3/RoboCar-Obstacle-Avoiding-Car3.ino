@@ -11,6 +11,7 @@ UntrasonicReaderByNewPing sonar(A2, A3);
 Servo servo;
 
 int distance = 0;
+int prevDistance = 0;
 
 int lookLeft() {
   servo.write(90 + 70);
@@ -65,10 +66,16 @@ void setup() {
   roboCarHandler.turnOn();
   servo.attach(2);
   servo.write(90);
+  distance = 0;
+  prevDistance = 0;
 }
 
 void loop() {
+  prevDistance = distance;
   distance = sonar.distance_cm();
+  if (distance == 0) {
+    distance = (prevDistance > RC_MIN_DISTANCE_TO_OBSTACLE) ? 400 : 2;
+  }
   if(distance <= RC_MIN_DISTANCE_TO_OBSTACLE) {
     moveStop();
     moveBackward();

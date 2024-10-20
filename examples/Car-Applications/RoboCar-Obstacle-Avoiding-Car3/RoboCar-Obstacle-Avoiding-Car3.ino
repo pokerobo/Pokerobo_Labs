@@ -1,6 +1,11 @@
 #include "Pokerobo_Car.h"
 #include <Servo.h>
 
+const int RC_SPEED = 150;
+const int RC_MOVING_BACKWARD_TIME = 500;
+const int RC_TURN_LR_TIME = 500;
+const int RC_MIN_DISTANCE_TO_OBSTACLE = 20;
+
 RoboCarHandler roboCarHandler;
 UntrasonicReaderByNewPing sonar(A2, A3);
 Servo servo;
@@ -8,7 +13,7 @@ Servo servo;
 int distance = 0;
 
 int lookLeft() {
-  servo.write(160);
+  servo.write(90 + 70);
   delay(500);
   int distance = sonar.distance_cm();
   delay(100);
@@ -18,7 +23,7 @@ int lookLeft() {
 }
 
 int lookRight() {
-  servo.write(20);
+  servo.write(90 - 70);
   delay(500);
   int distance = sonar.distance_cm();
   delay(100);
@@ -28,29 +33,29 @@ int lookRight() {
 }
 
 void turnLeft() {
-  roboCarHandler.move(-1, 150, 150, 1);
-  delay(500);
-  roboCarHandler.move(0, 150, 150, 0);
+  roboCarHandler.move(-1, RC_SPEED, RC_SPEED, 1);
+  delay(RC_TURN_LR_TIME);
+  roboCarHandler.move(0, RC_SPEED, RC_SPEED, 0);
 }
 
 void turnRight() {
-  roboCarHandler.move(1, 150, 150, -1);
-  delay(500);
-  roboCarHandler.move(0, 150, 150, 0);
+  roboCarHandler.move(1, RC_SPEED, RC_SPEED, -1);
+  delay(RC_TURN_LR_TIME);
+  roboCarHandler.move(0, RC_SPEED, RC_SPEED, 0);
 } 
 
 void moveForward() {
-  roboCarHandler.move(1, 150, 150, 1);
+  roboCarHandler.move(1, RC_SPEED, RC_SPEED, 1);
 }
 
 void moveBackward() {
-  roboCarHandler.move(-1, 150, 150, -1);
-  delay(500);
-  roboCarHandler.move(0, 150, 150, 0);
+  roboCarHandler.move(-1, RC_SPEED, RC_SPEED, -1);
+  delay(RC_MOVING_BACKWARD_TIME);
+  roboCarHandler.move(0, RC_SPEED, RC_SPEED, 0);
 }
 
 void moveStop() {
-  roboCarHandler.move(0, 150, 150, 0);
+  roboCarHandler.move(0, RC_SPEED, RC_SPEED, 0);
   delay(100);
 }
 
@@ -64,7 +69,7 @@ void setup() {
 
 void loop() {
   distance = sonar.distance_cm();
-  if(distance <= 20) {
+  if(distance <= RC_MIN_DISTANCE_TO_OBSTACLE) {
     moveStop();
     moveBackward();
 

@@ -76,7 +76,7 @@ void lcdDisplay(LiquidCrystal* lcd, String lines[], int total) {
 #endif
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(57600);
   IrReceiver.begin(A1, ENABLE_LED_FEEDBACK);
 #if __LCD_KEYPAD_ENABLED__
   lcdBegin(&lcd);

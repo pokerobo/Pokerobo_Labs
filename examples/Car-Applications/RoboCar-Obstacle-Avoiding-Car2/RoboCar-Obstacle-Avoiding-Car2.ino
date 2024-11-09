@@ -2,7 +2,7 @@
 #include <Servo.h>
 
 RoboCarHandler roboCarHandler;
-UntrasonicReaderByNewPing sonar(A2, A3);
+UltrasonicReaderByNewPing sonar(A2, A3);
 Servo servo;
 
 int distance = 0;

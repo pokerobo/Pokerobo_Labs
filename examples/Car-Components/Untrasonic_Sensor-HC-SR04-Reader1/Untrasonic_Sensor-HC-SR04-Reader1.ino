@@ -3,7 +3,7 @@
 const int trigPin = A2;    // Trigger Pin
 const int echoPin = A3;    // Echo Pin
 
-UntrasonicReaderInRawCode sonar(trigPin, echoPin);
+UltrasonicReaderInRawCode sonar(trigPin, echoPin);
 
 void setup() {
   Serial.begin(57600);

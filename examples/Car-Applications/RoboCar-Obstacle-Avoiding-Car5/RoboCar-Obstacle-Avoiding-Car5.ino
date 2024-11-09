@@ -1,7 +1,7 @@
 #include "Pokerobo_Car.h"
 
 RoboCarHandler roboCarHandler;
-UntrasonicReaderByNewPing sonar(A2, A3);
+UltrasonicReaderByNewPing sonar(A2, A3);
 
 class MyObstacleAvoidingHandler: public ObstacleAvoidingHandler {
   public:

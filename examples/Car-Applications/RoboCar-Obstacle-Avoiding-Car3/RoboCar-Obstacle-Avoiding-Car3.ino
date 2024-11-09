@@ -7,7 +7,7 @@ const int RC_TURN_LR_TIME = 500;
 const int RC_MIN_DISTANCE_TO_OBSTACLE = 20;
 
 RoboCarHandler roboCarHandler;
-UntrasonicReaderByNewPing sonar(A2, A3);
+UltrasonicReaderByNewPing sonar(A2, A3);
 Servo servo;
 
 int distance = 0;

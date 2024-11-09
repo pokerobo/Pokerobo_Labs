@@ -8,11 +8,11 @@ MotorRotationCounter::MotorRotationCounter (const byte whichISR, const byte disk
 void MotorRotationCounter::begin () {
   switch (whichISR_) {
     case 0:
-      attachInterrupt (0, isr0, FALLING); 
+      attachInterrupt (0, isr0, RISING);
       instance0_ = this;
       break;
     case 1:
-      attachInterrupt (1, isr1, FALLING); 
+      attachInterrupt (1, isr1, RISING);
       instance1_ = this;
       break;
   } 
@@ -26,12 +26,25 @@ void MotorRotationCounter::isr1 () {
   instance1_->handleInterrupt ();  
 }
 
-float MotorRotationCounter::calculateRPM () {
-  return (counter_ / diskslots_) * 60.00;
-}
-
 void MotorRotationCounter::handleInterrupt () {
   counter_++;
+}
+
+float MotorRotationCounter::getNumOfDiskSlots () {
+  return diskslots_;
+}
+
+float MotorRotationCounter::getNumOfRevolutions () {
+  return counter_ / diskslots_;
+}
+
+uint16_t MotorRotationCounter::getCounter (bool reset) {
+  if (reset) {
+    uint16_t r = counter_;
+    counter_ = 0;
+    return r;
+  }
+  return counter_;
 }
 
 void MotorRotationCounter::resetCounter () {

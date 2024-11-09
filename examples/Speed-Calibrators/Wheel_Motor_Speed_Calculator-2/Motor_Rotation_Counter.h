@@ -20,20 +20,10 @@ class MotorRotationCounter {
   public:
     MotorRotationCounter (const byte which, const byte diskslots = 20);
     void begin ();
-    float calculateRPM ();
+    float getNumOfDiskSlots ();
+    float getNumOfRevolutions ();
+    uint16_t getCounter (bool reset = false);
     void resetCounter ();
 };
-
-#ifdef __EXAMPLE__
-MotorRotationCounter counterForMotorA_ (0);
-MotorRotationCounter counterForMotorB_ (1);
-
-void setup () {
-  counterForMotorA_.begin ();
-  counterForMotorB_.begin ();
-}
-
-void loop () { }
-#endif
 
 #endif

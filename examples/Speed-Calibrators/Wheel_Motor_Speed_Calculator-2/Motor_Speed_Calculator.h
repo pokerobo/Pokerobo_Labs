@@ -11,6 +11,7 @@ class MotorSpeedCalculator {
   protected:
     static void isr ();
     static void calculate ();
+    static float calculateRPM (MotorRotationCounter* counter);
     static MotorRotationCounter counterForMotorA_;
     static MotorRotationCounter counterForMotorB_;
 };

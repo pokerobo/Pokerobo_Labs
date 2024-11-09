@@ -23,23 +23,25 @@ void MotorSpeedCalculator::isr () {
 }
 
 void MotorSpeedCalculator::calculate () {
-  speedOfMotorA = counterForMotorA_.calculateRPM();
+  speedOfMotorA = calculateRPM(&counterForMotorA_);
   #if WHEEL_MOTOR_SPEED_CALIBRATOR_DEBUG_ENABLED
   Serial.print("Speed of Motor A: ");
   Serial.print(speedOfMotorA);
   Serial.print(" RPM");
   #endif
-  counterForMotorA_.resetCounter();
 
   #if WHEEL_MOTOR_SPEED_CALIBRATOR_DEBUG_ENABLED
   Serial.print(" - ");
   #endif
 
-  speedOfMotorB = counterForMotorB_.calculateRPM();
+  speedOfMotorB = calculateRPM(&counterForMotorB_);
   #if WHEEL_MOTOR_SPEED_CALIBRATOR_DEBUG_ENABLED
   Serial.print("Speed of Motor B: ");
   Serial.print(speedOfMotorB);
   Serial.println(" RPM");
   #endif
-  counterForMotorB_.resetCounter();
+}
+
+float MotorSpeedCalculator::calculateRPM (MotorRotationCounter* mrc) {
+  return (mrc->getCounter(true) / mrc->getNumOfDiskSlots()) * 60.00;
 }

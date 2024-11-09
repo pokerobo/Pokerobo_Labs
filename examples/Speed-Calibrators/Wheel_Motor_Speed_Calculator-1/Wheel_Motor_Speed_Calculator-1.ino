@@ -17,7 +17,7 @@ void ISR_count2() {
   counter2++;  // increment Motor B counter value
 } 
 
-void ISR_timerone() {
+void ISR_calculateRPM() {
   Timer1.detachInterrupt();
 
   Serial.print("Speed of Motor A: ");
@@ -34,7 +34,7 @@ void ISR_timerone() {
   Serial.println(" RPM");
   counter2 = 0;  //  reset counter2
 
-  Timer1.attachInterrupt(ISR_timerone);
+  Timer1.attachInterrupt(ISR_calculateRPM);
 }
 
 void setup() {
@@ -45,7 +45,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(MOTOR1), ISR_count1, RISING);
   attachInterrupt(digitalPinToInterrupt(MOTOR2), ISR_count2, RISING);
 
-  Timer1.attachInterrupt(ISR_timerone);
+  Timer1.attachInterrupt(ISR_calculateRPM);
 }
 
 void loop() { }

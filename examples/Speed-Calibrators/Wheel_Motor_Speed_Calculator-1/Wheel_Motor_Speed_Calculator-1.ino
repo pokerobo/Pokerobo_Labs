@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include "TimerOne.h"
 
-const byte MOTOR1 = 2;
-const byte MOTOR2 = 3;
-
 unsigned int counter1 = 0;
 unsigned int counter2 = 0;
 
@@ -11,11 +8,11 @@ float diskslots = 20;
 
 void ISR_count1() {
   counter1++;  // increment Motor A counter value
-} 
+}
 
 void ISR_count2() {
   counter2++;  // increment Motor B counter value
-} 
+}
 
 void ISR_calculateRPM() {
   Timer1.detachInterrupt();
@@ -42,8 +39,8 @@ void setup() {
 
   Timer1.initialize(1000000); // set timer for 1sec
 
-  attachInterrupt(digitalPinToInterrupt(MOTOR1), ISR_count1, RISING);
-  attachInterrupt(digitalPinToInterrupt(MOTOR2), ISR_count2, RISING);
+  attachInterrupt(digitalPinToInterrupt(2), ISR_count1, RISING);
+  attachInterrupt(digitalPinToInterrupt(3), ISR_count2, RISING);
 
   Timer1.attachInterrupt(ISR_calculateRPM);
 }

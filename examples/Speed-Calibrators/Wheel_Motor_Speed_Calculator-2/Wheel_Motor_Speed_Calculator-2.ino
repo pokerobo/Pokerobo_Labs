@@ -4,7 +4,7 @@ MotorSpeedCalculator msc;
 
 void setup () {
   Serial.begin(57600);
-  msc.start();
+  msc.begin();
 }
 
 void loop () {

@@ -8,6 +8,10 @@ volatile float MotorSpeedCalculator::speedOfMotorA = 0.0;
 volatile float MotorSpeedCalculator::speedOfMotorB = 0.0;
 
 void MotorSpeedCalculator::start() {
+  begin();
+}
+
+void MotorSpeedCalculator::begin() {
   Timer1.initialize(1000000); // set timer for 1sec
 
   counterForMotorA_.begin ();

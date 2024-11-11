@@ -7,6 +7,7 @@ class MotorSpeedCalculator {
   public:
     static volatile float speedOfMotorA;
     static volatile float speedOfMotorB;
+    static void begin ();
     static void start ();
   protected:
     static void isr ();

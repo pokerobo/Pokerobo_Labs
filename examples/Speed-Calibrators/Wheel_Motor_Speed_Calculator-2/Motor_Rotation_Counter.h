@@ -15,7 +15,7 @@ class MotorRotationCounter {
 
   void handleInterrupt ();
 
-  volatile int counter_;
+  volatile uint16_t counter_;
 
   public:
     MotorRotationCounter (const byte which, const byte diskslots = 20);

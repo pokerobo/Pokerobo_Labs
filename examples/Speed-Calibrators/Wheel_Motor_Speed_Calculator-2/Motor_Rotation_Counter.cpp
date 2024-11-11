@@ -15,7 +15,7 @@ void MotorRotationCounter::begin () {
       attachInterrupt (1, isr1, RISING);
       instance1_ = this;
       break;
-  } 
+  }
 }
 
 void MotorRotationCounter::isr0 () {

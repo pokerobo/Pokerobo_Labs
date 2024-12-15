@@ -87,7 +87,6 @@ AcceGyroReader reader;
 void setup() {
   Serial.begin(57600);
   reader.begin();
-  delay(20);
 }
 
 void loop() {
@@ -100,5 +99,6 @@ void loop() {
   Serial.print("/");
   Serial.print(reader.getPitch());
   Serial.println();
+  delay(100);
   #endif
 }

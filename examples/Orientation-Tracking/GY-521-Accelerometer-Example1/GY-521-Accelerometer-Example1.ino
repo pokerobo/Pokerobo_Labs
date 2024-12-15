@@ -1,6 +1,7 @@
 #include <Wire.h>
 
 #define FULL_SCALE_RANGE_SUPPORT      1
+#define DEBUG_ENABLED                 0
 
 const int MPU = 0x68; // MPU6050 I2C address
 
@@ -10,6 +11,7 @@ class AcceGyroReader {
     void read();
     float getRoll();
     float getPitch();
+    void debug();
   private:
     float AccX, AccY, AccZ;
     float accAngleX, accAngleY;
@@ -49,20 +51,27 @@ void AcceGyroReader::read() {
   AccZ = (Wire.read() << 8 | Wire.read()) / 16384.0; // Z-axis value
 
   // swaping the value of AccX with AccY
-  float tmp;
-  tmp = AccX;
-  AccX = AccY;
-  AccY = tmp;
-
-  // Y-axis inversion
-  AccY = -AccY;
+  float AccX_ = AccY, AccY_ = -AccX, AccZ_ = AccZ;
 
   // Calculating Roll and Pitch from the accelerometer data
-  accAngleX = (atan(AccY / sqrt(pow(AccX, 2) + pow(AccZ, 2))) * 180 / PI);
-  accAngleY = (atan(-1 * AccX / sqrt(pow(AccY, 2) + pow(AccZ, 2))) * 180 / PI);
+  accAngleX = (atan(AccY_ / sqrt(pow(AccX_, 2) + pow(AccZ_, 2))) * 180 / PI);
+  accAngleY = (atan(-1 * AccX_ / sqrt(pow(AccY_, 2) + pow(AccZ_, 2))) * 180 / PI);
 
   roll = accAngleX;
   pitch = accAngleY;
+}
+
+void AcceGyroReader::debug() {
+  Serial.print("Acceleration X: ");
+  Serial.print(AccX);
+  Serial.print(", Y: ");
+  Serial.print(AccY);
+  Serial.print(", Z: ");
+  Serial.print(AccZ);
+  Serial.println(" m/s^2");
+
+  Serial.println("");
+  delay(500);
 }
 
 float AcceGyroReader::getRoll() {
@@ -84,8 +93,12 @@ void setup() {
 void loop() {
   reader.read();
   
+  #if DEBUG_ENABLED
+  reader.debug();
+  #else
   Serial.print(reader.getRoll());
   Serial.print("/");
   Serial.print(reader.getPitch());
   Serial.println();
+  #endif
 }

@@ -47,7 +47,7 @@ class PlaySpace {
     PlaySpace(GeometryDisplayHandler* pencil,
         uint8_t concurrentTotal=CONCURRENT_BALLOONS_TOTAL,
         uint16_t appearanceTotal=APPEARANCE_BALLOONS_TOTAL,
-        uint8_t options = 0);
+        uint8_t options = PLAY_SPACE_OPTION_STATUS_BAR);
     void begin();
     int8_t prick(int8_t x, int8_t y);
     void change();

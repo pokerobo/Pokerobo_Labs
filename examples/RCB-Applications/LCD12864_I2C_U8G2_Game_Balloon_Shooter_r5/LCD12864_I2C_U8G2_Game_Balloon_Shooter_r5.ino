@@ -8,7 +8,7 @@ JoystickAction action;
 
 VerboseShootingTargetLogger shootingTargetLogger;
 ShootingTargetInCircle shootingTarget(&displayHandler, &shootingTargetLogger);
-ExtendedPlaySpace playSpace(&displayHandler, 5, 100, PLAY_SPACE_OPTION_STATUS_BAR);
+ExtendedPlaySpace playSpace(&displayHandler, 5, 100);
 GameBoard gameBoard(&displayHandler, &shootingTarget, &playSpace);
 
 void setup() {

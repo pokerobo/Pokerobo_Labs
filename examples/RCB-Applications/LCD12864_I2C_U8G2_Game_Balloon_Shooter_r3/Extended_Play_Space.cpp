@@ -1,12 +1,6 @@
 #include "Extended_Play_Space.h"
 
-void drawExplodingBall(GeometryDisplayHandler* pen, int cX, int cY, int8_t _maxX, int8_t _maxY);
 void stringifyInteger(uint8_t number, char* text);
-
-void ExtendedPlaySpace::drawExplodingBalloon(Balloon* b) {
-  GeometryDisplayHandler* pen = this->getPencil();
-  drawExplodingBall(pen, b->getX(), b->getY(), pen->getMaxX(), pen->getMaxY());
-}
 
 void ExtendedPlaySpace::drawFlyingBalloon(Balloon* b) {
   GeometryDisplayHandler* pen = this->getPencil();
@@ -17,6 +11,36 @@ void ExtendedPlaySpace::drawFlyingBalloon(Balloon* b) {
 
   pen->drawStr(b->getX() - (strlen(num) * getCharWidth() / 2),
       b->getY() + getCharHeight()/2, num);
+}
+
+void stringifyInteger(uint8_t number, char* text) {
+  if (number <= 9) {
+    text[0] = '0' + number;
+    text[1] = 0;
+    return;
+  }
+  if (number <= 99) {
+    text[0] = '0' + number / 10;
+    text[1] = '0' + number % 10;
+    text[2] = 0;
+    return;
+  }
+  if (number <= 255) {
+    text[0] = '0' + number / 100;
+    text[1] = '0' + number / 10 % 10;
+    text[2] = '0' + number % 10;
+    text[3] = 0;
+    return;
+  }
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void drawExplodingBall(GeometryDisplayHandler* pen, int cX, int cY, int8_t _maxX, int8_t _maxY);
+
+void ExtendedPlaySpace::drawExplodingBalloon(Balloon* b) {
+  GeometryDisplayHandler* pen = this->getPencil();
+  drawExplodingBall(pen, b->getX(), b->getY(), pen->getMaxX(), pen->getMaxY());
 }
 
 int ge0(int v) {
@@ -39,25 +63,4 @@ void drawExplodingBall(GeometryDisplayHandler* pen, int cX, int cY, int8_t _maxX
   pen->drawLine(ge0(cX - 2), lte(cY + 2, _maxY), ge0(cX - 2 - 3), lte(cY + 2 + 3, _maxY));
   pen->drawLine(ge0(cX - 3), ge0(cY), ge0(cX - 3 - 3), ge0(cY));
   pen->drawLine(ge0(cX - 2), ge0(cY - 2), ge0(cX - 2 - 3), ge0(cY - 2 - 3));
-}
-
-void stringifyInteger(uint8_t number, char* text) {
-  if (number <= 9) {
-    text[0] = '0' + number;
-    text[1] = 0;
-    return;
-  }
-  if (number <= 99) {
-    text[0] = '0' + number / 10;
-    text[1] = '0' + number % 10;
-    text[2] = 0;
-    return;
-  }
-  if (number <= 255) {
-    text[0] = '0' + number / 100;
-    text[1] = '0' + number / 10 % 10;
-    text[2] = '0' + number % 10;
-    text[3] = 0;
-    return;
-  }
 }

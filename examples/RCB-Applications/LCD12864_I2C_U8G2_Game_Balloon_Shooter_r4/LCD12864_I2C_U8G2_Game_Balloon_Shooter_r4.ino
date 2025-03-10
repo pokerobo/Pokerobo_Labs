@@ -7,7 +7,7 @@ JoystickHandler joystickHandler;
 JoystickAction action;
 
 ShootingTarget shootingTarget(&displayHandler);
-ExtendedPlaySpace playSpace(&displayHandler, 5, 100, PLAY_SPACE_OPTION_STATUS_BAR);
+ExtendedPlaySpace playSpace(&displayHandler, 5, 100);
 GameBoard gameBoard(&displayHandler, &shootingTarget, &playSpace);
 
 void setup() {

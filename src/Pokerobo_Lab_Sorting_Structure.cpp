@@ -44,3 +44,16 @@ void SampleManager::render() {
 void SortingRunner::swap(byte *i, byte *j) {
   byte t = *i; *i = *j; *j = t;
 }
+
+int SortingRunner::begin() {
+  return 0;
+}
+
+int SortingRunner::check(void* action, void* command=NULL) {
+  this->sort();
+  return 0;
+}
+
+int SortingRunner::close() {
+  return 0;
+}

@@ -6,6 +6,7 @@
 class QuickSortingRunner: public SortingRunner {
   public:
     using SortingRunner::SortingRunner;
+    BubbleSortingRunner(SampleManager *sample): SortingRunner(sample, "Quick Sort") {}
     void sort();
   protected:
     void quickSort(byte arr[], int low, int high);

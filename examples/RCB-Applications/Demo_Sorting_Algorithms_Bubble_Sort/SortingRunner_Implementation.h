@@ -6,6 +6,7 @@
 class BubbleSortingRunner: public SortingRunner {
   public:
     using SortingRunner::SortingRunner;
+    BubbleSortingRunner(SampleManager *sample): SortingRunner(sample, "Bubble Sort") {}
     void sort();
 };
 

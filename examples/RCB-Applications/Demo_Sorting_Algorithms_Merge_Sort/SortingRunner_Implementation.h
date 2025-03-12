@@ -6,6 +6,7 @@
 class MergeSortingRunner: public SortingRunner {
   public:
     using SortingRunner::SortingRunner;
+    BubbleSortingRunner(SampleManager *sample): SortingRunner(sample, "Merge Sort") {}
     void sort();
   private:
     void merge(byte arr[], int left, int mid, int right);

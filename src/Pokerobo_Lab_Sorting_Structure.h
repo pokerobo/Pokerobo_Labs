@@ -23,14 +23,17 @@ class SampleManager {
 };
 
 
-class SortingRunner {
+class SortingRunner: public ProgramSticker {
   public:
-    SortingRunner(SampleManager *sample) {
+    SortingRunner(SampleManager *sample, char *title = "Sorting Algo"): ProgramSticker(title) {
       _sample = sample;
       _array = _sample->_array;
       _total = _sample->_total;
     }
     virtual void sort();
+    int begin();
+    int check(void* action, void* command=NULL);
+    int close();
   protected:
     void swap(byte *i, byte *j);
     SampleManager *_sample = NULL;

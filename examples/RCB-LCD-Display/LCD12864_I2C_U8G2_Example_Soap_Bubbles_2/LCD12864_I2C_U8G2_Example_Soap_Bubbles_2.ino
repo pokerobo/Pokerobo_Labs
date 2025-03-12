@@ -2,7 +2,7 @@
 
 GeometryDisplayHandler displayHandler;
 
-PlaySpace playSpace(&displayHandler, 5, 20, PLAY_SPACE_OPTION_STATUS_BAR);
+PlaySpace playSpace(&displayHandler, 5, 20);
 
 void setup() {
   Serial.begin(57600);

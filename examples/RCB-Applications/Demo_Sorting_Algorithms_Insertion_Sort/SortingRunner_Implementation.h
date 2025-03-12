@@ -6,6 +6,7 @@
 class InsertionSortingRunner: public SortingRunner {
   public:
     using SortingRunner::SortingRunner;
+    BubbleSortingRunner(SampleManager *sample): SortingRunner(sample, "Insertion Sort") {}
     void sort();
 };
 

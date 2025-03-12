@@ -6,6 +6,7 @@
 class HeapSortingRunner: public SortingRunner {
   public:
     using SortingRunner::SortingRunner;
+    BubbleSortingRunner(SampleManager *sample): SortingRunner(sample, "Heap Sort") {}
     void sort();
   protected:
     void heapSort(byte arr[], int n);

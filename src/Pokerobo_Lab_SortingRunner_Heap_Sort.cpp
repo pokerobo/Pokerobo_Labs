@@ -2,6 +2,7 @@
 
 void HeapSortingRunner::sort() {
   heapSort(_array, _total);
+  _sorted = true;
 }
 
 void HeapSortingRunner::heapSort(byte arr[], int n) {

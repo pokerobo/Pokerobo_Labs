@@ -46,11 +46,15 @@ void SortingRunner::swap(byte *i, byte *j) {
 }
 
 int SortingRunner::begin() {
+  _sample->reset();
+  _sorted = false;
   return 0;
 }
 
 int SortingRunner::check(void* action, void* command=NULL) {
-  this->sort();
+  if (!_sorted) {
+    this->sort();
+  }
   return 0;
 }
 

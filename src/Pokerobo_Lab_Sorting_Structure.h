@@ -39,6 +39,7 @@ class SortingRunner: public ProgramSticker {
     SampleManager *_sample = NULL;
     byte *_array;
     byte _total;
+    bool _sorted = false;
 };
 
 #endif

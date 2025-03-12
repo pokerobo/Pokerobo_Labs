@@ -12,4 +12,5 @@ void InsertionSortingRunner::sort() {
 
     _sample->render();
   }
+  _sorted = true;
 }

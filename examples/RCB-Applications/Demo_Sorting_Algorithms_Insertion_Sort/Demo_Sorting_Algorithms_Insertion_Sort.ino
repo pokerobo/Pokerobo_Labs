@@ -1,4 +1,4 @@
-#include "SortingRunner_Implementation.h"
+#include "Pokerobo_Lab_SortingRunner_Insertion_Sort.h"
 
 GeometryDisplayHandler pen;
 SampleManager sample(&pen);

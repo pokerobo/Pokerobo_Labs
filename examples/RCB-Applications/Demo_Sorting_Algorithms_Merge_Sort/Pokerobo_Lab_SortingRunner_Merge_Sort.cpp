@@ -1,4 +1,4 @@
-#include "SortingRunner_Implementation.h"
+#include "Pokerobo_Lab_SortingRunner_Merge_Sort.h"
 
 void MergeSortingRunner::sort() {
   mergeSort(_array, 0, _total - 1);

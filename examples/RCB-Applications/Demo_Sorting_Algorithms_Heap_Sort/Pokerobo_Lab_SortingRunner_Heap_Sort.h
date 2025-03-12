@@ -1,12 +1,12 @@
-#ifndef __POKEROBO_LAB_SORTING_RUNNER_IMPL_H__
-#define __POKEROBO_LAB_SORTING_RUNNER_IMPL_H__
+#ifndef __POKEROBO_LAB_SORTING_RUNNER_HEAP_SORT_H__
+#define __POKEROBO_LAB_SORTING_RUNNER_HEAP_SORT_H__
 
 #include "Pokerobo_Lab_Sorting_Structure.h"
 
 class HeapSortingRunner: public SortingRunner {
   public:
     using SortingRunner::SortingRunner;
-    BubbleSortingRunner(SampleManager *sample): SortingRunner(sample, "Heap Sort") {}
+    HeapSortingRunner(SampleManager *sample): SortingRunner(sample, "Heap Sort") {}
     void sort();
   protected:
     void heapSort(byte arr[], int n);

@@ -1,4 +1,4 @@
-#include "SortingRunner_Implementation.h"
+#include "Pokerobo_Lab_SortingRunner_Heap_Sort.h"
 
 void HeapSortingRunner::sort() {
   heapSort(_array, _total);

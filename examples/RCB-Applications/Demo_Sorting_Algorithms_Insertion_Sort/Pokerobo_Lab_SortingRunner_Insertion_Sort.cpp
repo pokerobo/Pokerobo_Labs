@@ -1,4 +1,4 @@
-#include "SortingRunner_Implementation.h"
+#include "Pokerobo_Lab_SortingRunner_Insertion_Sort.h"
 
 void InsertionSortingRunner::sort() {
   for (int i = 1; i < _total; ++i) {

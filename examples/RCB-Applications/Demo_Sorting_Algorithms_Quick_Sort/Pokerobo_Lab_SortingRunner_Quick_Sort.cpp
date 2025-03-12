@@ -1,4 +1,4 @@
-#include "SortingRunner_Implementation.h"
+#include "Pokerobo_Lab_SortingRunner_Quick_Sort.h"
 
 void QuickSortingRunner::sort() {
   quickSort(_array, 0, _total - 1);

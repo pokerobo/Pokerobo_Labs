@@ -5,7 +5,6 @@
 
 class InsertionSortingRunner: public SortingRunner {
   public:
-    using SortingRunner::SortingRunner;
     InsertionSortingRunner(SampleManager *sample): SortingRunner(sample, "Insertion Sort") {}
     void sort();
 };

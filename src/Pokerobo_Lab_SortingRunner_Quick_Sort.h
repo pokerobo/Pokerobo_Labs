@@ -5,7 +5,6 @@
 
 class QuickSortingRunner: public SortingRunner {
   public:
-    using SortingRunner::SortingRunner;
     QuickSortingRunner(SampleManager *sample): SortingRunner(sample, "Quick Sort") {}
     void sort();
   protected:

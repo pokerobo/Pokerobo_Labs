@@ -5,7 +5,6 @@
 
 class MergeSortingRunner: public SortingRunner {
   public:
-    using SortingRunner::SortingRunner;
     MergeSortingRunner(SampleManager *sample): SortingRunner(sample, "Merge Sort") {}
     void sort();
   private:

@@ -5,7 +5,6 @@
 
 class SelectionSortingRunner: public SortingRunner {
   public:
-    using SortingRunner::SortingRunner;
     SelectionSortingRunner(SampleManager *sample): SortingRunner(sample, "Selection Sort") {}
     void sort();
 };

@@ -5,7 +5,6 @@
 
 class HeapSortingRunner: public SortingRunner {
   public:
-    using SortingRunner::SortingRunner;
     HeapSortingRunner(SampleManager *sample): SortingRunner(sample, "Heap Sort") {}
     void sort();
   protected:

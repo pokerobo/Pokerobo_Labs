@@ -1,0 +1,6 @@
+#include "Pokerobo_Lab_SortingRunner_Bubble_Sort.h"
+#include "Pokerobo_Lab_SortingRunner_Heap_Sort.h"
+#include "Pokerobo_Lab_SortingRunner_Insertion_Sort.h"
+#include "Pokerobo_Lab_SortingRunner_Merge_Sort.h"
+#include "Pokerobo_Lab_SortingRunner_Quick_Sort.h"
+#include "Pokerobo_Lab_SortingRunner_Selection_Sort.h"

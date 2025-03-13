@@ -20,7 +20,7 @@ void setup() {
   programSelector.add(new SelectionSortingRunner(&sample));
   programSelector.add(new MergeSortingRunner(&sample));
   programSelector.add(new QuickSortingRunner(&sample));
-  // programSelector.add(new HeapSortingRunner(&sample));
+  programSelector.add(new HeapSortingRunner(&sample));
 
   programSelector.begin();
 }

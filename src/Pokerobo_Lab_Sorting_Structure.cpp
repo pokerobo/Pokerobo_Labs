@@ -54,6 +54,7 @@ int SortingRunner::begin() {
 int SortingRunner::check(void* action, void* command=NULL) {
   if (!_sorted) {
     this->sort();
+    _sorted = true;
   }
   return 0;
 }

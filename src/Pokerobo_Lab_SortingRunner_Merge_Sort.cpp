@@ -2,7 +2,6 @@
 
 void MergeSortingRunner::sort() {
   mergeSort(_array, 0, _total - 1);
-  _sorted = true;
 }
 
 void MergeSortingRunner::mergeSort(byte arr[], int left, int right) {

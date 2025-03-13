@@ -2,7 +2,6 @@
 
 void QuickSortingRunner::sort() {
   quickSort(_array, 0, _total - 1);
-  _sorted = true;
 }
 
 void QuickSortingRunner::quickSort(byte arr[], int low, int high) {

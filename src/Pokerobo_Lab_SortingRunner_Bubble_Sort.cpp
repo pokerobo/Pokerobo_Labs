@@ -13,5 +13,4 @@ void BubbleSortingRunner::sort() {
     }
     if (!found) break;
   }
-  _sorted = true;
 }

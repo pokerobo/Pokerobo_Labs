@@ -13,5 +13,4 @@ void SelectionSortingRunner::sort() {
     }
     _sample->render();
   }
-  _sorted = true;
 }

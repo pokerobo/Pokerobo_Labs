@@ -37,10 +37,11 @@ class SortingRunner: public ProgramSticker {
     int close();
   protected:
     void swap(byte *i, byte *j);
-    SampleManager *_sample = NULL;
     byte *_array;
     byte _total;
     bool _sorted = false;
+  private:
+    SampleManager *_sample = NULL;
 };
 
 #endif

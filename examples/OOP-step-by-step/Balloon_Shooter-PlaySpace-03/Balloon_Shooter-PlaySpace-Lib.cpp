@@ -1,10 +1,4 @@
-#include "Balloon_Shooter_Lib.h"
-
-DemoBalloon::DemoBalloon() {}
-
-DemoBalloon::DemoBalloon(int cx, int cy, int cr) {
-  _x = cx; _y = cy; _r = cr;
-}
+#include "Balloon_Shooter-PlaySpace-Lib.h"
 
 DemoPlaySpace::DemoPlaySpace(GeometryDisplayHandler* pencil,
     uint8_t concurrentTotal) {

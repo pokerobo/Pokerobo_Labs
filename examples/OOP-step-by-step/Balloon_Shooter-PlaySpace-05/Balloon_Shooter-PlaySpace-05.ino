@@ -1,4 +1,4 @@
-#include "Balloon_Shooter_Lib.h"
+#include "Balloon_Shooter-PlaySpace-Lib.h"
 
 GeometryDisplayHandler dh;
 DemoPlaySpace playSpace(&dh, 5);

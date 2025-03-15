@@ -1,18 +1,7 @@
-#ifndef __DEMO_BALLOON_SHOOTER_LIB_H__
-#define __DEMO_BALLOON_SHOOTER_LIB_H__
+#ifndef __DEMO_BALLOON_SHOOTER_PLAY_SPACE_LIB_H__
+#define __DEMO_BALLOON_SHOOTER_PLAY_SPACE_LIB_H__
 
-#include "Pokerobo_Lab_Display_Handler.h"
-
-class DemoBalloon {
-  friend class DemoPlaySpace;
-  public:
-    DemoBalloon();
-    DemoBalloon(int cx, int cy, int cr);
-  private:
-    int _x;
-    int _y;
-    int _r;
-};
+#include "Balloon_Shooter-AirBalloon-Lib.h"
 
 #define CONCURRENT_BALLOONS_TOTAL 20
 
@@ -24,8 +13,9 @@ class DemoPlaySpace {
     void change();
     void draw();
   protected:
-    virtual void drawFlyingBalloon(DemoBalloon* balloon);
+    void initBalloon(DemoBalloon* balloon);
     void resetBalloon(DemoBalloon* balloon);
+    virtual void drawFlyingBalloon(DemoBalloon* balloon);
   private:
     uint8_t _concurrentTotal = 0;
     DemoBalloon* _balloons[CONCURRENT_BALLOONS_TOTAL];

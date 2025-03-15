@@ -31,6 +31,7 @@ class SortingRunner: public ProgramSticker {
       _total = _sample->_total;
     }
     virtual void sort();
+    void render();
     int begin();
     int check(void* action, void* command=NULL);
     int close();

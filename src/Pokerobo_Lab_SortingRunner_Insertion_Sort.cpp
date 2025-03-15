@@ -10,6 +10,6 @@ void InsertionSortingRunner::sort() {
     }
     _array[j + 1] = key;
 
-    _sample->render();
+    render();
   }
 }

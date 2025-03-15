@@ -26,7 +26,7 @@ int QuickSortingRunner::partition(byte arr[], int low, int high) {
 
   swap(&arr[i + 1], &arr[high]);
 
-  _sample->render();
+  render();
 
   return i + 1;
 }

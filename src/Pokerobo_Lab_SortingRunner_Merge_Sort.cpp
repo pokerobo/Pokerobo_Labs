@@ -50,5 +50,5 @@ void MergeSortingRunner::merge(byte arr[], int left, int mid, int right) {
     k++;
   }
 
-  _sample->render();
+  render();
 }

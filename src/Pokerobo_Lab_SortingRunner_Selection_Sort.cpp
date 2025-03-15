@@ -11,6 +11,6 @@ void SelectionSortingRunner::sort() {
     if (min_pos > i) {
       swap(&_array[i], &_array[min_pos]);
     }
-    _sample->render();
+    render();
   }
 }

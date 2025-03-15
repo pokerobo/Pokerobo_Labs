@@ -9,7 +9,7 @@ void BubbleSortingRunner::sort() {
         swap(&_array[j], &_array[j + 1]);
         found = true;
       }
-      _sample->render();
+      render();
     }
     if (!found) break;
   }

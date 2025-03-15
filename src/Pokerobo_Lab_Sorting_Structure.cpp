@@ -62,3 +62,7 @@ int SortingRunner::check(void* action, void* command=NULL) {
 int SortingRunner::close() {
   return 0;
 }
+
+void SortingRunner::render() {
+  _sample->render();
+}

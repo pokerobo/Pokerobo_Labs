@@ -7,7 +7,7 @@ void HeapSortingRunner::sort() {
 void HeapSortingRunner::heapSort(byte arr[], int n) {
   for (int i = n / 2 - 1; i >= 0; i--) {
     heapify(arr, n, i);
-    _sample->render();
+    render();
   }
 
   for (int i = n - 1; i > 0; i--) {
@@ -16,7 +16,7 @@ void HeapSortingRunner::heapSort(byte arr[], int n) {
     arr[i] = temp;
 
     heapify(arr, i, 0);
-    _sample->render();
+    render();
   }
 }
 

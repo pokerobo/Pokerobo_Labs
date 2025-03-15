@@ -6,8 +6,12 @@ int x = 63, y = 63; int r = 5;
 int x2 = 80, y2 = 63, r2 = 8;
 int x3 = 20, y3 = 63, r3 = 13;
 
+bool isInFrame(int cx, int cy, int cr) {
+  return cy + cr >= 0;
+}
+
 void check(int &cx, int &cy, int &cr) {
-  if (cy + cr >= 0) {
+  if (isInFrame(cx, cy, cr)) {
     cy = cy - 3;
   } else {
     cy = 63 + cr;

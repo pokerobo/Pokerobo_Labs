@@ -5,8 +5,12 @@
 
 class BubbleSortingRunner: public SortingRunner {
   public:
-    BubbleSortingRunner(SampleManager *sample): SortingRunner(sample, "Bubble Sort") {}
+    BubbleSortingRunner(SampleManager *sample, bool showStep = false): SortingRunner(sample, "Bubble Sort") {
+      _showStep = showStep;
+    }
     void sort();
+  private:
+    bool _showStep = true;
 };
 
 #endif

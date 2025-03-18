@@ -1,5 +1,5 @@
-#ifndef __POKEROBO_LAB_AIR_BALLOON_H__
-#define __POKEROBO_LAB_AIR_BALLOON_H__
+#ifndef __POKEROBO_LAB_GAME_BALLOON_SHOOTER_PLAY_SPACE_H__
+#define __POKEROBO_LAB_GAME_BALLOON_SHOOTER_PLAY_SPACE_H__
 
 #include "Pokerobo_Lab_Display_Handler.h"
 #include "Pokerobo_Lab_Display_Layout.h"

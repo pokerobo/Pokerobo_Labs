@@ -1,4 +1,4 @@
-#include "Pokerobo_Lab_Aim_Target.h"
+#include "Pokerobo_Lab_Game_BalloonShooter_GunTarget.h"
 
 ShootingTarget::ShootingTarget(GeometryDisplayHandler* pencil, ShootingTargetLogger* logger) {
   _pencil = pencil;

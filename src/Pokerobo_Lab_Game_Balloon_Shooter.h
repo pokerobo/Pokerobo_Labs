@@ -1,8 +1,8 @@
 #ifndef __POKEROBO_LAB_GAME_BALLOON_SHOOTER_H__
 #define __POKEROBO_LAB_GAME_BALLOON_SHOOTER_H__
 
-#include "Pokerobo_Lab_Air_Balloon.h"
-#include "Pokerobo_Lab_Aim_Target.h"
+#include "Pokerobo_Lab_Game_BalloonShooter_PlaySpace.h"
+#include "Pokerobo_Lab_Game_BalloonShooter_GunTarget.h"
 
 typedef enum GAME_STATE {
   GAME_NEW,

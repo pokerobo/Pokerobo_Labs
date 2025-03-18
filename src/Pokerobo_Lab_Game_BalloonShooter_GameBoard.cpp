@@ -1,4 +1,4 @@
-#include "Pokerobo_Lab_Game_Balloon_Shooter.h"
+#include "Pokerobo_Lab_Game_BalloonShooter_GameBoard.h"
 
 #ifndef BIT_ANALOG_BUTTON
 #define BIT_ANALOG_BUTTON      6

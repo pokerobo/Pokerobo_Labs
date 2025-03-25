@@ -52,6 +52,14 @@ void GeometryDisplayHandler::setDrawColor(const uint8_t color_index) {
   toU8G2(getU8g2Ref())->setDrawColor(color_index);
 }
 
+void GeometryDisplayHandler::setBitmapMode(uint8_t is_transparent) {
+  toU8G2(getU8g2Ref())->setBitmapMode(is_transparent);
+}
+
+void GeometryDisplayHandler::drawArc(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t start, uint8_t end) {
+  toU8G2(getU8g2Ref())->drawArc(x0, y0, rad, start, end);
+}
+
 void GeometryDisplayHandler::drawBox(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) {
   toU8G2(getU8g2Ref())->drawBox(x, y, w, h);
 }
@@ -105,6 +113,22 @@ void GeometryDisplayHandler::drawTriangleOutline(int16_t x0, int16_t y0, int16_t
 
 void GeometryDisplayHandler::drawPixel(u8g2_uint_t x, u8g2_uint_t y) {
   toU8G2(getU8g2Ref())->drawPixel(x, y);
+}
+
+void GeometryDisplayHandler::drawBitmap(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t cnt, u8g2_uint_t h, const uint8_t *bitmap, bool inPROGMEM) {
+  if (inPROGMEM) {
+    toU8G2(getU8g2Ref())->drawXBMP(x, y, cnt*8, h, bitmap);
+  } else {
+    toU8G2(getU8g2Ref())->drawXBM(x, y, cnt*8, h, bitmap);
+  }
+}
+
+void GeometryDisplayHandler::drawXBM(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, const uint8_t *bitmap) {
+  toU8G2(getU8g2Ref())->drawXBM(x, y, w, h, bitmap);
+}
+
+void GeometryDisplayHandler::drawXBMP(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, const uint8_t *bitmap) {
+  toU8G2(getU8g2Ref())->drawXBMP(x, y, w, h, bitmap);
 }
 
 uint16_t GeometryDisplayHandler::drawStr(u8g2_uint_t x, u8g2_uint_t y, const char* text) {

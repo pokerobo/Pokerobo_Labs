@@ -69,7 +69,8 @@ class GeometryDisplayHandler: public DisplayHandler {
     u8g2_uint_t getMaxCharWidth();
     void setFont(const uint8_t *font);
     void setDrawColor(uint8_t color_index);
-    void drawBitmap(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t cnt, u8g2_uint_t h, const uint8_t *bitmap);
+    void setBitmapMode(uint8_t is_transparent);
+    void drawArc(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t start, uint8_t end);
     void drawBox(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h);
     void drawButtonUTF8(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text);
     void drawFrame(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h);
@@ -82,9 +83,19 @@ class GeometryDisplayHandler: public DisplayHandler {
     void drawLine(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t x1, u8g2_uint_t y1);
     void drawHLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w);
     void drawVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t h);
+    void drawHVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
     void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
     void drawTriangleOutline(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
     void drawPixel(u8g2_uint_t x, u8g2_uint_t y);
+    void drawBitmap(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t cnt, u8g2_uint_t h, const uint8_t *bitmap, bool inPROGMEM=false);
+    void drawXBM(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, const uint8_t *bitmap);
+    /*
+    Use drawXBMP() if the bitmap is located in PROGMEM area (AVR Architecture, for example Arduino Uno).
+    To reduce the memory consumption, place the XBM image in PROGMEM area by adding the const and
+    U8X8_PROGMEM keywords:
+      static const unsigned char u8g_logo_bits[] U8X8_PROGMEM = { ...
+    */
+    void drawXBMP(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, const uint8_t *bitmap);
     uint16_t drawStr(u8g2_uint_t x, u8g2_uint_t y, const char* text);
     void rotateScreen(bool clockwise=true);
     void showDisplayInfo();

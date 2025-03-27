@@ -54,19 +54,19 @@ void loop() {
     bitmapMode = !bitmapMode;
   }
 
-	if (action.isButtonPressed(MASK_LEFT_BUTTON)) {
-		block2_x = (block2_x >= STEP) ? block2_x - STEP : 0;
-	}
-	if (action.isButtonPressed(MASK_RIGHT_BUTTON)) {
-		block2_x = (block2_x <= 127 - BLOCK_WIDTH - STEP) ? block2_x + STEP : 127 - BLOCK_WIDTH;
-	}
+  if (action.isButtonPressed(MASK_LEFT_BUTTON)) {
+    block2_x = (block2_x >= STEP) ? block2_x - STEP : 0;
+  }
+  if (action.isButtonPressed(MASK_RIGHT_BUTTON)) {
+    block2_x = (block2_x <= 127 - BLOCK_WIDTH - STEP) ? block2_x + STEP : 127 - BLOCK_WIDTH;
+  }
 
   if (action.isButtonPressed(MASK_UP_BUTTON)) {
-		block2_y = (block2_y >= STEP) ? block2_y - STEP : 0;
-	}
-	if (action.isButtonPressed(MASK_DOWN_BUTTON)) {
-		block2_y = (block2_y <= 63 - BLOCK_HEIGHT - STEP) ? block2_y + STEP : 63 - BLOCK_HEIGHT;
-	}
+    block2_y = (block2_y >= STEP) ? block2_y - STEP : 0;
+  }
+  if (action.isButtonPressed(MASK_DOWN_BUTTON)) {
+    block2_y = (block2_y <= 63 - BLOCK_HEIGHT - STEP) ? block2_y + STEP : 63 - BLOCK_HEIGHT;
+  }
 
   pen.firstPage();
   do {

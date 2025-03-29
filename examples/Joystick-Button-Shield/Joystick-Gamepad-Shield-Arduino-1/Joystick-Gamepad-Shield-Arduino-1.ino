@@ -11,6 +11,7 @@ void setup() {
   Serial.begin(57600);
   for (int i = 0; i < 7; i++) {
     pinMode(buttons[i], INPUT);
+    // digitalWrite(buttons[i], HIGH);
   }
 }
 

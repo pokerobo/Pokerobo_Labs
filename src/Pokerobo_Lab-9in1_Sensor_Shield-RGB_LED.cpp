@@ -13,7 +13,7 @@ void RGBLEDHandler::write(byte r, byte g, byte b) {
 }
 
 
-RGBRandomizer::RGBRandomizer(byte deltaMax = 10, byte colorMax = 128) {
+RGBRandomizer::RGBRandomizer(byte deltaMax, byte colorMax) {
   _deltaMax = deltaMax;
   _colorMax = colorMax;
 }

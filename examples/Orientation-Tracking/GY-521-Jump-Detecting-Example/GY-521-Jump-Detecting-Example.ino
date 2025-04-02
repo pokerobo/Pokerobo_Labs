@@ -3,6 +3,10 @@
 
 #include "Pokerobo_Lab_MPU_JumpingDetector.h"
 
+#if defined(ARDUINO_UNOR4_WIFI)
+#include "Pokerobo_Lab_MPU_EventToKeyboard.h"
+#endif
+
 GeometryDisplayHandler displayHandler;
 AcceGyroRenderer acceGyroRenderer(&displayHandler);
 JumpingListener eventListener;

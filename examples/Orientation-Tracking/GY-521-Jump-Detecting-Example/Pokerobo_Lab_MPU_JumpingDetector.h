@@ -27,18 +27,21 @@ class JumpingDetector {
       _listener = listener;
       _pen = pen;
       _renderer = renderer;
+      finishMillis = millis();
     }
     void update(int16_t ax, int16_t ay, int16_t az);
     void render();
     void showinfo();
   protected:
     bool exceedThresholdTime();
+    bool isWaitingTimeOver();
     bool isJumping();
     bool isSquatting();
     bool isIdle();
     motion_state_t getState();
     virtual void logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change=false);
   private:
+    unsigned long finishMillis = 0;
     unsigned long lastMillis = 0;
     unsigned long actionThresholdTime = 300;
     motion_state_t state = MOTION_STATE_IDLE;

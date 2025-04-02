@@ -24,7 +24,7 @@ void JumpingDetector::update(int16_t ax, int16_t ay, int16_t az) {
 
   // Phát hiện nhảy lên
   // Gia tốc giảm mạnh khi người nhảy lên (cảm biến sẽ cho giá trị âm lớn khi người rời khỏi mặt đất)
-  if (isIdle() && az > 32000) {
+  if (isIdle() && isWaitingTimeOver() && az > 32000) {
     logSwitchState_(MOTION_STATE_JUMPING_UP, az);
     if (_listener != NULL) {
       _listener->onJumpingBegin();
@@ -33,7 +33,7 @@ void JumpingDetector::update(int16_t ax, int16_t ay, int16_t az) {
     lastMillis = millis();  // Ghi lại thời gian nhảy bắt đầu
   }
 
-  if (isIdle() && az < 5000) {
+  if (isIdle() && isWaitingTimeOver() && az < 5000) {
     logSwitchState_(MOTION_STATE_SQUATTING_DOWN, az);
     if (_listener != NULL) {
       _listener->onSquattingBegin();
@@ -59,6 +59,7 @@ void JumpingDetector::update(int16_t ax, int16_t ay, int16_t az) {
     }
     logSwitchState_(MOTION_STATE_IDLE, az);
     state = MOTION_STATE_IDLE;
+    finishMillis = millis();
   }
 
   if (state == MOTION_STATE_SQUATTING_UP && az > 25000) {
@@ -67,17 +68,20 @@ void JumpingDetector::update(int16_t ax, int16_t ay, int16_t az) {
     }
     logSwitchState_(MOTION_STATE_IDLE, az);
     state = MOTION_STATE_IDLE;
+    finishMillis = millis();
   }
 
   if (isJumping() && exceedThresholdTime()) {
     logSwitchState_(MOTION_STATE_IDLE, az, true);
     state = MOTION_STATE_IDLE;
+    finishMillis = millis();
     lastMillis = millis();
   }
 
   if (isSquatting() && exceedThresholdTime()) {
     logSwitchState_(MOTION_STATE_IDLE, az, true);
     state = MOTION_STATE_IDLE;
+    finishMillis = millis();
     lastMillis = millis();
   }
 }
@@ -115,6 +119,10 @@ void JumpingDetector::showinfo() {
 
 bool JumpingDetector::exceedThresholdTime() {
   return millis() - lastMillis > 2*actionThresholdTime;
+}
+
+bool JumpingDetector::isWaitingTimeOver() {
+  return millis() - finishMillis > 700;
 }
 
 bool JumpingDetector::isIdle() {

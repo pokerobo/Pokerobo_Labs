@@ -1,4 +1,7 @@
-#include "JoystickKeyboard.h"
+#include "Pokerobo_Lab_JoystickAsKeyboard.h"
+
+#if defined(ARDUINO_UNOR4_WIFI)
+
 #include "Keyboard.h"
 
 int ArduinoUnoR4AsKeyboard::begin() {
@@ -41,3 +44,5 @@ int ArduinoUnoR4AsKeyboard::check(void* action, void* command) {
 int ArduinoUnoR4AsKeyboard::close() {
   return 0;
 }
+
+#endif

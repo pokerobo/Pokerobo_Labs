@@ -1,5 +1,5 @@
 #include "Pokerobo_RCB.h"
-#include "JoystickKeyboard.h"
+#include "Pokerobo_Lab_JoystickAsKeyboard.h"
 #include "JoystickShowInfo.h"
 
 JoystickHandler joystickHandler;
@@ -13,7 +13,9 @@ void setup() {
   joystickHandler.begin();
   displayHandler.begin();
 
+  #if defined(ARDUINO_UNOR4_WIFI)
   programSelector.add(new ArduinoUnoR4AsKeyboard());
+  #endif
   programSelector.add(new JoystickShowInfo(&displayHandler));
 
   programSelector.begin();

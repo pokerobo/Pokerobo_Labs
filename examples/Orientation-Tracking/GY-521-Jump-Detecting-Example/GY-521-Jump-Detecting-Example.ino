@@ -9,8 +9,12 @@
 
 GeometryDisplayHandler displayHandler;
 AcceGyroRenderer acceGyroRenderer(&displayHandler);
+#if defined(ARDUINO_UNOR4_WIFI)
+JumpingToKeyboardListener eventListener;
+#else
 JumpingListener eventListener;
-JumpingDetectorDebug detector(&eventListener,
+#endif
+JumpingDetectorSerialLog detector(&eventListener,
     &displayHandler,
     &acceGyroRenderer);
 

@@ -29,7 +29,7 @@ void JumpingDetector::update(int16_t ax, int16_t ay, int16_t az) {
     if (_listener != NULL) {
       _listener->onJumpingBegin();
     }
-    state = MOTION_STATE_JUMPING_UP;
+    _state = MOTION_STATE_JUMPING_UP;
     lastMillis = millis();  // Ghi lại thời gian nhảy bắt đầu
   }
 
@@ -38,49 +38,49 @@ void JumpingDetector::update(int16_t ax, int16_t ay, int16_t az) {
     if (_listener != NULL) {
       _listener->onSquattingBegin();
     }
-    state = MOTION_STATE_SQUATTING_DOWN;
+    _state = MOTION_STATE_SQUATTING_DOWN;
     lastMillis = millis();  // Ghi lại thời gian nhảy bắt đầu
   }
 
   // Kiểm tra khi gia tốc theo Z tăng lên (người tiếp đất)
-  if (state == MOTION_STATE_JUMPING_UP && az < 22000) {
+  if (_state == MOTION_STATE_JUMPING_UP && az < 22000) {
     logSwitchState_(MOTION_STATE_JUMPING_DOWN, az);
-    state = MOTION_STATE_JUMPING_DOWN;
+    _state = MOTION_STATE_JUMPING_DOWN;
   }
 
-  if (state == MOTION_STATE_SQUATTING_DOWN && az > 16000) {
+  if (_state == MOTION_STATE_SQUATTING_DOWN && az > 16000) {
     logSwitchState_(MOTION_STATE_SQUATTING_UP, az);
-    state = MOTION_STATE_SQUATTING_UP;
+    _state = MOTION_STATE_SQUATTING_UP;
   }
 
-  if (state == MOTION_STATE_JUMPING_DOWN && az < 18000) {
+  if (_state == MOTION_STATE_JUMPING_DOWN && az < 18000) {
     if (_listener != NULL) {
       _listener->onJumpingEnd();
     }
     logSwitchState_(MOTION_STATE_IDLE, az);
-    state = MOTION_STATE_IDLE;
+    _state = MOTION_STATE_IDLE;
     finishMillis = millis();
   }
 
-  if (state == MOTION_STATE_SQUATTING_UP && az > 25000) {
+  if (_state == MOTION_STATE_SQUATTING_UP && az > 25000) {
     if (_listener != NULL) {
       _listener->onSquattingEnd();
     }
     logSwitchState_(MOTION_STATE_IDLE, az);
-    state = MOTION_STATE_IDLE;
+    _state = MOTION_STATE_IDLE;
     finishMillis = millis();
   }
 
   if (isJumping() && exceedThresholdTime()) {
     logSwitchState_(MOTION_STATE_IDLE, az, true);
-    state = MOTION_STATE_IDLE;
+    _state = MOTION_STATE_IDLE;
     finishMillis = millis();
     lastMillis = millis();
   }
 
   if (isSquatting() && exceedThresholdTime()) {
     logSwitchState_(MOTION_STATE_IDLE, az, true);
-    state = MOTION_STATE_IDLE;
+    _state = MOTION_STATE_IDLE;
     finishMillis = millis();
     lastMillis = millis();
   }
@@ -98,7 +98,7 @@ void JumpingDetector::render() {
 }
 
 void JumpingDetector::showinfo() {
-  switch(state) {
+  switch(_state) {
     case MOTION_STATE_IDLE:
       _pen->drawStr(0, 32, "Stand still");
       break;
@@ -126,19 +126,23 @@ bool JumpingDetector::isWaitingTimeOver() {
 }
 
 bool JumpingDetector::isIdle() {
-  return state == MOTION_STATE_IDLE;
+  return _state == MOTION_STATE_IDLE;
 }
 
 bool JumpingDetector::isJumping() {
-  return state == MOTION_STATE_JUMPING_UP || state == MOTION_STATE_JUMPING_DOWN;
+  return _state == MOTION_STATE_JUMPING_UP || _state == MOTION_STATE_JUMPING_DOWN;
 }
 
 bool JumpingDetector::isSquatting() {
-  return state == MOTION_STATE_SQUATTING_UP || state == MOTION_STATE_SQUATTING_DOWN;
+  return _state == MOTION_STATE_SQUATTING_UP || _state == MOTION_STATE_SQUATTING_DOWN;
 }
 
 motion_state_t JumpingDetector::getState() {
-  return state;
+  return _state;
+}
+
+GeometryDisplayHandler* JumpingDetector::getDisplayHandler() {
+  return _pen;
 }
 
 void JumpingDetector::logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change) {

@@ -39,19 +39,20 @@ class JumpingDetector {
     bool isSquatting();
     bool isIdle();
     motion_state_t getState();
+    GeometryDisplayHandler* getDisplayHandler();
     virtual void logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change=false);
   private:
     unsigned long finishMillis = 0;
     unsigned long lastMillis = 0;
     unsigned long actionThresholdTime = 300;
-    motion_state_t state = MOTION_STATE_IDLE;
+    motion_state_t _state = MOTION_STATE_IDLE;
     JumpingListener* _listener = NULL;
     GeometryDisplayHandler* _pen = NULL;
     AcceGyroRenderer* _renderer = NULL;
 };
 
 
-class JumpingDetectorDebug: public JumpingDetector {
+class JumpingDetectorSerialLog: public JumpingDetector {
   public:
     using JumpingDetector::JumpingDetector;
     String stringify(motion_state_t state) {

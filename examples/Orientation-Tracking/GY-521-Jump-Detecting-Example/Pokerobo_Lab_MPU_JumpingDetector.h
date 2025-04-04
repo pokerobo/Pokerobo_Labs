@@ -14,19 +14,22 @@ typedef enum {
 
 class JumpingListener {
   public:
+    JumpingListener(bool serialLog = false);
     virtual void onJumpingBegin();
     virtual void onJumpingEnd();
     virtual void onSquattingBegin();
     virtual void onSquattingEnd();
+  private:
+    bool _serialLog = false;
 };
 
 
 class JumpingDetector {
   public:
-    JumpingDetector(JumpingListener* listener, GeometryDisplayHandler* pen, AcceGyroRenderer* renderer) {
-      _listener = listener;
+    JumpingDetector(GeometryDisplayHandler* pen, AcceGyroRenderer* renderer, JumpingListener* listener = NULL) {
       _pen = pen;
       _renderer = renderer;
+      _listener = listener;
       finishMillis = millis();
     }
     void update(int16_t ax, int16_t ay, int16_t az);

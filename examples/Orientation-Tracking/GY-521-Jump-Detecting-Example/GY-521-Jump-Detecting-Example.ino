@@ -16,9 +16,9 @@ JumpingToKeyboardListener eventListener;
 #else
 JumpingListener eventListener;
 #endif
-JumpingDetectorSerialLog detector(&eventListener,
-    &displayHandler,
-    &acceGyroRenderer);
+JumpingDetectorSerialLog detector(&displayHandler,
+    &acceGyroRenderer,
+    &eventListener);
 
 ProgramSelector programSelector(&displayHandler, &joystickHandler, SCREEN_FLOW_CONFIGURATION);
 

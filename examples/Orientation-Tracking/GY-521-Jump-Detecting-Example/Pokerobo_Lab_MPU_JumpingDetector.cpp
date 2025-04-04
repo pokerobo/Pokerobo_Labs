@@ -1,19 +1,31 @@
 #include "Pokerobo_Lab_MPU_JumpingDetector.h"
 
+JumpingListener::JumpingListener(bool serialLog) {
+  _serialLog = serialLog;
+}
+
 void JumpingListener::onJumpingBegin() {
-  Serial.println("Jumping begin");
+  if (_serialLog) {
+    Serial.println("Jumping begin");
+  }
 }
 
 void JumpingListener::onJumpingEnd() {
-  Serial.println("Jumping end");
+  if (_serialLog) {
+    Serial.println("Jumping end");
+  }
 }
 
 void JumpingListener::onSquattingBegin() {
-  Serial.println("Squatting begin");
+  if (_serialLog) {
+    Serial.println("Squatting begin");
+  }
 }
 
 void JumpingListener::onSquattingEnd() {
-  Serial.println("Squatting end");
+  if (_serialLog) {
+    Serial.println("Squatting end");
+  }
 }
 
 

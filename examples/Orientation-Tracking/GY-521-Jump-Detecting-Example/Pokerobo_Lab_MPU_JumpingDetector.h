@@ -12,6 +12,7 @@ typedef enum {
   MOTION_STATE_SQUATTING_UP
 } motion_state_t;
 
+
 class JumpingListener {
   public:
     JumpingListener(bool serialLog = false);
@@ -59,35 +60,8 @@ class JumpingDetectorSerialLog: public JumpingDetector {
   public:
     using JumpingDetector::JumpingDetector;
   protected:
-    String stringify(motion_state_t state) {
-      switch(state) {
-        case MOTION_STATE_IDLE:
-          return "idle";
-        case MOTION_STATE_JUMPING_UP:
-          return "jumping_up";
-        case MOTION_STATE_JUMPING_DOWN:
-          return "jumping_down";
-        case MOTION_STATE_SQUATTING_DOWN:
-          return "squatting_down";
-        case MOTION_STATE_SQUATTING_UP:
-          return "squatting_up";
-      }
-    }
-    void logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change=false) {
-      if (auto_change) {
-        Serial.print(" auto [");
-      } else {
-        Serial.print(" [");
-      }
-      Serial.print(stringify(getState()));
-      Serial.print("]->[");
-      Serial.print(stringify(next_state));
-      Serial.print("] with az: ");
-      Serial.println(az);
-      if (next_state == MOTION_STATE_IDLE) {
-        Serial.println();
-      }
-    }
+    String stringify(motion_state_t state);
+    void logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change=false);
 };
 
 

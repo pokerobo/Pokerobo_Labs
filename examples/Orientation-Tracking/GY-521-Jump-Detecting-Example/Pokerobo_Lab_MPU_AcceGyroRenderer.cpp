@@ -32,6 +32,14 @@ void AcceGyroRenderer::update(int16_t value) {
   }
 }
 
+void AcceGyroRenderer::render() {
+  if (_pen == NULL) return;
+  _pen->firstPage();
+  do {
+    draw();
+  } while (_pen->nextPage());
+}
+
 void AcceGyroRenderer::draw() {
   _pen->drawLine(127 - 6, 3, 127 - 6, 64 - 3);
   _pen->drawStr(127 - 6 - 6*_charWidth,  6, _maxAccStr);
@@ -45,4 +53,25 @@ void AcceGyroRenderer::draw() {
 char* AcceGyroRenderer::int2str_(char* buffer, int16_t value) {
   sprintf(buffer, "% 5d", value);
   return buffer;
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void AcceGyroDiagram::draw() {
+  AcceGyroRenderer::draw();
+}
+
+//-------------------------------------------------------------------------------------------------
+
+int AcceGyroProgram::begin() {
+  return 0;
+}
+
+int AcceGyroProgram::check(void* action, void* command) {
+  _monitor->render();
+  return 0;
+}
+
+int AcceGyroProgram::close() {
+  return 0;
 }

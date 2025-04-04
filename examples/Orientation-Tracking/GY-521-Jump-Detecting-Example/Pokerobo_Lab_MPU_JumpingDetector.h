@@ -31,7 +31,7 @@ class JumpingDetector {
     }
     void update(int16_t ax, int16_t ay, int16_t az);
     void render();
-    void showinfo();
+    virtual void showinfo();
   protected:
     bool exceedThresholdTime();
     bool isWaitingTimeOver();
@@ -55,6 +55,7 @@ class JumpingDetector {
 class JumpingDetectorSerialLog: public JumpingDetector {
   public:
     using JumpingDetector::JumpingDetector;
+  protected:
     String stringify(motion_state_t state) {
       switch(state) {
         case MOTION_STATE_IDLE:
@@ -84,6 +85,31 @@ class JumpingDetectorSerialLog: public JumpingDetector {
         Serial.println();
       }
     }
+};
+
+
+class JumpingDetectorScreenLog: public JumpingDetector {
+  public:
+    using JumpingDetector::JumpingDetector;
+    void showinfo();
+  protected:
+    String stringify(motion_state_t state);
+    void logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change=false);
+  private:
+    char lines[12][7] = { 0 };
+};
+
+
+class JumpingDemoProgram: public ProgramSticker {
+  public:
+    JumpingDemoProgram(JumpingDetector *detector, char *title = "Jumping Demo"): ProgramSticker(title) {
+      _detector = detector;
+    }
+    int begin();
+    int check(void* action, void* command=NULL);
+    int close();
+  private:
+    JumpingDetector *_detector = NULL;
 };
 
 #endif

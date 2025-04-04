@@ -98,23 +98,6 @@ void JumpingDetector::render() {
 }
 
 void JumpingDetector::showinfo() {
-  switch(_state) {
-    case MOTION_STATE_IDLE:
-      _pen->drawStr(0, 32, "Stand still");
-      break;
-    case MOTION_STATE_JUMPING_UP:
-      _pen->drawStr(0, 32, "Dang nhay len");
-      break;
-    case MOTION_STATE_JUMPING_DOWN:
-      _pen->drawStr(0, 32, "Dang roi xuong");
-      break;
-    case MOTION_STATE_SQUATTING_DOWN:
-      _pen->drawStr(0, 32, "Dang thup xuong");
-      break;
-    case MOTION_STATE_SQUATTING_UP:
-      _pen->drawStr(0, 32, "Dang dung len");
-      break;
-  }
 }
 
 bool JumpingDetector::exceedThresholdTime() {
@@ -146,4 +129,44 @@ GeometryDisplayHandler* JumpingDetector::getDisplayHandler() {
 }
 
 void JumpingDetector::logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change) {
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void JumpingDetectorScreenLog::showinfo() {
+
+}
+
+void JumpingDetectorScreenLog::logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change) {
+  // "-[%s]->[%s] <% 5d>"
+}
+
+String JumpingDetectorScreenLog::stringify(motion_state_t state) {
+  switch(state) {
+    case MOTION_STATE_IDLE:
+      return "ID";
+    case MOTION_STATE_JUMPING_UP:
+      return "JU";
+    case MOTION_STATE_JUMPING_DOWN:
+      return "JD";
+    case MOTION_STATE_SQUATTING_DOWN:
+      return "SD";
+    case MOTION_STATE_SQUATTING_UP:
+      return "SU";
+  }
+}
+
+//-------------------------------------------------------------------------------------------------
+
+int JumpingDemoProgram::begin() {
+  return 0;
+}
+
+int JumpingDemoProgram::check(void* action, void* command) {
+  _detector->render();
+  return 0;
+}
+
+int JumpingDemoProgram::close() {
+  return 0;
 }

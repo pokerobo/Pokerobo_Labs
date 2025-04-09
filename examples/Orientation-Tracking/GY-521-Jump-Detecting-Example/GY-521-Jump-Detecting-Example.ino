@@ -10,15 +10,13 @@
 
 JoystickHandler joystickHandler;
 GeometryDisplayHandler displayHandler;
-AcceGyroRenderer acceGyroRenderer(&displayHandler);
+AcceGyroDiagram acceGyroRenderer(&displayHandler);
 #if defined(ARDUINO_UNOR4_WIFI)
 JumpingToKeyboardListener eventListener;
 #else
 JumpingListener eventListener;
 #endif
-JumpingDetectorSerialLog detector(&displayHandler,
-    &acceGyroRenderer,
-    &eventListener);
+JumpingDetectorSerialLog detector(&displayHandler, &acceGyroRenderer);
 
 ProgramSelector programSelector(&displayHandler, &joystickHandler, SCREEN_FLOW_CONFIGURATION);
 

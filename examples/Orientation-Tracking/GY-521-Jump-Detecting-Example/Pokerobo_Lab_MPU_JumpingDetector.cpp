@@ -203,6 +203,10 @@ String JumpingDetectorScreenLog::stringify(motion_state_t state) {
 
 //-------------------------------------------------------------------------------------------------
 
+JumpingDemoProgram::JumpingDemoProgram(JumpingDetector *detector, char *title): ProgramSticker(title) {
+  _detector = detector;
+}
+
 int JumpingDemoProgram::begin() {
   return 0;
 }

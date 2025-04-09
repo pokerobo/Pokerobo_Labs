@@ -7,12 +7,15 @@ class AcceGyroRenderer {
   public:
     AcceGyroRenderer(GeometryDisplayHandler* pen = NULL);
     void setDisplayHandler(GeometryDisplayHandler* pen);
-    void update(int16_t value);
     void render();
+    virtual bool update(int16_t value);
     virtual void draw();
   protected:
     void initialize();
     char* int2str_(char* buffer, int16_t value);
+    int8_t valueToPoint(int16_t value);
+    int16_t getValue();
+    GeometryDisplayHandler* getDisplayHandler();
   private:
     GeometryDisplayHandler* _pen = NULL;
     uint8_t _charWidth = 5;
@@ -25,11 +28,20 @@ class AcceGyroRenderer {
 };
 
 
+#define ACCE_DIAGRAM_SIZE 64
+
 class AcceGyroDiagram: public AcceGyroRenderer {
   public:
     using AcceGyroRenderer::AcceGyroRenderer;
-  protected:
+    bool update(int16_t value);
     void draw();
+  private:
+    int8_t points[ACCE_DIAGRAM_SIZE] = {0};
+    int16_t _samples[ACCE_DIAGRAM_SIZE] = {0};
+    int8_t _sample_head = 0;
+    int8_t _sample_tail = ACCE_DIAGRAM_SIZE - 1;
+    int8_t _sample_min = 0;
+    int8_t _sample_max = 0;
 };
 
 

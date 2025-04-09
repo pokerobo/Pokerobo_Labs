@@ -30,7 +30,7 @@ class JumpingDetector {
     JumpingDetector(GeometryDisplayHandler* pen, AcceGyroRenderer* renderer, JumpingListener* listener = NULL) {
       _pen = pen;
       _renderer = renderer;
-      _listener = listener;
+      _listener = (listener != NULL) ? listener : new JumpingListener();
       finishMillis = millis();
     }
     void update(int16_t ax, int16_t ay, int16_t az);
@@ -79,9 +79,7 @@ class JumpingDetectorScreenLog: public JumpingDetector {
 
 class JumpingDemoProgram: public ProgramSticker {
   public:
-    JumpingDemoProgram(JumpingDetector *detector, char *title = "Jumping Demo"): ProgramSticker(title) {
-      _detector = detector;
-    }
+    JumpingDemoProgram(JumpingDetector *detector, char *title = "Jumping Demo");
     int begin();
     int check(void* action, void* command=NULL);
     int close();

@@ -28,6 +28,7 @@ void JumpingListener::onSquattingEnd() {
   }
 }
 
+//-------------------------------------------------------------------------------------------------
 
 void JumpingDetector::update(int16_t ax, int16_t ay, int16_t az) {
   if (_renderer != NULL) {
@@ -109,6 +110,9 @@ void JumpingDetector::render() {
   } while (_pen->nextPage());
 }
 
+void JumpingDetector::initialize() {
+}
+
 void JumpingDetector::showinfo() {
 }
 
@@ -161,7 +165,7 @@ void JumpingDetectorSerialLog::logSwitchState_(motion_state_t next_state, int16_
   }
 }
 
-String JumpingDetectorSerialLog::stringify(motion_state_t state) {
+char* JumpingDetectorSerialLog::stringify(motion_state_t state) {
   switch(state) {
     case MOTION_STATE_IDLE:
       return "idle";
@@ -178,15 +182,44 @@ String JumpingDetectorSerialLog::stringify(motion_state_t state) {
 
 //-------------------------------------------------------------------------------------------------
 
-void JumpingDetectorScreenLog::showinfo() {
+void JumpingDetectorScreenLog::initialize() {
+  _charHeight = getDisplayHandler()->getMaxCharHeight();
+}
 
+void JumpingDetectorScreenLog::showinfo() {
+  for(int i=0; i<JUMPING_LOG_TOTAL; i++) {
+    int j = i + _line_head;
+    while (j >= JUMPING_LOG_TOTAL) {
+      j -= JUMPING_LOG_TOTAL;
+    }
+    u8g2_uint_t x = 0;
+    u8g2_uint_t y = _charHeight * (i + 1);
+    getDisplayHandler()->drawStr(x, y, _lines[j]);
+  }
 }
 
 void JumpingDetectorScreenLog::logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change) {
-  // "-[%s]->[%s] <% 5d>"
+  lineFeed_();
+  sprintf(_lines[_line_tail], "[%s->%s]% 5d", stringify(getState()), stringify(next_state), az);
+  if (next_state == MOTION_STATE_IDLE) {
+    lineFeed_();
+    _lines[_line_tail][0] = '\0';
+  }
 }
 
-String JumpingDetectorScreenLog::stringify(motion_state_t state) {
+void JumpingDetectorScreenLog::lineFeed_() {
+  if (_line_tail < (JUMPING_LOG_TOTAL - 1)) {
+    _line_tail += 1;
+  } else {
+    _line_tail = 0;
+  }
+  _line_head = _line_tail + 1;
+  while (_line_head >= JUMPING_LOG_TOTAL) {
+    _line_head -= JUMPING_LOG_TOTAL;
+  }
+}
+
+char* JumpingDetectorScreenLog::stringify(motion_state_t state) {
   switch(state) {
     case MOTION_STATE_IDLE:
       return "ID";

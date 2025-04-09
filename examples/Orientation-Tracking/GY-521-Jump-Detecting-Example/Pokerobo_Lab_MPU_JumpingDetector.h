@@ -32,9 +32,11 @@ class JumpingDetector {
       _renderer = renderer;
       _listener = (listener != NULL) ? listener : new JumpingListener();
       finishMillis = millis();
+      initialize();
     }
     void update(int16_t ax, int16_t ay, int16_t az);
     void render();
+    virtual void initialize();
     virtual void showinfo();
   protected:
     bool exceedThresholdTime();
@@ -60,20 +62,29 @@ class JumpingDetectorSerialLog: public JumpingDetector {
   public:
     using JumpingDetector::JumpingDetector;
   protected:
-    String stringify(motion_state_t state);
+    char* stringify(motion_state_t state);
     void logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change=false);
 };
 
 
+#define JUMPING_LOG_TOTAL   5
+#define JUMPING_LOG_LENGTH  15
+
 class JumpingDetectorScreenLog: public JumpingDetector {
   public:
     using JumpingDetector::JumpingDetector;
+    void initialize();
     void showinfo();
   protected:
-    String stringify(motion_state_t state);
+    char* stringify(motion_state_t state);
     void logSwitchState_(motion_state_t next_state, int16_t az, bool auto_change=false);
+    void lineFeed_();
   private:
-    char lines[12][7] = { 0 };
+    uint8_t _charHeight = 8;
+    uint8_t _charWidth = 5;
+    char _lines[JUMPING_LOG_TOTAL][JUMPING_LOG_LENGTH] = { 0 };
+    int8_t _line_tail = 0;
+    int8_t _line_head = 0;
 };
 
 

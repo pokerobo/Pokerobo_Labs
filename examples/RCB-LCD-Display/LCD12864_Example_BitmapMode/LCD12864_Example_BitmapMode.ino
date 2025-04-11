@@ -51,7 +51,7 @@ void loop() {
   han.input(&action);
 
   if (action.isButtonClicked(MASK_ANALOG_BUTTON)) {
-    bitmapMode = !bitmapMode;
+    bitmapMode = 1 - bitmapMode;
   }
 
   if (action.isButtonPressed(MASK_LEFT_BUTTON)) {
@@ -70,7 +70,7 @@ void loop() {
 
   pen.firstPage();
   do {
-    pen.setDrawColor(0);
+    pen.setDrawColor(1); // 0 (clear pixel value), 1 (set pixel value) or 2 (XOR mode)
     pen.setBitmapMode(bitmapMode);
     pen.drawXBMP(BLOCK1_X, BLOCK1_Y, BLOCK_WIDTH, BLOCK_HEIGHT, dino);
     pen.drawXBMP(block2_x, block2_y, BLOCK_WIDTH, BLOCK_HEIGHT, dino);

@@ -1,7 +1,9 @@
 #include "Pokerobo_Lab_BLE_Peripheral.h"
 
-PokeroboBLEPeripheral::PokeroboBLEPeripheral(const char *charactId, const char* serviceId) {
+PokeroboBLEPeripheral::PokeroboBLEPeripheral(const char *charactId, const char* serviceId,
+    PokeroboBLELogger *logger) {
   initialize(new BLEIntCharacteristic(charactId, BLERead | BLENotify), new BLEService(serviceId));
+  _logger = (logger != NULL) ? logger : new PokeroboBLELogger();
 }
 
 void PokeroboBLEPeripheral::initialize(BLEIntCharacteristic *charact_, BLEService *service_) {
@@ -11,7 +13,7 @@ void PokeroboBLEPeripheral::initialize(BLEIntCharacteristic *charact_, BLEServic
 
 void PokeroboBLEPeripheral::begin(const char* localName) {
   if (!BLE.begin()) {
-    this->logBeginFailed_();
+    this->_logger->log(BLE_PERIPHERAL_BEGIN_FAILED);
     while (1);
   }
   BLE.setLocalName(localName);
@@ -19,24 +21,19 @@ void PokeroboBLEPeripheral::begin(const char* localName) {
   (*service).addCharacteristic(*charact);
   BLE.addService(*service);
   BLE.advertise();
-  this->logAdvertiseCalled_();
+  this->_logger->log(BLE_PERIPHERAL_ADVERTISED);
 }
 
 void PokeroboBLEPeripheral::check() {
   BLEDevice central = BLE.central();
 
   if (central) {
-    logIsConnected_(central);
+    this->_logger->log(BLE_PERIPHERAL_CONNECTED, &central);
     while (central.connected()) {
       sendData();
     }
-    logIsDisconnected_(central);
+    this->_logger->log(BLE_PERIPHERAL_DISCONNECTED, &central);
   }
 }
 
 void PokeroboBLEPeripheral::sendData() {}
-
-void PokeroboBLEPeripheral::logBeginFailed_() {}
-void PokeroboBLEPeripheral::logIsConnected_(BLEDevice& central) {}
-void PokeroboBLEPeripheral::logIsDisconnected_(BLEDevice& central) {}
-void PokeroboBLEPeripheral::logAdvertiseCalled_() {}

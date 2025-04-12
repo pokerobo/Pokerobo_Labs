@@ -1,8 +1,8 @@
 #include "Pokerobo_Lab_BLE_Peripheral.h"
 
-class MyBLEPeripheral: public PokeroboBLEPeripheralWithLog {
+class MyBLEPeripheral: public PokeroboBLEPeripheral {
   public:
-    using PokeroboBLEPeripheralWithLog::PokeroboBLEPeripheralWithLog;
+    using PokeroboBLEPeripheral::PokeroboBLEPeripheral;
   protected:
     void sendData();
   private:
@@ -17,7 +17,9 @@ void MyBLEPeripheral::sendData() {
   // delay(40); // mỗi 1 giây
 }
 
-MyBLEPeripheral counterPeripheral("2A56", "180C");
+PokeroboBLELoggerDebug serialLogger;
+
+MyBLEPeripheral counterPeripheral("2A56", "180C", &serialLogger);
 
 void setup() {
   Serial.begin(57600);

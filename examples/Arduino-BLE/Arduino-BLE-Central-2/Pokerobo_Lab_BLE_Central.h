@@ -2,36 +2,33 @@
 #define __POKEROBO_LAB_BLE_CENTRAL_H__
 
 #include <ArduinoBLE.h>
+#include "Pokerobo_Lab_BLE_Logger.h"
 
-typedef enum BLE_CENTRAL_LOG_EVENT {
-  BLE_CENTRAL_BEGIN_FAILED = 0,
-  BLE_CENTRAL_DEVICE_SCANNING,
-  BLE_CENTRAL_DEVICE_FOUND,
-  BLE_CENTRAL_CONNECTED,
-  BLE_CENTRAL_DISCONNECTED,
-  BLE_CENTRAL_CONNECTING_FAILED,
-  BLE_CENTRAL_RECEIVING_BEGIN,
-  BLE_CENTRAL_RECEIVING_END,
-} ble_central_log_t;
+#define BLE_CENTRAL_BEGIN_FAILED      0x1001
+#define BLE_CENTRAL_DEVICE_SCANNING   0x1002
+#define BLE_CENTRAL_DEVICE_FOUND      0x1003
+#define BLE_CENTRAL_CONNECTED         0x1004
+#define BLE_CENTRAL_DISCONNECTED      0x1005
+#define BLE_CENTRAL_CONNECTING_FAILED 0x1006
+#define BLE_CENTRAL_RECEIVING_BEGIN   0x1007
+#define BLE_CENTRAL_RECEIVING_END     0x1008
 
 class PokeroboBLECentral {
   public:
-    PokeroboBLECentral(String charactId);
+    PokeroboBLECentral(String charactId, PokeroboBLELogger *logger = NULL);
     void begin(String localName);
     void check();
   protected:
     virtual void receive(BLECharacteristic &charact);
-    virtual void log_(ble_central_log_t type, BLEDevice *device = NULL);
   private:
     String _charactId;
     String _localName;
+    PokeroboBLELogger *_logger = NULL;
 };
 
-class PokeroboBLECentralWithLog: public PokeroboBLECentral {
+class PokeroboBLECentralDebugLogger: public PokeroboBLELogger {
   public:
-    using PokeroboBLECentral::PokeroboBLECentral;
-  protected:
-    void log_(ble_central_log_t type, BLEDevice *device = NULL) {
+    void log(uint16_t type, BLEDevice *device = NULL) {
       switch (type) {
         case BLE_CENTRAL_BEGIN_FAILED:
           Serial.println("BLE khởi động thất bại!");

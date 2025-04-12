@@ -1,8 +1,10 @@
 #include "Pokerobo_Lab_BLE_Central.h"
 
-class MyBLECentral: public PokeroboBLECentralWithLog {
+PokeroboBLECentralDebugLogger serialLogger;
+
+class MyBLECentral: public PokeroboBLECentral {
   public:
-    using PokeroboBLECentralWithLog::PokeroboBLECentralWithLog;
+    using PokeroboBLECentral::PokeroboBLECentral;
   protected:
     void receive(BLECharacteristic &charact) {
       int32_t value;
@@ -12,7 +14,7 @@ class MyBLECentral: public PokeroboBLECentralWithLog {
     }
 };
 
-MyBLECentral myBLECentral("2A56");
+MyBLECentral myBLECentral("2A56", &serialLogger);
 
 void setup() {
   Serial.begin(57600);

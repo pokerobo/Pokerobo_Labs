@@ -17,7 +17,7 @@ void MyBLEPeripheral::sendData() {
   // delay(40); // mỗi 1 giây
 }
 
-PokeroboBLELoggerDebug serialLogger;
+PokeroboBLEPeripheralDebugLogger serialLogger;
 
 MyBLEPeripheral counterPeripheral("2A56", "180C", &serialLogger);
 

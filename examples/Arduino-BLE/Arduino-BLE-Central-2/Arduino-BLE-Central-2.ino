@@ -1,7 +1,5 @@
 #include "Pokerobo_Lab_BLE_Central.h"
 
-PokeroboBLECentralDebugLogger serialLogger;
-
 class MyBLEReceiver: public PokeroboBLEReceiver {
   public:
     void onReceive(int32_t value) {
@@ -21,7 +19,9 @@ class MyBLECentral: public PokeroboBLECentral {
     }
 };
 
-MyBLECentral myBLECentral("2A56", NULL, &serialLogger);
+MyBLEReceiver myBLEReceiver;
+PokeroboBLECentralDebugLogger serialLogger;
+PokeroboBLECentral myBLECentral("2A56", &myBLEReceiver, &serialLogger);
 
 void setup() {
   Serial.begin(57600);

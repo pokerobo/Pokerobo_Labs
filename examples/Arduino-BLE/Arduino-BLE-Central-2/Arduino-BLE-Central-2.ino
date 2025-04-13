@@ -2,6 +2,13 @@
 
 PokeroboBLECentralDebugLogger serialLogger;
 
+class MyBLEReceiver: public PokeroboBLEReceiver {
+  public:
+    void onReceive(int32_t value) {
+      
+    }
+};
+
 class MyBLECentral: public PokeroboBLECentral {
   public:
     using PokeroboBLECentral::PokeroboBLECentral;
@@ -14,7 +21,7 @@ class MyBLECentral: public PokeroboBLECentral {
     }
 };
 
-MyBLECentral myBLECentral("2A56", &serialLogger);
+MyBLECentral myBLECentral("2A56", NULL, &serialLogger);
 
 void setup() {
   Serial.begin(57600);
@@ -22,5 +29,8 @@ void setup() {
 }
 
 void loop() {
+  Serial.println(" - loop() begin");
   myBLECentral.check();
+  Serial.println(" - loop() end!");
+  delay(50);
 }

@@ -8,10 +8,19 @@
 #define BLE_PERIPHERAL_CONNECTED     0x2002
 #define BLE_PERIPHERAL_DISCONNECTED  0x2003
 #define BLE_PERIPHERAL_ADVERTISED    0x2004
+#define BLE_PERIPHERAL_DATA_SENT     0x2005
+
+class PokeroboBLEGenerator {
+  public:
+    virtual bool read(int32_t &value) {
+      return false;
+    }
+};
 
 class PokeroboBLEPeripheral {
   public:
     PokeroboBLEPeripheral(const char *charactId, const char* serviceId,
+        PokeroboBLEGenerator *generator = NULL,
         PokeroboBLELogger *logger = NULL);
     void begin(const char* localName);
     void check();
@@ -21,12 +30,13 @@ class PokeroboBLEPeripheral {
     BLEService *service = NULL;
     BLEIntCharacteristic *charact = NULL;
   private:
+    PokeroboBLEGenerator *_generator = NULL;
     PokeroboBLELogger *_logger = NULL;
 };
 
 class PokeroboBLEPeripheralDebugLogger: public PokeroboBLELogger {
   public:
-    void log(uint16_t type, BLEDevice *device = NULL) {
+    void log(uint16_t type, BLEDevice *device = NULL, int32_t value = 0) {
       switch (type) {
       case BLE_PERIPHERAL_BEGIN_FAILED:
         Serial.println("BLE khởi động thất bại!");
@@ -44,6 +54,10 @@ class PokeroboBLEPeripheralDebugLogger: public PokeroboBLELogger {
         break;
       case BLE_PERIPHERAL_ADVERTISED:
         Serial.println("BLE Peripheral đang phát sóng...");
+        break;
+      case BLE_PERIPHERAL_DATA_SENT:
+        Serial.print("Sent value: ");
+        Serial.println(value);
         break;
       }
     }

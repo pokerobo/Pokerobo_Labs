@@ -4,18 +4,24 @@
 #include <ArduinoBLE.h>
 #include "Pokerobo_Lab_BLE_Logger.h"
 
-#define BLE_CENTRAL_BEGIN_FAILED      0x1001
-#define BLE_CENTRAL_DEVICE_SCANNING   0x1002
-#define BLE_CENTRAL_DEVICE_FOUND      0x1003
-#define BLE_CENTRAL_CONNECTED         0x1004
-#define BLE_CENTRAL_DISCONNECTED      0x1005
-#define BLE_CENTRAL_CONNECTING_FAILED 0x1006
-#define BLE_CENTRAL_RECEIVING_BEGIN   0x1007
-#define BLE_CENTRAL_RECEIVING_END     0x1008
+#define BLE_CENTRAL_BEGIN_FAILED        0x1001
+#define BLE_CENTRAL_DEVICE_SCANNING     0x1002
+#define BLE_CENTRAL_DEVICE_FOUND        0x1003
+#define BLE_CENTRAL_CONNECTED           0x1004
+#define BLE_CENTRAL_DISCONNECTED        0x1005
+#define BLE_CENTRAL_CONNECTING_FAILED   0x1006
+#define BLE_CENTRAL_RECEIVING_BEGIN     0x1007
+#define BLE_CENTRAL_RECEIVING_DATA_READ 0x1008
+#define BLE_CENTRAL_RECEIVING_END       0x1009
+
+class PokeroboBLEReceiver {
+  public:
+    void onReceive(int32_t value) {}
+};
 
 class PokeroboBLECentral {
   public:
-    PokeroboBLECentral(String charactId, PokeroboBLELogger *logger = NULL);
+    PokeroboBLECentral(String charactId, PokeroboBLEReceiver *receiver = NULL, PokeroboBLELogger *logger = NULL);
     void begin(String localName);
     void check();
   protected:
@@ -23,12 +29,13 @@ class PokeroboBLECentral {
   private:
     String _charactId;
     String _localName;
+    PokeroboBLEReceiver *_receiver = NULL;
     PokeroboBLELogger *_logger = NULL;
 };
 
 class PokeroboBLECentralDebugLogger: public PokeroboBLELogger {
   public:
-    void log(uint16_t type, BLEDevice *device = NULL) {
+    void log(uint16_t type, BLEDevice *device = NULL, int32_t value = 0) {
       switch (type) {
         case BLE_CENTRAL_BEGIN_FAILED:
           Serial.println("BLE khởi động thất bại!");
@@ -51,6 +58,10 @@ class PokeroboBLECentralDebugLogger: public PokeroboBLELogger {
           break;
         case BLE_CENTRAL_RECEIVING_BEGIN:
           Serial.println("Nhận dữ liệu...");
+          break;
+        case BLE_CENTRAL_RECEIVING_DATA_READ:
+          Serial.print("Nhận: ");
+          Serial.println(value);
           break;
         case BLE_CENTRAL_RECEIVING_END:
           Serial.println("Nhận dữ liệu kết thúc");

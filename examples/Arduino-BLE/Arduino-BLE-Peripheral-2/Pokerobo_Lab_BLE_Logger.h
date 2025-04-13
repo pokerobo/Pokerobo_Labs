@@ -5,7 +5,7 @@
 
 class PokeroboBLELogger {
   public:
-    virtual void log(uint16_t type, BLEDevice *device = NULL) {}
+    virtual void log(uint16_t type, BLEDevice *device = NULL, int32_t value = 0) {}
 };
 
 #endif

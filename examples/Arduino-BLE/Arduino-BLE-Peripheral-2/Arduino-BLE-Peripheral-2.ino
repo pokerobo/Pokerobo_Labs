@@ -4,22 +4,30 @@ class MyBLEPeripheral: public PokeroboBLEPeripheral {
   public:
     using PokeroboBLEPeripheral::PokeroboBLEPeripheral;
   protected:
-    void sendData();
+    void sendData() {
+      counter++;
+      (*charact).writeValue(counter); // Gửi giá trị mới
+      Serial.print("Đã gửi: ");
+      Serial.println(counter);
+      // delay(40); // mỗi 1 giây
+    }
   private:
     int32_t counter = 0x7FFF0000;
 };
 
-void MyBLEPeripheral::sendData() {
-  counter++;
-  (*charact).writeValue(counter); // Gửi giá trị mới
-  Serial.print("Đã gửi: ");
-  Serial.println(counter);
-  // delay(40); // mỗi 1 giây
-}
+class MyBLEGenerator: public PokeroboBLEGenerator {
+  public:
+    bool read(int32_t &value) {
+      value = counter++;
+      return true;
+    }
+  private:
+    int32_t counter = 0x7FFF0000;
+};
 
+MyBLEGenerator counter;
 PokeroboBLEPeripheralDebugLogger serialLogger;
-
-MyBLEPeripheral counterPeripheral("2A56", "180C", &serialLogger);
+PokeroboBLEPeripheral counterPeripheral("2A56", "180C", &counter, &serialLogger);
 
 void setup() {
   Serial.begin(57600);

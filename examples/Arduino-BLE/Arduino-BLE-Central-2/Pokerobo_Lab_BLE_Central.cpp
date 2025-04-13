@@ -1,7 +1,9 @@
 #include "Pokerobo_Lab_BLE_Central.h"
 
-PokeroboBLECentral::PokeroboBLECentral(String charactId, PokeroboBLELogger *logger) {
+PokeroboBLECentral::PokeroboBLECentral(String charactId, PokeroboBLEReceiver *receiver,
+      PokeroboBLELogger *logger) {
   _charactId = charactId;
+  _receiver = receiver;
   _logger = (logger != NULL) ? logger : new PokeroboBLELogger();
 }
 
@@ -39,6 +41,12 @@ void PokeroboBLECentral::check() {
               // if (counterChar.valueUpdated()) {
                 this->receive(counterChar);
               // }
+              if (_receiver != NULL) {
+                int32_t value;
+                counterChar.readValue(value);
+                _logger->log(BLE_CENTRAL_RECEIVING_DATA_READ, &peripheral, value);
+                _receiver->onReceive(value);
+              }
             }
 
             _logger->log(BLE_CENTRAL_RECEIVING_END, &peripheral);

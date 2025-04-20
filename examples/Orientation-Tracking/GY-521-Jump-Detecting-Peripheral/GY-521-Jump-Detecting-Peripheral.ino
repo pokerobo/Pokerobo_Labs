@@ -10,7 +10,7 @@ class MyBLEGenerator: public PokeroboBLEGenerator {
   public:
     bool generate(int32_t &value) {
       mpu.getAcceleration(&ax, &ay, &az);
-      value = az;
+      value = ax;
       return true;
     }
 };
@@ -30,7 +30,7 @@ void setup() {
     while (1);
   }
 
-  counterPeripheral.begin("UNO-R4-BLE");
+  counterPeripheral.begin("JUMDINO-01", 20);
 }
 
 void loop() {
